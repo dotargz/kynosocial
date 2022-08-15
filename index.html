@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/9cb2f2488a.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="css/index.css">
+    <title id="document-title">Kynosocial - Page</title>
+</head>
+<body>
+    <div id="main">
+        <div id="nav-header">
+            <a href="?page=addpost" id="nav-add-post-link">
+            <div id="nav-add-post" >
+                <i class="fa-solid fa-plus"></i>
+            </div>
+            </a>
+            <h1 id="h1-title">Kynosocial</h1>
+            <a href="?page=proflie" id="nav-profile-link">
+            <div id="nav-profile">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            </a>
+        </div>
+        <div id="nav-links">
+            <a href="/">Home</a>
+            <a href="?page=trending">Trending</a>
+            <a href="?page=categories">Categories</a>
+        </div>
+        <fieldset id="list-notice-fieldset">
+            <legend id="list-notice-legend">Notice</legend>
+        <div id="list-notice">
+            <p><i class="fa-solid fa-gear fa-spin"></i> Loading notices...</p>
+        </div>
+        </fieldset>
+        <fieldset id="list-fieldset">
+            <legend id="list-legend">Page</legend>
+            <div id="list">
+                <p><i class="fa-solid fa-gear fa-spin"></i> Loading content...</p>
+            </div>
+        </fieldset>
+        <fieldset id="comments-fieldset">
+            <legend id="comments-legend">Comments</legend>
+            <div id="comments">
+                <p><i class="fa-solid fa-gear fa-spin"></i> Loading comments...</p>
+            </div>
+        </fieldset>
+        <fieldset id="settings-fieldset">
+            <legend id="settings-legend">Manage</legend>
+            <div id="settings">
+                <p><i class="fa-solid fa-gear fa-spin"></i> Loading settings...</p>
+            </div>
+        </fieldset>
+    </div>
+    <script src="js/index.js" type="module"></script>
+</body>
+</html>
