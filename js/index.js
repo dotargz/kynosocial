@@ -77,7 +77,7 @@ async function renderHomePage() {
                     ${await truncateText(content, 56)}
                 </div>
                 <div class="post-created">
-                    ${created} · #${postCategory.name}
+                    ${created} · <a href="?page=category&category=${postCategory.id}">#${postCategory.name}</a>
                 </div>
             </div>
         </div>`;
@@ -194,7 +194,7 @@ async function renderPostPage() {
                     ${content}
                 </div>
                 <div class="post-created">
-                    ${created} · #${postCategory.name}
+                    ${created} · <a href="?page=category&category=${postCategory.id}">#${postCategory.name}</a>
                 </div>
             </div>
         </div>`;
@@ -388,7 +388,7 @@ async function renderTrendingPage() {
                     ${await truncateText(await cleanText(content), 56)}
                 </div>
                 <div class="post-created">
-                    ${created} · #${postCategory.name}
+                    ${created} · <a href="?page=category&category=${postCategory.id}">#${postCategory.name}</a>
                 </div>
             </div>
         </div>`;
