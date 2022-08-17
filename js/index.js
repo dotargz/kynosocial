@@ -342,6 +342,7 @@ async function renderTrendingPage() {
 		document.getElementById("list-legend").innerHTML = "Trending";
 		document.getElementById("document-title").innerHTML =
 			"Kynosocial - Trending";
+		if (resultList.totalItems > 0) {
 		for (let i = 0; i < posts.length; i++) {
 			const post = posts[i];
 			const postUser = post["@expand"].author;
@@ -381,6 +382,17 @@ async function renderTrendingPage() {
             </div>
         </div>`;
 			document.getElementById("list").innerHTML += html;
+		}
+		} else {
+			document.getElementById("list").innerHTML = `
+			<div class="post-item">
+				<div class="post-content-wrapper">
+					<div class="post-content">
+					<i class="fa-solid fa-arrow-trend-up"></i> No trending posts right now.
+					</div>
+				</div>
+			</div>
+			`;
 		}
 	} catch (error) {
 		console.log(error);
@@ -445,6 +457,8 @@ async function renderCategoryPage(categoryId) {
 			"#" + category.name;
 		document.getElementById("document-title").innerHTML =
 			"Kynosocial - #" + category.name;
+
+		if (resultList.totalItems > 0) {
 		for (let i = 0; i < posts.length; i++) {
 			const post = posts[i];
 			const postUser = post["@expand"].author;
@@ -482,6 +496,17 @@ async function renderCategoryPage(categoryId) {
             </div>
         </div>`;
 			document.getElementById("list").innerHTML += html;
+		}
+		} else {
+			document.getElementById("list").innerHTML = `
+			<div class="post-item">
+				<div class="post-content-wrapper">
+					<div class="post-content">
+						<i class="fa-solid fa-message"></i> No posts in this category yet.
+					</div>
+				</div>
+			</div>
+			`;
 		}
 	} catch (error) {
 		console.log(error);
