@@ -680,16 +680,19 @@ async function commentFromForm(e) {
 				author: client.authStore.model.profile.id,
 				linked_profile: linkedID,
 			});
+			form.reset();
+			window.location.href = "?page=user&user=" + linkedID;
+			return false;
 		} else {
 			await client.records.create('post_comments', {
 				content: comment,
 				author: client.authStore.model.profile.id,
 				linked_post: linkedID,
 			});
+			form.reset();
+			window.location.href = "?page=post&post=" + linkedID;
+			return false;
 		}
-		form.reset();
-		window.location.href = "?page=post&post=" + linkedID;
-		return false;
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to comment", "comments");
