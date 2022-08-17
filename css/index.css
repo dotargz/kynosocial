@@ -244,3 +244,14 @@ button {
         width: 100%;
     }
 }
+
+brandname {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+superscript {
+    font-size: 0.5em;
+}
