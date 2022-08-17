@@ -343,16 +343,16 @@ async function renderTrendingPage() {
 		document.getElementById("document-title").innerHTML =
 			"Kynosocial - Trending";
 		if (resultList.totalItems > 0) {
-		for (let i = 0; i < posts.length; i++) {
-			const post = posts[i];
-			const postUser = post["@expand"].author;
-			const postCategory = post["@expand"].category;
-			const postUserName = postUser.name;
-			const title = post.title;
-			const content = post.content;
-			const created = post.created;
-			const updated = post.updated;
-			const html = `
+			for (let i = 0; i < posts.length; i++) {
+				const post = posts[i];
+				const postUser = post["@expand"].author;
+				const postCategory = post["@expand"].category;
+				const postUserName = postUser.name;
+				const title = post.title;
+				const content = post.content;
+				const created = post.created;
+				const updated = post.updated;
+				const html = `
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
@@ -369,9 +369,9 @@ async function renderTrendingPage() {
             <div class="post-content-wrapper">
                 <div class="post-title">
                     <a href="/?page=post&post=${post.id}">${await truncateText(
-				title,
-				24
-			)}</a>
+					title,
+					24
+				)}</a>
                 </div>
                 <div class="post-content">
                     ${await truncateText(content, 56)}
@@ -381,8 +381,8 @@ async function renderTrendingPage() {
                 </div>
             </div>
         </div>`;
-			document.getElementById("list").innerHTML += html;
-		}
+				document.getElementById("list").innerHTML += html;
+			}
 		} else {
 			document.getElementById("list").innerHTML = `
 			<div class="post-item">
@@ -453,20 +453,19 @@ async function renderCategoryPage(categoryId) {
 
 		// put all results into an html list
 		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML =
-			"#" + category.name;
+		document.getElementById("list-legend").innerHTML = "#" + category.name;
 		document.getElementById("document-title").innerHTML =
 			"Kynosocial - #" + category.name;
 
 		if (resultList.totalItems > 0) {
-		for (let i = 0; i < posts.length; i++) {
-			const post = posts[i];
-			const postUser = post["@expand"].author;
-			const postUserName = postUser.name;
-			const title = post.title;
-			const content = post.content;
-			const created = post.created;
-			const html = `
+			for (let i = 0; i < posts.length; i++) {
+				const post = posts[i];
+				const postUser = post["@expand"].author;
+				const postUserName = postUser.name;
+				const title = post.title;
+				const content = post.content;
+				const created = post.created;
+				const html = `
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
@@ -483,9 +482,9 @@ async function renderCategoryPage(categoryId) {
             <div class="post-content-wrapper">
                 <div class="post-title">
                     <a href="/?page=post&post=${post.id}">${await truncateText(
-				title,
-				24
-			)}</a>
+					title,
+					24
+				)}</a>
                 </div>
                 <div class="post-content">
                     ${await truncateText(content, 56)}
@@ -495,8 +494,8 @@ async function renderCategoryPage(categoryId) {
                 </div>
             </div>
         </div>`;
-			document.getElementById("list").innerHTML += html;
-		}
+				document.getElementById("list").innerHTML += html;
+			}
 		} else {
 			document.getElementById("list").innerHTML = `
 			<div class="post-item">
@@ -599,7 +598,9 @@ async function renderComments(isUserPageComment = false, ID = null) {
             </div>
             <div class="post-content-wrapper">
                 <div class="post-title">
-                    <a href="/?page=user&user=${author.id}">${author.name} ${userBadgesIcons}</a>
+                    <a href="/?page=user&user=${author.id}">${
+					author.name
+				} ${userBadgesIcons}</a>
                 </div>
                 <div class="post-content">
                     ${await truncateText(comment.content, 56)}
@@ -625,6 +626,38 @@ async function renderComments(isUserPageComment = false, ID = null) {
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load comments", "comments");
+	}
+}
+
+async function renderManageProfile(userID) {
+	try {
+		if (
+			client.authStore.isValid == true &&
+			client.authStore.model.profile.id == userID
+		) {
+			const result = await client.records.getOne(
+				"profiles",
+				client.authStore.model.profile.id
+			);
+			const user = result.item;
+			document.getElementById("settings").style.display = "flex";
+			document.getElementById("settings-fieldset").style.display = "block";
+			document.getElementById("settings").innerHTML = "";
+			document.getElementById("settings-legend").innerHTML = "User Settings";
+			const html = `
+					<div class="post-item">
+						<div class="post-content-wrapper">
+							<div class="post-content">
+							<a href="?page=signout"><i class="fa-solid fa-right-from-bracket"></i> Sign out</a>
+							</div>	
+						</div>	
+					</div>
+				`;
+			document.getElementById("settings").innerHTML += html;
+		}
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to load manage profile", "settings");
 	}
 }
 
@@ -659,6 +692,7 @@ async function renderPage() {
 			await renderUserPage();
 			await renderNotices();
 			await renderComments(true, params.user);
+			await renderManageProfile(params.user);
 		} else if (page == "addpost") {
 			await renderAddPostPage();
 		} else {
