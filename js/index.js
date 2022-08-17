@@ -562,6 +562,32 @@ async function renderComments(isUserPageComment = false, ID = null) {
 		document.getElementById("comments").innerHTML = "";
 		document.getElementById("comments-legend").innerHTML = "Comments";
 		const comments = resultList.items;
+
+		let hiddenformvalue;
+		if (isUserPageComment) {
+			hiddenformvalue = `<input type='hidden' name='isUserPageComment' value=true>
+			<input type='hidden' name='linkedID' value=${ID}>`;
+		} else {
+			hiddenformvalue = `<input type='hidden' name='isUserPageComment' value=false>
+			<input type='hidden' name='linkedID' value=${ID}>`;
+		}
+
+		const addcommentformhtml = `
+		<div class="post-item">
+			<div class="post-content-wrapper">
+				<div class="post-content">
+					<form id="comment-form" action="#" method="post">
+						<div class="form-group">
+							<textarea style="resize:none;width:24rem;" class="form-control" id="comment" name="comment" placeholder="Add a comment..." ></textarea>
+							${hiddenformvalue}
+						</div>
+						<button type="submit" class="btn btn-main">\< Comment \></button>
+					</form>
+				</div>
+			</div>
+		</div>
+		`;
+
 		if (resultList.totalItems > 0) {
 			for (let i = 0; i < comments.length; i++) {
 				const comment = comments[i];
@@ -585,47 +611,88 @@ async function renderComments(isUserPageComment = false, ID = null) {
 				}
 				const userBadgesIcons = badgehtml;
 				const html = `
-        <div class="post-item">
-            <div class="post-image-wrapper">
-                <div class="post-image">
-                    <a href="?page=user&user=${author.id}">
-                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
-													author.id
-												}/${author.avatar}" width="64px">
-                    </a>
-                </div>
-                
-            </div>
-            <div class="post-content-wrapper">
-                <div class="post-title">
-                    <a href="/?page=user&user=${author.id}">${
-					author.name
-				} ${userBadgesIcons}</a>
-                </div>
-                <div class="post-content">
-                    ${await truncateText(comment.content, 56)}
-                </div>
-                <div class="post-created">
-                    ${comment.created}
-                </div>
-            </div>
-        </div>`;
+				<div class="post-item">
+					<div class="post-image-wrapper">
+						<div class="post-image">
+							<a href="?page=user&user=${author.id}">
+								<img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+									author.id
+								}/${author.avatar}" width="64px">
+							</a>
+						</div>
+						
+					</div>
+					<div class="post-content-wrapper">
+						<div class="post-title">
+							<a href="/?page=user&user=${author.id}">${author.name} ${userBadgesIcons}</a>
+						</div>
+						<div class="post-content">
+							${await truncateText(comment.content, 56)}
+						</div>
+						<div class="post-created">
+							${comment.created}
+						</div>
+					</div>
+				</div>`;
 				document.getElementById("comments").innerHTML += html;
 			}
 		} else {
-			document.getElementById("comments").innerHTML = `
-		<div class="post-item">
-			<div class="post-content-wrapper">
-				<div class="post-content">
-					<i class="fa-solid fa-comment-dots"></i> No comments yet.
+			document.getElementById("comments").innerHTML += `
+			<div class="post-item">
+				<div class="post-content-wrapper">
+					<div class="post-content">
+						<i class="fa-solid fa-comment-dots"></i> No comments yet.
+					</div>
 				</div>
 			</div>
-		</div>
-		`;
+			`;
+		}
+		if (client.authStore.isValid) {
+			document.getElementById("comments").innerHTML =
+				addcommentformhtml + document.getElementById("comments").innerHTML;
+			var form = document.getElementById("comment-form");
+			if (form.attachEvent) {
+				form.attachEvent("submit", commentFromForm);
+			} else {
+				form.addEventListener("submit", commentFromForm);
+			}
 		}
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load comments", "comments");
+	}
+}
+
+async function commentFromForm(e) {
+	try {
+		e.preventDefault();
+		const form = e.target;
+		const comment = form.comment.value;
+		console.log(comment);
+		if (comment == "") {
+			return;
+		}
+		const linkedID = form.linkedID.value;
+		const isUserPageComment = form.isUserPageComment.value;
+		if (isUserPageComment == "true") {
+			await client.records.create('user_comments', {
+				content: comment,
+				author: client.authStore.model.profile.id,
+				linked_profile: linkedID,
+			});
+		} else {
+			await client.records.create('post_comments', {
+				content: comment,
+				author: client.authStore.model.profile.id,
+				linked_post: linkedID,
+			});
+		}
+		form.reset();
+		window.location.href = "?page=post&post=" + linkedID;
+		return false;
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to comment", "comments");
 	}
 }
 
@@ -643,7 +710,7 @@ async function renderManageProfile(userID) {
 			document.getElementById("settings").style.display = "flex";
 			document.getElementById("settings-fieldset").style.display = "block";
 			document.getElementById("settings").innerHTML = "";
-			document.getElementById("settings-legend").innerHTML = "User Settings";
+			document.getElementById("settings-legend").innerHTML = "Settings";
 			const html = `
 					<div class="post-item">
 						<div class="post-content-wrapper">
