@@ -142,7 +142,13 @@ async function renderPostPage() {
 		});
 
 		// add one to the post's view count
-		const data = { views: record.views + 1 };
+		const data = {
+			views: record.views + 1,
+			title: record.title,
+			content: record.content,
+			category: record.category,
+			author: record.author,
+		};
 		await client.records.update("posts", postId, data);
 
 		// put all results into an html list
@@ -163,7 +169,9 @@ async function renderPostPage() {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${postUser.id}/${postUser.avatar}" width="64px">
+                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+													postUser.id
+												}/${postUser.avatar}" width="64px">
                     </a>
                 </div>
                 <div class="post-username">
@@ -314,7 +322,14 @@ async function renderTrendingPage() {
 	try {
 		// only show posts from the last week
 		const resultList = await client.records.getList("posts", 1, 15, {
-			filter: 'created >= "' + (DateTime.now().setZone('Etc/UTC').minus({weeks:1}).endOf('day').toISO()) + '"',
+			filter:
+				'created >= "' +
+				DateTime.now()
+					.setZone("Etc/UTC")
+					.minus({ weeks: 1 })
+					.endOf("day")
+					.toISO() +
+				'"',
 			sort: "-views,-created",
 			expand: "author,category",
 		});
@@ -325,7 +340,8 @@ async function renderTrendingPage() {
 
 		document.getElementById("list").innerHTML = "";
 		document.getElementById("list-legend").innerHTML = "Trending";
-		document.getElementById("document-title").innerHTML = "Kynosocial - Trending";
+		document.getElementById("document-title").innerHTML =
+			"Kynosocial - Trending";
 		for (let i = 0; i < posts.length; i++) {
 			const post = posts[i];
 			const postUser = post["@expand"].author;
@@ -374,10 +390,102 @@ async function renderTrendingPage() {
 
 async function renderCategoriesPage() {
 	try {
-		throw new Error("Not implemented");
+		const resultList = await client.records.getList("categories", 1, 15, {
+			sort: "-created",
+		});
+		console.log(resultList);
+		const categories = resultList.items;
+
+		// put all results into an html list
+		document.getElementById("list").innerHTML = "";
+		document.getElementById("list-legend").innerHTML = "Categories";
+		document.getElementById("document-title").innerHTML =
+			"Kynosocial - Categories";
+		for (let i = 0; i < categories.length; i++) {
+			const category = categories[i];
+			const categoryName = category.name;
+			const categoryDescription = category.description;
+
+			const html = `
+		<div class="post-item">
+			<div class="post-content-wrapper">
+				<div class="post-title">
+					<a href="?page=category&category=${category.id}">#${categoryName}</a>
+				</div>
+				<div class="post-content">
+					${categoryDescription}
+				</div>
+				<div class="post-created">
+					${category.created}
+				</div>
+			</div>
+		</div>`;
+			document.getElementById("list").innerHTML += html;
+		}
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load categories page", "list");
+	}
+}
+
+async function renderCategoryPage(categoryId) {
+	try {
+		const category = await client.records.getOne("categories", categoryId);
+		const resultList = await client.records.getList("posts", 1, 15, {
+			filter: 'category.id = "' + categoryId + '"',
+			sort: "-views,-created",
+			expand: "author",
+		});
+		console.log(resultList);
+		const posts = resultList.items;
+
+		// put all results into an html list
+		document.getElementById("list").innerHTML = "";
+		document.getElementById("list-legend").innerHTML =
+			"#" + category.name;
+		document.getElementById("document-title").innerHTML =
+			"Kynosocial - #" + category.name;
+		for (let i = 0; i < posts.length; i++) {
+			const post = posts[i];
+			const postUser = post["@expand"].author;
+			const postUserName = postUser.name;
+			const title = post.title;
+			const content = post.content;
+			const created = post.created;
+			const html = `
+        <div class="post-item">
+            <div class="post-image-wrapper">
+                <div class="post-image">
+                    <a href="?page=user&user=${postUser.id}">
+                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+													postUser.id
+												}/${postUser.avatar}" width="64px">
+                    </a>
+                </div>
+                <div class="post-username">
+                    <a href="?page=user&user=${postUser.id}">${postUserName}</a>
+                </div>
+            </div>
+            <div class="post-content-wrapper">
+                <div class="post-title">
+                    <a href="/?page=post&post=${post.id}">${await truncateText(
+				title,
+				24
+			)}</a>
+                </div>
+                <div class="post-content">
+                    ${await truncateText(content, 56)}
+                </div>
+                <div class="post-created">
+                    ${created}
+                </div>
+            </div>
+        </div>`;
+			document.getElementById("list").innerHTML += html;
+		}
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to load category page", "list");
 	}
 }
 
@@ -466,7 +574,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
             </div>
             <div class="post-content-wrapper">
                 <div class="post-title">
-                    ${author.name} ${userBadgesIcons}
+                    <a href="/?page=user&user=${author.id}">${author.name} ${userBadgesIcons}</a>
                 </div>
                 <div class="post-content">
                     ${await truncateText(comment.content, 56)}
@@ -512,6 +620,9 @@ async function renderPage() {
 			await renderNotices();
 		} else if (page == "categories") {
 			await renderCategoriesPage();
+			await renderNotices();
+		} else if (page == "category") {
+			await renderCategoryPage(params.category);
 			await renderNotices();
 		} else if (page == "error") {
 			await renderErrorPage();
