@@ -23,6 +23,10 @@ async function truncateText(text, length) {
 	}
 }
 
+async function cleanText(text) {
+	return text.replace(/(<([^>]+)>)/gi, "").trim();
+}
+
 async function renderHomePage() {
 	try {
 		// fetch a paginated records list
@@ -55,7 +59,7 @@ async function renderHomePage() {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px">
+												}/${postUser.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -171,7 +175,7 @@ async function renderPostPage() {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px">
+												}/${postUser.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -234,7 +238,7 @@ async function renderUserPage() {
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
-                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${user.id}/${user.avatar}" width="64px">
+                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${user.id}/${user.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
                 </div>
                 
             </div>
@@ -359,7 +363,7 @@ async function renderTrendingPage() {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px">
+												}/${postUser.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -369,12 +373,12 @@ async function renderTrendingPage() {
             <div class="post-content-wrapper">
                 <div class="post-title">
                     <a href="/?page=post&post=${post.id}">${await truncateText(
-					title,
+						await cleanText(title),
 					24
 				)}</a>
                 </div>
                 <div class="post-content">
-                    ${await truncateText(content, 56)}
+                    ${await truncateText(await cleanText(content), 56)}
                 </div>
                 <div class="post-created">
                     ${created} · #${postCategory.name}
@@ -472,7 +476,7 @@ async function renderCategoryPage(categoryId) {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px">
+												}/${postUser.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -617,7 +621,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 							<a href="?page=user&user=${author.id}">
 								<img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 									author.id
-								}/${author.avatar}" width="64px">
+								}/${author.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
 							</a>
 						</div>
 						
@@ -627,7 +631,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 							<a href="/?page=user&user=${author.id}">${author.name} ${userBadgesIcons}</a>
 						</div>
 						<div class="post-content">
-							${await truncateText(comment.content, 56)}
+							${await truncateText(await cleanText(comment.content), 56)}
 						</div>
 						<div class="post-created">
 							${comment.created}
@@ -676,7 +680,7 @@ async function commentFromForm(e) {
 		const isUserPageComment = form.isUserPageComment.value;
 		if (isUserPageComment == "true") {
 			await client.records.create('user_comments', {
-				content: comment,
+				content: await cleanText(comment),
 				author: client.authStore.model.profile.id,
 				linked_profile: linkedID,
 			});
@@ -685,7 +689,7 @@ async function commentFromForm(e) {
 			return false;
 		} else {
 			await client.records.create('post_comments', {
-				content: comment,
+				content: await cleanText(comment),
 				author: client.authStore.model.profile.id,
 				linked_post: linkedID,
 			});
