@@ -141,6 +141,10 @@ async function renderPostPage() {
 			expand: "author,category",
 		});
 
+		// add one to the post's view count
+		const data = { views: record.views + 1 };
+		await client.records.update("posts", postId, data);
+
 		// put all results into an html list
 
 		document.getElementById("list").innerHTML = "";
@@ -165,6 +169,9 @@ async function renderPostPage() {
                 <div class="post-username">
                     <a href="?page=user&user=${postUser.id}">${postUserName}</a>
                 </div>
+				<div class="post-views">
+					<i class="fa-solid fa-eye"></i> ${post.views}
+				</div>
             </div>
             <div class="post-content-wrapper">
                 <div class="post-title">
@@ -308,7 +315,7 @@ async function renderTrendingPage() {
 		// only show posts from the last week
 		const resultList = await client.records.getList("posts", 1, 15, {
 			filter: 'created >= "' + (DateTime.now().setZone('Etc/UTC').minus({weeks:1}).endOf('day').toISO()) + '"',
-			sort: "-votes,-created",
+			sort: "-views,-created",
 			expand: "author,category",
 		});
 		console.log(resultList);
