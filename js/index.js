@@ -170,7 +170,7 @@ async function renderPostPage() {
                     <a href="?page=user&user=${postUser.id}">${postUserName}</a>
                 </div>
 				<div class="post-views">
-					<i class="fa-solid fa-eye"></i> ${post.views}
+					<i class="fa-solid fa-eye views-icon"></i>${numeral(post.views).format("0a")}
 				</div>
             </div>
             <div class="post-content-wrapper">

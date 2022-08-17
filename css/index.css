@@ -255,3 +255,11 @@ brandname {
 superscript {
     font-size: 0.5em;
 }
+
+.post-views {
+    font-size: 0.8em;
+}
+
+.views-icon {
+    margin-right: 0.2rem;
+}
