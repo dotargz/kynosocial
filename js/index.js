@@ -114,6 +114,7 @@ async function renderNavbar() {
 			client.authStore.model == null
 		) {
 			document.getElementById("nav-profile-link").href = "?page=signin";
+			document.getElementById("nav-profile").innerHTML = '<i class="fa-solid fa-user-plus"></i>';
 			document.getElementById("nav-add-post-link").href = "?page=signin";
 		} else {
 			document.getElementById("nav-profile-link").href =
@@ -211,6 +212,12 @@ async function renderUserPage() {
 		});
 		const id = params.user;
 		const user = await client.records.getOne("profiles", id, {});
+		let userbio;
+		if (user.bio == "") {
+			userbio = "< No biography found >";
+		} else {
+			userbio = user.bio;
+		}
 		// compute badges
 		let badgehtml = "";
 		if (user.badges.length > 0) {
@@ -247,7 +254,7 @@ async function renderUserPage() {
                     ${user.name} ${userBadgesIcons}
                 </div>
                 <div class="post-content">
-                    ${user.bio}
+                    ${userbio}
                 </div>
                 <div class="post-created">
                     Created: ${user.created}
@@ -407,7 +414,7 @@ async function renderTrendingPage() {
 async function renderCategoriesPage() {
 	try {
 		const resultList = await client.records.getList("categories", 1, 15, {
-			sort: "-created",
+			sort: "name",
 		});
 		console.log(resultList);
 		const categories = resultList.items;
