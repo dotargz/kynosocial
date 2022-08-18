@@ -55,7 +55,13 @@ async function renderHomePage() {
 			const post = posts[i];
 			const postUser = post["@expand"].author;
 			const postCategory = post["@expand"].category;
-			const postUserName = postUser.name;
+			let postUserName;
+			try {
+				postUserName = postUser.name;
+			} catch (error) {
+				console.log(error);
+				postUserName = "unknown";
+			}
 			const title = post.title;
 			const content = post.content;
 			const created = post.created;
@@ -171,7 +177,12 @@ async function renderPostPage() {
 		const post = record;
 		const postUser = post["@expand"].author;
 		const postCategory = post["@expand"].category;
-		const postUserName = postUser.name;
+		try {
+			postUserName = postUser.name;
+		} catch (error) {
+			console.log(error);
+			postUserName = "unknown";
+		}
 		const title = post.title;
 		document.getElementById("document-title").innerHTML =
 			'Kynosocial - "' + title + '"';
@@ -568,7 +579,12 @@ async function renderTrendingPage() {
 				const post = posts[i];
 				const postUser = post["@expand"].author;
 				const postCategory = post["@expand"].category;
-				const postUserName = postUser.name;
+				try {
+					postUserName = postUser.name;
+				} catch (error) {
+					console.log(error);
+					postUserName = "unknown";
+				}
 				const title = post.title;
 				const content = post.content;
 				const created = post.created;
@@ -682,7 +698,12 @@ async function renderCategoryPage(categoryId) {
 			for (let i = 0; i < posts.length; i++) {
 				const post = posts[i];
 				const postUser = post["@expand"].author;
-				const postUserName = postUser.name;
+				try {
+					postUserName = postUser.name;
+				} catch (error) {
+					console.log(error);
+					postUserName = "unknown";
+				}
 				const title = post.title;
 				const content = post.content;
 				const created = post.created;
@@ -736,10 +757,77 @@ async function renderCategoryPage(categoryId) {
 
 async function renderAddPostPage() {
 	try {
-		throw new Error("Not implemented");
+		// get popular categories
+		const categoryResultList = await client.records.getList("categories", 1, 15, {
+			sort: "name",
+		});
+		
+		// render the add post page
+		document.getElementById("list").innerHTML = "";
+		document.getElementById("list-legend").innerHTML = "Add Post";
+		document.getElementById("document-title").innerHTML = "Kynosocial - Add Post";
+		const html = `
+		<div class="post-item">
+			<div class="post-content-wrapper">
+				<div class="post-content">
+					<form id="add-post-form" action="?page=addpost" method="post">
+						<div class="form-group">
+							<label for="title">Title</label>
+							<input type="text" class="form-control" id="title" name="title" placeholder="Title">
+						</div>
+						<div class="form-group">
+							<label for="content">Content</label>
+							<textarea style="resize:none;height:5rem;" class="form-control" id="content" name="content" rows="3" placeholder="Remember, be nice!"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="category">Category</label>
+							<select class="form-control" id="category" name="category">
+								${categoryResultList.items.map(category => {
+									return `<option value="${category.id}">${category.name}</option>`;
+								}
+								).join("")}
+							</select>
+						</div>
+						<button type="submit" class="btn btn-main">< Add Post ></button>
+					</form>
+				</div>
+			</div>
+		</div>`;
+		document.getElementById("list").innerHTML = html;
+
+		// add event listener to the form
+		var form = document.getElementById("add-post-form");
+		if (form.attachEvent) {
+			form.attachEvent("submit", addPostFromForm);
+		} else {
+			form.addEventListener("submit", addPostFromForm);
+		}
+
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load post page", "list");
+	}
+}
+
+async function addPostFromForm(e) {
+	try {
+		e.preventDefault();
+		const form = event.target;
+		const title = form.title.value;
+		const content = form.content.value;	
+		const categoryId = form.category.value;
+		const category = await client.records.getOne("categories", categoryId);
+		const user = await client.records.getOne("profiles", client.authStore.model.profile.id);
+		const post = await client.records.create("posts", {
+			title: title,
+			content: content,
+			category: category.id,
+			author: user.id,
+		});
+		window.location.href = "?page=post&post=" + post.id;
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to add post", "list");
 	}
 }
 

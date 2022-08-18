@@ -244,7 +244,7 @@ fieldset {
     margin-bottom: 0.5rem;
 }
 
-#signin-form, #signup-form {
+#signin-form, #signup-form, #add-post-form {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -253,7 +253,7 @@ fieldset {
     max-width: 100vw;
 }
 
-input {
+input, textarea, select {
     border: 1px solid black;
     font-family: 'Fira Mono', monospace;
     height: 1.3rem;
@@ -263,7 +263,12 @@ input {
     transition: cubic-bezier(1,.46,1,0) 0.15s;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: purple solid 1px;
+    border: purple solid 1px;
     background-color: white;
 }
 
