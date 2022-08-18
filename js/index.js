@@ -27,6 +27,14 @@ async function cleanText(text) {
 	return text.replace(/(<([^>]+)>)/gi, "").trim();
 }
 
+async function removeItemOnce(arr, value) {
+	var index = arr.indexOf(value);
+	if (index > -1) {
+	  arr.splice(index, 1);
+	}
+	return arr;
+  }
+
 async function renderHomePage() {
 	try {
 		// fetch a paginated records list
@@ -212,6 +220,12 @@ async function renderUserPage() {
 		});
 		const id = params.user;
 		const user = await client.records.getOne("profiles", id, {});
+
+		let self;
+		// get self if logged in
+		if (client.authStore.isValid == true) {
+			self = await client.records.getOne("profiles", client.authStore.model.profile.id, {});
+		}
 		let userbio;
 		if (user.bio == "") {
 			userbio = "< No biography found >";
@@ -224,14 +238,18 @@ async function renderUserPage() {
 			for (let i = 0; i < user.badges.length; i++) {
 				if (user.badges[i] == "dev") {
 					badgehtml += `<i class="fa-solid fa-code"></i> `;
+				} else if (user.badges[i] == "bot") {
+					badgehtml += `<i class="fa-solid fa-robot"></i> `;
 				} else if (user.badges[i] == "mod") {
 					badgehtml += `<i class="fa-solid fa-cogs"></i> `;
 				} else if (user.badges[i] == "admin") {
 					badgehtml += `<i class="fa-solid fa-user-cog"></i> `;
 				} else if (user.badges[i] == "beta") {
 					badgehtml += `<i class="fa-solid fa-user-astronaut"></i> `;
-				} else if (user.badges[i] == "bot") {
-					badgehtml += `<i class="fa-solid fa-robot"></i> `;
+				} else if (user.badges[i] == "bloom") {
+					badgehtml += `<i class="fa-solid fa-seedling"></i> `;
+				} else if (user.badges[i] == "verified") {
+					badgehtml += `<i class="fa-solid fa-circle-check"></i> `;
 				}
 			}
 		}
@@ -241,12 +259,32 @@ async function renderUserPage() {
 			"Kynosocial - " + user.name + "'s profile";
 		document.getElementById("list").innerHTML = "";
 		document.getElementById("list-legend").innerHTML = "User";
+
+		let followbutton = "";
+		
+		if (client.authStore.isValid == false || user.id == client.authStore.model.profile.id) {
+			followbutton = ``;
+		} else {
+			followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main" style="font-size:0.5rem;width:64px;">< Follow ></button></a>`;
+				// add event listener to follow button
+		}
+
+		// if already following, change button to unfollow
+		if (client.authStore.isValid == true) {
+		if (self.following.includes(user.id)) {
+			followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main" style="font-size:0.48rem;width:64px;">< Unfollow ></button></a>`;
+		}
+		}
+
 		const html = `
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${user.id}/${user.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
                 </div>
+				<div class="post-username">
+					${followbutton}
+				</div>
                 
             </div>
             <div class="post-content-wrapper">
@@ -262,10 +300,50 @@ async function renderUserPage() {
             </div>
         </div>`;
 		document.getElementById("list").innerHTML += html;
+
+		if (client.authStore.isValid == true) {
+			if (user.id != client.authStore.model.profile.id) {
+				document.getElementById(`follow-${user.id}-btn`).addEventListener("click", followUserManager);
+			}
+		}
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load user page", "list");
 	}
+}
+
+async function followUserManager(e) {
+	try {
+		const userID = e.target.id.split("-")[1];
+		const user = await client.records.getOne("profiles", userID, {});
+		const self = await client.records.getOne("profiles", client.authStore.model.profile.id, {
+			expand: "following",
+		});
+
+		console.log(self.following);
+
+		if (self.following.includes(userID) == false) {
+			const follow = {
+				following: await self.following.concat(user.id),
+				badges: self.badges,
+			};
+			await client.records.update("profiles", client.authStore.model.profile.id, follow);
+			window.location.href = "?page=user&user=" + user.id;
+		} else if (self.following.includes(userID) == true) {
+			// calculate new following array
+			const newFollowing = await removeItemOnce(self.following, userID);
+			const follow = {
+				following: newFollowing,
+				badges: self.badges,
+			};
+			await client.records.update("profiles", client.authStore.model.profile.id, follow);
+			window.location.href = "?page=user&user=" + userID;
+		}
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to (un)follow user", "list");
+	}
+
 }
 
 async function renderSigninPage() {
