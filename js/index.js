@@ -56,11 +56,10 @@ async function renderHomePage() {
 			const postUser = post["@expand"].author;
 			const postCategory = post["@expand"].category;
 			let postUserName;
-			try {
+			if (postUser.name == undefined) {
+				postUserName = "Anonymous";
+			} else {
 				postUserName = postUser.name;
-			} catch (error) {
-				console.log(error);
-				postUserName = "unknown";
 			}
 			const title = post.title;
 			const content = post.content;
@@ -178,11 +177,10 @@ async function renderPostPage() {
 		const postUser = post["@expand"].author;
 		const postCategory = post["@expand"].category;
 		let postUserName;
-		try {
+		if (postUser.name == undefined) {
+			postUserName = "Anonymous";
+		} else {
 			postUserName = postUser.name;
-		} catch (error) {
-			console.log(error);
-			postUserName = "unknown";
 		}
 		const title = post.title;
 		document.getElementById("document-title").innerHTML =
@@ -506,8 +504,12 @@ async function signupFromForm(e) {
 			password: password,
 			passwordConfirm: confirmPassword,
 		});
+		console.log(createdUser);
+		await client.users.authViaEmail(email, password);
+		await client.users.refresh();
 		const updatedProfile = await client.records.update('profiles', createdUser.profile.id, {
 			name: username,
+			badges: createdUser.profile.badges,
 		});
 		window.location.href = "/";
 		return false;
@@ -581,11 +583,10 @@ async function renderTrendingPage() {
 				const postUser = post["@expand"].author;
 				const postCategory = post["@expand"].category;
 				let postUserName;
-				try {
+				if (postUser.name == undefined) {
+					postUserName = "Anonymous";
+				} else {
 					postUserName = postUser.name;
-				} catch (error) {
-					console.log(error);
-					postUserName = "unknown";
 				}
 				const title = post.title;
 				const content = post.content;
@@ -701,11 +702,10 @@ async function renderCategoryPage(categoryId) {
 				const post = posts[i];
 				const postUser = post["@expand"].author;
 				let postUserName;
-				try {
+				if (postUser.name == undefined) {
+					postUserName = "Anonymous";
+				} else {
 					postUserName = postUser.name;
-				} catch (error) {
-					console.log(error);
-					postUserName = "unknown";
 				}
 				const title = post.title;
 				const content = post.content;

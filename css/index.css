@@ -149,6 +149,8 @@ a:hover {
     max-width: 90vw;
     overflow: wrap;
     display: none;
+    display: flex;
+    flex-direction: column;
 }
 
 
