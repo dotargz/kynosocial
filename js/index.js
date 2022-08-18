@@ -522,7 +522,7 @@ function renderErrorMessage(message, element) {
 	const errorCounter = window.localStorage.getItem(messageId);
 	if (errorCounter == null) {
 		window.localStorage.setItem(messageId, 1);
-		errorCounter = 1;
+		errorCounter = "1";
 	} else {
 		window.localStorage.setItem(messageId, parseInt(errorCounter) + 1);
 	}
