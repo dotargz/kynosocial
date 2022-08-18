@@ -177,6 +177,7 @@ async function renderPostPage() {
 		const post = record;
 		const postUser = post["@expand"].author;
 		const postCategory = post["@expand"].category;
+		let postUserName;
 		try {
 			postUserName = postUser.name;
 		} catch (error) {
@@ -579,6 +580,7 @@ async function renderTrendingPage() {
 				const post = posts[i];
 				const postUser = post["@expand"].author;
 				const postCategory = post["@expand"].category;
+				let postUserName;
 				try {
 					postUserName = postUser.name;
 				} catch (error) {
@@ -698,6 +700,7 @@ async function renderCategoryPage(categoryId) {
 			for (let i = 0; i < posts.length; i++) {
 				const post = posts[i];
 				const postUser = post["@expand"].author;
+				let postUserName;
 				try {
 					postUserName = postUser.name;
 				} catch (error) {
