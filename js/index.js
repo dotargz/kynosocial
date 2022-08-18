@@ -397,10 +397,140 @@ async function signinFromForm(e) {
 }
 async function renderSignupPage() {
 	try {
-		throw new Error("Not implemented");
+		document.getElementById("list").innerHTML = "";
+		document.getElementById("list-legend").innerHTML = "Sign up";
+		const html = `
+		<div class="post-item">
+		<form id="signup-form" action="?page=signup" method="post">
+			<div class="form-group" id="signup-email-group">
+				<label for="email">E-Mail:</label>
+				<input type="email" class="form-control" id="email" name="email" placeholder="E-Mail" required>
+			</div>
+			<div class="form-group" id="signup-username-group">
+				<label for="email">Username:</label>
+				<input type="username" class="form-control" id="username" name="username" placeholder="Username" required>
+			</div>
+			<div class="form-group" id="signup-password-group">
+				<label for="password">Password:</label>
+				<input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+			</div>
+			<div class="form-group" id="signup-confirmpassword-group">
+				<label for="password">Confirm Password:</label>
+				<input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+			</div>
+			<button type="submit" class="btn btn-main">\< Sign up \></button>
+			<p style="font-size:0.8rem;margin-bottom:0;text-align:center;width:100%;">Already have an account? <button type="button" class="btn btn-main" onclick="window.location.href='?page=signin'">< Sign in ></button></p>
+		</form>
+		</div>
+		`;
+		document.getElementById("list").innerHTML += html;
+		var form = document.getElementById("signup-form");
+		if (form.attachEvent) {
+			form.attachEvent("submit", signupFromForm);
+		} else {
+			form.addEventListener("submit", signupFromForm);
+		}
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load signup page", "list");
+	}
+}
+
+async function signupFromForm(e) {
+	try {
+		e.preventDefault();
+
+		const form = e.target;
+		const email = form.email.value;
+		const password = form.password.value;
+		const confirmPassword = form.confirm-password.value;
+		const username = form.username.value;
+
+		// handle wrong input
+
+		if (email == "") {
+			renderErrorMessage("Please fill in all fields", "signup-email-group");
+			return false;
+		}
+		if (password == "") {
+			renderErrorMessage("Please fill in all fields", "signup-password-group");
+			return false;
+		}
+		if (confirmPassword == "") {
+			renderErrorMessage("Please fill in all fields", "signup-confirmpassword-group");
+			return false;
+		}
+		if (username == "") {
+			renderErrorMessage("Please fill in all fields", "signup-username-group");
+			return false;
+		}
+
+		if (email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) == false) {
+			renderErrorMessage("Please enter a valid email", "signup-email-group");
+			return false;
+		}
+
+
+		if (password != confirmPassword) {
+			renderErrorMessage("Passwords do not match", "signup-confirmpassword-group");
+			//renderErrorMessage("Passwords do not match", "signup-password-group");
+			return false;
+		}
+		if (password.length < 10) {
+			renderErrorMessage("Password must be at least 10 characters long", "signup-password-group");
+			return false;
+		}
+		if (username.length < 3) {
+			renderErrorPage("Username must be at least 3 characters long", "signup-username-group");
+			return false;
+		}
+		if (username.length > 20) {
+			renderErrorPage("Username must be at most 20 characters long", "signup-username-group");
+			return false;
+		}
+
+		const createdUser = await client.users.create({
+			email: email,
+			password: password,
+			passwordConfirm: confirmPassword,
+		});
+		const updatedProfile = await client.records.update('profiles', createdUser.profile.id, {
+			name: username,
+		});
+		window.location.href = "/";
+		return false;
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to signup", "list");
+	}
+}
+
+function renderErrorMessage(message, element) {
+	const messageId = message.replace(/\s/g, '');
+	const errorCounter = window.localStorage.getItem(messageId);
+	if (errorCounter == null) {
+		window.localStorage.setItem(messageId, 1);
+		errorCounter = 1;
+	} else {
+		window.localStorage.setItem(messageId, parseInt(errorCounter) + 1);
+	}
+
+	const html = `
+	<div class="alert-item" id="${messageId}">
+		<div class="alert alert-danger" role="alert" style="color:red;margin:0;font-size:0.8rem;">
+			${message} (${errorCounter})
+		</div>
+	</div>
+	`;
+
+	if (document.getElementById(element).contains(document.getElementById(messageId)) == false) {
+	document.getElementById(element).innerHTML += html;
+	} else {
+		document.getElementById(messageId).innerHTML = `
+		<div class="alert alert-danger" role="alert" style="color:red;margin:0;font-size:0.8rem;">
+			${message} (${errorCounter})
+		</div>
+		`;
 	}
 }
 
