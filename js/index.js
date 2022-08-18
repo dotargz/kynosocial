@@ -76,18 +76,18 @@ async function renderHomePage() {
                     </a>
                 </div>
                 <div class="post-username">
-                    <a href="?page=user&user=${postUser.id}">${postUserName}</a>
+                    <a href="?page=user&user=${postUser.id}">${await cleanText(postUserName)}</a>
                 </div>
             </div>
             <div class="post-content-wrapper">
                 <div class="post-title">
                     <a href="/?page=post&post=${post.id}">${await truncateText(
-				title,
+				await cleanText(title),
 				24
 			)}</a>
                 </div>
                 <div class="post-content">
-                    ${await truncateText(content, 56)}
+                    ${await truncateText(await cleanText(content), 56)}
                 </div>
                 <div class="post-created">
                     ${created} · <a href="?page=category&category=${postCategory.id}">#${postCategory.name}</a>
@@ -198,7 +198,7 @@ async function renderPostPage() {
                     </a>
                 </div>
                 <div class="post-username">
-                    <a href="?page=user&user=${postUser.id}">${postUserName}</a>
+                    <a href="?page=user&user=${postUser.id}">${await cleanText(postUserName)}</a>
                 </div>
 				<div class="post-views">
 					<i class="fa-solid fa-eye views-icon"></i>${numeral(post.views).format("0a")}
@@ -206,10 +206,10 @@ async function renderPostPage() {
             </div>
             <div class="post-content-wrapper">
                 <div class="post-title">
-                    ${title}
+                    ${await cleanText(title)}
                 </div>
                 <div class="post-content">
-                    ${content}
+                    ${await cleanText(content)}
                 </div>
                 <div class="post-created">
                     ${created} · <a href="?page=category&category=${postCategory.id}">#${postCategory.name}</a>
@@ -299,10 +299,10 @@ async function renderUserPage() {
             </div>
             <div class="post-content-wrapper">
                 <div class="post-title">
-                    ${user.name} ${userBadgesIcons}
+                    ${await cleanText(user.name)} ${userBadgesIcons}
                 </div>
                 <div class="post-content">
-                    ${userbio}
+                    ${await cleanText(userbio)}
                 </div>
                 <div class="post-created">
                     Created: ${user.created}
@@ -776,15 +776,15 @@ async function renderAddPostPage() {
 					<form id="add-post-form" action="?page=addpost" method="post">
 						<div class="form-group">
 							<label for="title">Title</label>
-							<input type="text" class="form-control" id="title" name="title" placeholder="Title">
+							<input type="text" class="form-control" id="posttitle" name="title" placeholder="Title">
 						</div>
 						<div class="form-group">
 							<label for="content">Content</label>
-							<textarea style="resize:none;height:5rem;" class="form-control" id="content" name="content" rows="3" placeholder="Remember, be nice!"></textarea>
+							<textarea style="resize:none;height:5rem;" class="form-control" id="postcontent" name="content" rows="3" placeholder="Remember, be nice!"></textarea>
 						</div>
 						<div class="form-group">
 							<label for="category">Category</label>
-							<select class="form-control" id="category" name="category">
+							<select class="form-control" id="postcategory" name="category">
 								${categoryResultList.items.map(category => {
 									return `<option value="${category.id}">${category.name}</option>`;
 								}
@@ -816,11 +816,26 @@ async function addPostFromForm(e) {
 	try {
 		e.preventDefault();
 		const form = event.target;
-		const title = form.title.value;
-		const content = form.content.value;	
-		const categoryId = form.category.value;
+		const title = form.posttitle.value;
+		const content = form.postcontent.value;	
+		const categoryId = form.postcategory.value;
 		const category = await client.records.getOne("categories", categoryId);
 		const user = await client.records.getOne("profiles", client.authStore.model.profile.id);
+
+		// verify the form
+		if (title == "") {
+			renderErrorMessage("Please fill in all fields", "postcontent");
+			return;
+		}
+		if (content == "") {
+			renderErrorMessage("Please fill in all fields", "postcontent");
+			return;
+		}
+		if (category == null) {
+			renderErrorMessage("Please select a category", "postcategory");
+			return;
+		}
+
 		const post = await client.records.create("posts", {
 			title: title,
 			content: content,
@@ -1077,6 +1092,7 @@ async function renderPage() {
 			await renderManageProfile(params.user);
 		} else if (page == "addpost") {
 			await renderAddPostPage();
+			await renderNotices();
 		} else {
 			await renderHomePage();
 			await renderNotices();
