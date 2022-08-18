@@ -521,7 +521,7 @@ async function signupFromForm(e) {
 
 function renderErrorMessage(message, element) {
 	const messageId = message.replace(/\s/g, '');
-	const errorCounter = window.localStorage.getItem(messageId);
+	let errorCounter = window.localStorage.getItem(messageId);
 	if (errorCounter == null) {
 		window.localStorage.setItem(messageId, 1);
 		errorCounter = "1";
