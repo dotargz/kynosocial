@@ -362,6 +362,8 @@ async function renderSigninPage() {
 				<input type="password" class="form-control" id="password" name="password" placeholder="Password">
 			</div>
 			<button type="submit" class="btn btn-main">\< Sign in \></button>
+			<p style="font-size:0.8rem;margin-bottom:0;text-align:center;width:100%;">Don't have an account? <button type="button" class="btn btn-main" onclick="window.location.href='?page=signup'">< Sign up ></button></p>
+		</form>
 		</div>
 		`;
 		document.getElementById("list").innerHTML += html;
