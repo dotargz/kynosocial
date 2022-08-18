@@ -428,7 +428,7 @@ async function renderSignupPage() {
 			</div>
 			<div class="form-group" id="signup-confirmpassword-group">
 				<label for="password">Confirm Password:</label>
-				<input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+				<input type="password" class="form-control" id="confirmpassword" name="confirm-password" placeholder="Confirm Password" required>
 			</div>
 			<button type="submit" class="btn btn-main">\< Sign up \></button>
 			<p style="font-size:0.8rem;margin-bottom:0;text-align:center;width:100%;">Already have an account? <button type="button" class="btn btn-main" onclick="window.location.href='?page=signin'">< Sign in ></button></p>
@@ -455,7 +455,7 @@ async function signupFromForm(e) {
 		const form = e.target;
 		const email = form.email.value;
 		const password = form.password.value;
-		const confirmPassword = form.confirm-password.value;
+		const confirmPassword = form.confirmpassword.value;
 		const username = form.username.value;
 
 		// handle wrong input
