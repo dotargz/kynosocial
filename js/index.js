@@ -483,7 +483,6 @@ async function signupFromForm(e) {
 
 		if (password != confirmPassword) {
 			renderErrorMessage("Passwords do not match", "signup-confirmpassword-group");
-			//renderErrorMessage("Passwords do not match", "signup-password-group");
 			return false;
 		}
 		if (password.length < 10) {
