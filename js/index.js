@@ -72,7 +72,7 @@ async function renderHomePage() {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
+												}/${postUser.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${postUser.id}.svg'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -194,7 +194,7 @@ async function renderPostPage() {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
+												}/${postUser.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${postUser.id}.svg'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -290,7 +290,7 @@ async function renderUserPage() {
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
-                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${user.id}/${user.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
+                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${user.id}/${user.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${user.id}.svg'">
                 </div>
 				<div class="post-username">
 					${followbutton}
@@ -598,7 +598,7 @@ async function renderTrendingPage() {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
+												}/${postUser.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${postUser.id}.svg'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -716,7 +716,7 @@ async function renderCategoryPage(categoryId) {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
+												}/${postUser.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${postUser.id}.svg'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -943,7 +943,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 							<a href="?page=user&user=${author.id}">
 								<img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 									author.id
-								}/${author.avatar}" width="64px" onerror="this.src='../img/noimg.svg'">
+								}/${author.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${author.id}.svg'">
 							</a>
 						</div>
 						
