@@ -875,7 +875,11 @@ async function renderAddPostPage() {
 							<select class="form-control" id="postcategory" name="category">
 								${categoryResultList.items
 									.map((category) => {
+										if (category.name == "general") {
+										return `<option value="${category.id}" selected>${category.name}</option>`;
+										} else {
 										return `<option value="${category.id}">${category.name}</option>`;
+										}
 									})
 									.join("")}
 							</select>
