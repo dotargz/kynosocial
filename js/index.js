@@ -1,6 +1,8 @@
 "use strict";
 var DateTime = luxon.DateTime;
 
+var md = window.markdownit();
+
 import PocketBase from "./pocketbase.es.mjs";
 
 let client;
@@ -93,7 +95,7 @@ async function renderHomePage() {
 			)}</a>
                 </div>
                 <div class="post-content">
-                    ${await truncateText(await cleanText(content), 56)}
+                    ${await truncateText(await md.renderInline(await cleanText(content)), 56)}
                 </div>
                 <div class="post-created">
                     ${created} · <a href="?page=category&category=${
@@ -224,7 +226,7 @@ async function renderPostPage() {
                     ${await cleanText(title)}
                 </div>
                 <div class="post-content">
-                    ${await cleanText(content)}
+                    ${await md.renderInline(await cleanText(content))}
                 </div>
                 <div class="post-created">
                     ${created} · <a href="?page=category&category=${
@@ -332,7 +334,7 @@ async function renderUserPage() {
                     ${await cleanText(user.name)} ${userBadgesIcons}
                 </div>
                 <div class="post-content">
-                    ${await cleanText(userbio)}
+                    ${await md.renderInline(await cleanText(userbio))}
                 </div>
                 <div class="post-created">
                     Created: ${user.created}
@@ -688,7 +690,7 @@ async function renderTrendingPage() {
 				)}</a>
                 </div>
                 <div class="post-content">
-                    ${await truncateText(await cleanText(content), 56)}
+                    ${await truncateText(await md.renderInline(await cleanText(content)), 56)}
                 </div>
                 <div class="post-created">
                     ${created} · <a href="?page=category&category=${
@@ -1051,7 +1053,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 							<a href="/?page=user&user=${author.id}">${author.name}</a> ${userBadgesIcons}
 						</div>
 						<div class="post-content">
-							${await truncateText(await cleanText(comment.content), 56)}
+							${await truncateText(await md.renderInline(await cleanText(comment.content)), 56)}
 						</div>
 						<div class="post-created">
 							${comment.created}
