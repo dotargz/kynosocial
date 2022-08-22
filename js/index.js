@@ -1278,13 +1278,13 @@ async function renderPage() {
 			await renderHomePage();
 			await renderNotices();
 		}
-		renderNavbar();
+		await renderNavbar();
 		tippy("[data-tippy-content]");
 	} catch (error) {
 		console.log(error);
-		renderErrorPage();
+		await renderErrorPage();
 	}
 }
 
 // render page
-renderPage();
+await renderPage();
