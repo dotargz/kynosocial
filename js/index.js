@@ -1145,7 +1145,7 @@ async function renderManageProfile(userID) {
 					<div class="post-item">
 						<div class="post-content-wrapper">
 							<div class="post-content" id="edit-bio">
-								<i class="fa-solid fa-user-edit"></i> Edit Bio
+							<i class="fa-solid fa-book"></i> Edit Bio
 								<form class="form-generic" id="editbio-form" action="?page=settings" method="post" enctype="multipart/form-data">
 									<textarea name="bio" id="bio" rows="4" cols="50" style="resize: none;width:97%;height:5rem;" maxlength="250">${user.bio}</textarea>
 									<input type="submit" value="< Edit Bio >" class="btn btn-main">
