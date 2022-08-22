@@ -188,7 +188,7 @@ img {
 
 
 
-.btn-main {
+.btn-main, .btn-primary {
     border: 0px solid black;
     height: 1.3rem;
     background-color: black;
@@ -208,7 +208,7 @@ button:disabled:hover {
     color: #f2f2f2;
 }
 
-.btn-main:hover {
+.btn-main:hover, .btn-primary:hover {
     background-color: purple;
     color: #f2f2f2;
 }
@@ -246,7 +246,7 @@ fieldset {
     margin-bottom: 0.5rem;
 }
 
-#signin-form, #signup-form, #add-post-form {
+#signin-form, #signup-form, #add-post-form, .form-generic {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -265,6 +265,10 @@ input, textarea, select {
     transition: cubic-bezier(1,.46,1,0) 0.15s;
 }
 
+input[type=file] {
+    border: none;
+}
+
 input:focus,
 select:focus,
 textarea:focus,
@@ -272,6 +276,12 @@ button:focus {
     outline: purple solid 1px;
     border: purple solid 1px;
     background-color: white;
+}
+
+input[type=file]:focus {
+    border: none;
+    outline: none;
+    background-color: #f2f2f2;
 }
 
 button {

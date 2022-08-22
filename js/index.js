@@ -30,10 +30,10 @@ async function cleanText(text) {
 async function removeItemOnce(arr, value) {
 	var index = arr.indexOf(value);
 	if (index > -1) {
-	  arr.splice(index, 1);
+		arr.splice(index, 1);
 	}
 	return arr;
-  }
+}
 
 async function renderHomePage() {
 	try {
@@ -72,11 +72,17 @@ async function renderHomePage() {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${postUser.id}.svg?colors[]=grey'">
+												}/${
+				postUser.avatar
+			}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+				postUser.id
+			}.svg?colors[]=grey'">
                     </a>
                 </div>
                 <div class="post-username">
-                    <a href="?page=user&user=${postUser.id}">${await cleanText(postUserName)}</a>
+                    <a href="?page=user&user=${postUser.id}">${await cleanText(
+				postUserName
+			)}</a>
                 </div>
             </div>
             <div class="post-content-wrapper">
@@ -90,7 +96,9 @@ async function renderHomePage() {
                     ${await truncateText(await cleanText(content), 56)}
                 </div>
                 <div class="post-created">
-                    ${created} · <a href="?page=category&category=${postCategory.id}">#${postCategory.name}</a>
+                    ${created} · <a href="?page=category&category=${
+				postCategory.id
+			}">#${postCategory.name}</a>
                 </div>
             </div>
         </div>`;
@@ -127,7 +135,8 @@ async function renderNavbar() {
 			client.authStore.model == null
 		) {
 			document.getElementById("nav-profile-link").href = "?page=signin";
-			document.getElementById("nav-profile").innerHTML = '<i class="fa-solid fa-user-plus"></i>';
+			document.getElementById("nav-profile").innerHTML =
+				'<i class="fa-solid fa-user-plus"></i>';
 			document.getElementById("nav-add-post-link").href = "?page=signin";
 		} else {
 			document.getElementById("nav-profile-link").href =
@@ -194,11 +203,17 @@ async function renderPostPage() {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${postUser.id}.svg?colors[]=grey'">
+												}/${
+			postUser.avatar
+		}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+			postUser.id
+		}.svg?colors[]=grey'">
                     </a>
                 </div>
                 <div class="post-username">
-                    <a href="?page=user&user=${postUser.id}">${await cleanText(postUserName)}</a>
+                    <a href="?page=user&user=${postUser.id}">${await cleanText(
+			postUserName
+		)}</a>
                 </div>
 				<div class="post-views">
 					<i class="fa-solid fa-eye views-icon"></i>${numeral(post.views).format("0a")}
@@ -212,7 +227,9 @@ async function renderPostPage() {
                     ${await cleanText(content)}
                 </div>
                 <div class="post-created">
-                    ${created} · <a href="?page=category&category=${postCategory.id}">#${postCategory.name}</a>
+                    ${created} · <a href="?page=category&category=${
+			postCategory.id
+		}">#${postCategory.name}</a>
                 </div>
             </div>
         </div>`;
@@ -234,7 +251,11 @@ async function renderUserPage() {
 		let self;
 		// get self if logged in
 		if (client.authStore.isValid == true) {
-			self = await client.records.getOne("profiles", client.authStore.model.profile.id, {});
+			self = await client.records.getOne(
+				"profiles",
+				client.authStore.model.profile.id,
+				{}
+			);
 		}
 		let userbio;
 		if (user.bio == "") {
@@ -271,26 +292,35 @@ async function renderUserPage() {
 		document.getElementById("list-legend").innerHTML = "User";
 
 		let followbutton = "";
-		
-		if (client.authStore.isValid == false || user.id == client.authStore.model.profile.id) {
+
+		if (
+			client.authStore.isValid == false ||
+			user.id == client.authStore.model.profile.id
+		) {
 			followbutton = ``;
 		} else {
 			followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main" style="font-size:0.5rem;width:64px;">< Follow ></button></a>`;
-				// add event listener to follow button
+			// add event listener to follow button
 		}
 
 		// if already following, change button to unfollow
 		if (client.authStore.isValid == true) {
-		if (self.following.includes(user.id)) {
-			followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main" style="font-size:0.48rem;width:64px;">< Unfollow ></button></a>`;
-		}
+			if (self.following.includes(user.id)) {
+				followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main" style="font-size:0.48rem;width:64px;">< Unfollow ></button></a>`;
+			}
 		}
 
 		const html = `
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
-                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${user.id}/${user.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${user.id}.svg?colors[]=grey'">
+                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+													user.id
+												}/${
+			user.avatar
+		}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+			user.id
+		}.svg?colors[]=grey'">
                 </div>
 				<div class="post-username">
 					${followbutton}
@@ -313,7 +343,9 @@ async function renderUserPage() {
 
 		if (client.authStore.isValid == true) {
 			if (user.id != client.authStore.model.profile.id) {
-				document.getElementById(`follow-${user.id}-btn`).addEventListener("click", followUserManager);
+				document
+					.getElementById(`follow-${user.id}-btn`)
+					.addEventListener("click", followUserManager);
 			}
 		}
 	} catch (error) {
@@ -326,9 +358,13 @@ async function followUserManager(e) {
 	try {
 		const userID = e.target.id.split("-")[1];
 		const user = await client.records.getOne("profiles", userID, {});
-		const self = await client.records.getOne("profiles", client.authStore.model.profile.id, {
-			expand: "following",
-		});
+		const self = await client.records.getOne(
+			"profiles",
+			client.authStore.model.profile.id,
+			{
+				expand: "following",
+			}
+		);
 
 		console.log(self.following);
 
@@ -337,7 +373,11 @@ async function followUserManager(e) {
 				following: await self.following.concat(user.id),
 				badges: self.badges,
 			};
-			await client.records.update("profiles", client.authStore.model.profile.id, follow);
+			await client.records.update(
+				"profiles",
+				client.authStore.model.profile.id,
+				follow
+			);
 			window.location.href = "?page=user&user=" + user.id;
 		} else if (self.following.includes(userID) == true) {
 			// calculate new following array
@@ -346,14 +386,17 @@ async function followUserManager(e) {
 				following: newFollowing,
 				badges: self.badges,
 			};
-			await client.records.update("profiles", client.authStore.model.profile.id, follow);
+			await client.records.update(
+				"profiles",
+				client.authStore.model.profile.id,
+				follow
+			);
 			window.location.href = "?page=user&user=" + userID;
 		}
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to (un)follow user", "list");
 	}
-
 }
 
 async function renderSigninPage() {
@@ -467,7 +510,10 @@ async function signupFromForm(e) {
 			return false;
 		}
 		if (confirmPassword == "") {
-			renderErrorMessage("Please fill in all fields", "signup-confirmpassword-group");
+			renderErrorMessage(
+				"Please fill in all fields",
+				"signup-confirmpassword-group"
+			);
 			return false;
 		}
 		if (username == "") {
@@ -475,26 +521,43 @@ async function signupFromForm(e) {
 			return false;
 		}
 
-		if (email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) == false) {
+		if (
+			email
+				.toLowerCase()
+				.match(
+					/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+				) == false
+		) {
 			renderErrorMessage("Please enter a valid email", "signup-email-group");
 			return false;
 		}
 
-
 		if (password != confirmPassword) {
-			renderErrorMessage("Passwords do not match", "signup-confirmpassword-group");
+			renderErrorMessage(
+				"Passwords do not match",
+				"signup-confirmpassword-group"
+			);
 			return false;
 		}
 		if (password.length < 10) {
-			renderErrorMessage("Password must be at least 10 characters long", "signup-password-group");
+			renderErrorMessage(
+				"Password must be at least 10 characters long",
+				"signup-password-group"
+			);
 			return false;
 		}
 		if (username.length < 3) {
-			renderErrorPage("Username must be at least 3 characters long", "signup-username-group");
+			renderErrorPage(
+				"Username must be at least 3 characters long",
+				"signup-username-group"
+			);
 			return false;
 		}
 		if (username.length > 20) {
-			renderErrorPage("Username must be at most 20 characters long", "signup-username-group");
+			renderErrorPage(
+				"Username must be at most 20 characters long",
+				"signup-username-group"
+			);
 			return false;
 		}
 
@@ -506,10 +569,14 @@ async function signupFromForm(e) {
 		console.log(createdUser);
 		await client.users.authViaEmail(email, password);
 		await client.users.refresh();
-		const updatedProfile = await client.records.update('profiles', createdUser.profile.id, {
-			name: username,
-			badges: createdUser.profile.badges,
-		});
+		const updatedProfile = await client.records.update(
+			"profiles",
+			createdUser.profile.id,
+			{
+				name: username,
+				badges: createdUser.profile.badges,
+			}
+		);
 		window.location.href = "/";
 		return false;
 	} catch (error) {
@@ -519,7 +586,7 @@ async function signupFromForm(e) {
 }
 
 function renderErrorMessage(message, element) {
-	const messageId = message.replace(/\s/g, '');
+	const messageId = message.replace(/\s/g, "");
 	let errorCounter = window.localStorage.getItem(messageId);
 	if (errorCounter == null) {
 		window.localStorage.setItem(messageId, 1);
@@ -536,8 +603,12 @@ function renderErrorMessage(message, element) {
 	</div>
 	`;
 
-	if (document.getElementById(element).contains(document.getElementById(messageId)) == false) {
-	document.getElementById(element).innerHTML += html;
+	if (
+		document
+			.getElementById(element)
+			.contains(document.getElementById(messageId)) == false
+	) {
+		document.getElementById(element).innerHTML += html;
 	} else {
 		document.getElementById(messageId).innerHTML = `
 		<div class="alert alert-danger" role="alert" style="color:red;margin:0;font-size:0.8rem;">
@@ -598,7 +669,11 @@ async function renderTrendingPage() {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${postUser.id}.svg?colors[]=grey'">
+												}/${
+					postUser.avatar
+				}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+					postUser.id
+				}.svg?colors[]=grey'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -608,7 +683,7 @@ async function renderTrendingPage() {
             <div class="post-content-wrapper">
                 <div class="post-title">
                     <a href="/?page=post&post=${post.id}">${await truncateText(
-						await cleanText(title),
+					await cleanText(title),
 					24
 				)}</a>
                 </div>
@@ -616,7 +691,9 @@ async function renderTrendingPage() {
                     ${await truncateText(await cleanText(content), 56)}
                 </div>
                 <div class="post-created">
-                    ${created} · <a href="?page=category&category=${postCategory.id}">#${postCategory.name}</a>
+                    ${created} · <a href="?page=category&category=${
+					postCategory.id
+				}">#${postCategory.name}</a>
                 </div>
             </div>
         </div>`;
@@ -716,7 +793,11 @@ async function renderCategoryPage(categoryId) {
                     <a href="?page=user&user=${postUser.id}">
                         <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
-												}/${postUser.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${postUser.id}.svg?colors[]=grey'">
+												}/${
+					postUser.avatar
+				}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+					postUser.id
+				}.svg?colors[]=grey'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -760,14 +841,20 @@ async function renderCategoryPage(categoryId) {
 async function renderAddPostPage() {
 	try {
 		// get popular categories
-		const categoryResultList = await client.records.getList("categories", 1, 15, {
-			sort: "name",
-		});
-		
+		const categoryResultList = await client.records.getList(
+			"categories",
+			1,
+			15,
+			{
+				sort: "name",
+			}
+		);
+
 		// render the add post page
 		document.getElementById("list").innerHTML = "";
 		document.getElementById("list-legend").innerHTML = "Add Post";
-		document.getElementById("document-title").innerHTML = "Kynosocial - Add Post";
+		document.getElementById("document-title").innerHTML =
+			"Kynosocial - Add Post";
 		const html = `
 		<div class="post-item">
 			<div class="post-content-wrapper">
@@ -784,10 +871,11 @@ async function renderAddPostPage() {
 						<div class="form-group">
 							<label for="category">Category</label>
 							<select class="form-control" id="postcategory" name="category">
-								${categoryResultList.items.map(category => {
-									return `<option value="${category.id}">${category.name}</option>`;
-								}
-								).join("")}
+								${categoryResultList.items
+									.map((category) => {
+										return `<option value="${category.id}">${category.name}</option>`;
+									})
+									.join("")}
 							</select>
 						</div>
 						<button type="submit" class="btn btn-main">< Add Post ></button>
@@ -804,7 +892,6 @@ async function renderAddPostPage() {
 		} else {
 			form.addEventListener("submit", addPostFromForm);
 		}
-
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load post page", "list");
@@ -816,10 +903,13 @@ async function addPostFromForm(e) {
 		e.preventDefault();
 		const form = event.target;
 		const title = form.posttitle.value;
-		const content = form.postcontent.value;	
+		const content = form.postcontent.value;
 		const categoryId = form.postcategory.value;
 		const category = await client.records.getOne("categories", categoryId);
-		const user = await client.records.getOne("profiles", client.authStore.model.profile.id);
+		const user = await client.records.getOne(
+			"profiles",
+			client.authStore.model.profile.id
+		);
 
 		// verify the form
 		if (title == "") {
@@ -943,7 +1033,11 @@ async function renderComments(isUserPageComment = false, ID = null) {
 							<a href="?page=user&user=${author.id}">
 								<img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 									author.id
-								}/${author.avatar}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${author.id}.svg?colors[]=grey'">
+								}/${
+					author.avatar
+				}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+					author.id
+				}.svg?colors[]=grey'">
 							</a>
 						</div>
 						
@@ -1001,7 +1095,7 @@ async function commentFromForm(e) {
 		const linkedID = form.linkedID.value;
 		const isUserPageComment = form.isUserPageComment.value;
 		if (isUserPageComment == "true") {
-			await client.records.create('user_comments', {
+			await client.records.create("user_comments", {
 				content: await cleanText(comment),
 				author: client.authStore.model.profile.id,
 				linked_profile: linkedID,
@@ -1010,7 +1104,7 @@ async function commentFromForm(e) {
 			window.location.href = "?page=user&user=" + linkedID;
 			return false;
 		} else {
-			await client.records.create('post_comments', {
+			await client.records.create("post_comments", {
 				content: await cleanText(comment),
 				author: client.authStore.model.profile.id,
 				linked_post: linkedID,
@@ -1043,6 +1137,17 @@ async function renderManageProfile(userID) {
 			const html = `
 					<div class="post-item">
 						<div class="post-content-wrapper">
+							<div class="post-content" id="edit-avatar">
+								<i class="fa-solid fa-user-edit"></i> Edit Avatar
+								<form class="form-generic" id="editavatar-form" action="?page=settings" method="post" enctype="multipart/form-data">
+									<input type="file" name="avatar" id="avatar" accept="image/*">
+									<input type="submit" value="< Upload >" class="btn btn-main">
+								</form>
+							</div>	
+						</div>	
+					</div>
+					<div class="post-item">
+						<div class="post-content-wrapper">
 							<div class="post-content">
 							<a href="?page=signout"><i class="fa-solid fa-right-from-bracket"></i> Sign out</a>
 							</div>	
@@ -1050,10 +1155,44 @@ async function renderManageProfile(userID) {
 					</div>
 				`;
 			document.getElementById("settings").innerHTML += html;
+			// add event listener to edit avatar form
+			var form = document.getElementById("editavatar-form");
+			if (form.attachEvent) {
+				form.attachEvent("submit", editAvatarFromForm);
+			} else {
+				form.addEventListener("submit", editAvatarFromForm);
+			}
 		}
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load manage profile", "settings");
+	}
+}
+
+async function editAvatarFromForm(e) {
+	try {
+		e.preventDefault();
+		const form = e.target;
+		const avatar = form.avatar.files[0];
+		if (avatar == undefined) {
+			console.log("no avatar");
+			return;
+		}
+		console.log(client.authStore.model.profile.badges);
+		await client.users.refresh();
+		const formData = new FormData();
+		formData.append("avatar", avatar);
+		const result = await client.records.update(
+			"profiles",
+			client.authStore.model.profile.id,
+			formData
+		);
+		console.log(result);
+		form.reset();
+		window.location.href = "/?page=user&user=" + client.authStore.model.profile.id;
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to upload avatar", "settings");
 	}
 }
 
