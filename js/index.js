@@ -268,19 +268,19 @@ async function renderUserPage() {
 		if (user.badges.length > 0) {
 			for (let i = 0; i < user.badges.length; i++) {
 				if (user.badges[i] == "dev") {
-					badgehtml += `<i class="fa-solid fa-code"></i> `;
+					badgehtml += `<i class="fa-solid fa-code" data-tippy-content="Developer"></i> `;
 				} else if (user.badges[i] == "bot") {
-					badgehtml += `<i class="fa-solid fa-robot"></i> `;
+					badgehtml += `<i class="fa-solid fa-robot" data-tippy-content="Bot"></i> `;
 				} else if (user.badges[i] == "mod") {
-					badgehtml += `<i class="fa-solid fa-cogs"></i> `;
+					badgehtml += `<i class="fa-solid fa-cogs" data-tippy-content="Moderator"></i> `;
 				} else if (user.badges[i] == "admin") {
-					badgehtml += `<i class="fa-solid fa-user-cog"></i> `;
+					badgehtml += `<i class="fa-solid fa-user-cog" data-tippy-content="Administrator"></i> `;
 				} else if (user.badges[i] == "beta") {
-					badgehtml += `<i class="fa-solid fa-user-astronaut"></i> `;
+					badgehtml += `<i class="fa-solid fa-user-astronaut" data-tippy-content="Beta Tester"></i> `;
 				} else if (user.badges[i] == "bloom") {
-					badgehtml += `<i class="fa-solid fa-seedling"></i> `;
+					badgehtml += `<i class="fa-solid fa-seedling" data-tippy-content="Bloom Subscriber"></i> `;
 				} else if (user.badges[i] == "verified") {
-					badgehtml += `<i class="fa-solid fa-circle-check"></i> `;
+					badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
 				}
 			}
 		}
@@ -1013,15 +1013,19 @@ async function renderComments(isUserPageComment = false, ID = null) {
 				if (author.badges.length > 0) {
 					for (let i = 0; i < author.badges.length; i++) {
 						if (author.badges[i] == "dev") {
-							badgehtml += `<i class="fa-solid fa-code"></i> `;
-						} else if (author.badges[i] == "mod") {
-							badgehtml += `<i class="fa-solid fa-cogs"></i> `;
-						} else if (author.badges[i] == "admin") {
-							badgehtml += `<i class="fa-solid fa-user-cog"></i> `;
-						} else if (author.badges[i] == "beta") {
-							badgehtml += `<i class="fa-solid fa-user-astronaut"></i> `;
+							badgehtml += `<i class="fa-solid fa-code" data-tippy-content="Developer"></i> `;
 						} else if (author.badges[i] == "bot") {
-							badgehtml += `<i class="fa-solid fa-robot"></i> `;
+							badgehtml += `<i class="fa-solid fa-robot" data-tippy-content="Bot"></i> `;
+						} else if (author.badges[i] == "mod") {
+							badgehtml += `<i class="fa-solid fa-cogs" data-tippy-content="Moderator"></i> `;
+						} else if (author.badges[i] == "admin") {
+							badgehtml += `<i class="fa-solid fa-user-cog" data-tippy-content="Administrator"></i> `;
+						} else if (author.badges[i] == "beta") {
+							badgehtml += `<i class="fa-solid fa-user-astronaut" data-tippy-content="Beta Tester"></i> `;
+						} else if (author.badges[i] == "bloom") {
+							badgehtml += `<i class="fa-solid fa-seedling" data-tippy-content="Bloom Subscriber"></i> `;
+						} else if (author.badges[i] == "verified") {
+							badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
 						}
 					}
 				}
@@ -1044,7 +1048,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 					</div>
 					<div class="post-content-wrapper">
 						<div class="post-title">
-							<a href="/?page=user&user=${author.id}">${author.name} ${userBadgesIcons}</a>
+							<a href="/?page=user&user=${author.id}">${author.name}</a> ${userBadgesIcons}
 						</div>
 						<div class="post-content">
 							${await truncateText(await cleanText(comment.content), 56)}
@@ -1125,7 +1129,10 @@ async function renderManageProfile(userID) {
 			client.authStore.isValid == true &&
 			client.authStore.model.profile.id == userID
 		) {
-			const user = await client.records.getOne("profiles", client.authStore.model.profile.id);
+			const user = await client.records.getOne(
+				"profiles",
+				client.authStore.model.profile.id
+			);
 			document.getElementById("settings").style.display = "flex";
 			document.getElementById("settings-fieldset").style.display = "block";
 			document.getElementById("settings").innerHTML = "";
@@ -1173,11 +1180,9 @@ async function renderManageProfile(userID) {
 			var form1 = document.getElementById("editbio-form");
 			if (form1.attachEvent) {
 				form1.attachEvent("submit", editBioFromForm);
-			}
-			else {
+			} else {
 				form1.addEventListener("submit", editBioFromForm);
 			}
-
 		}
 	} catch (error) {
 		console.log(error);
@@ -1205,7 +1210,8 @@ async function editAvatarFromForm(e) {
 		);
 		console.log(result);
 		form.reset();
-		window.location.href = "/?page=user&user=" + client.authStore.model.profile.id;
+		window.location.href =
+			"/?page=user&user=" + client.authStore.model.profile.id;
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to upload avatar", "settings");
@@ -1225,7 +1231,8 @@ async function editBioFromForm(e) {
 			bio: bio,
 		});
 		form.reset();
-		window.location.href = "/?page=user&user=" + client.authStore.model.profile.id;
+		window.location.href =
+			"/?page=user&user=" + client.authStore.model.profile.id;
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to edit bio", "settings");
@@ -1272,6 +1279,7 @@ async function renderPage() {
 			await renderNotices();
 		}
 		renderNavbar();
+		tippy("[data-tippy-content]");
 	} catch (error) {
 		console.log(error);
 		renderErrorPage();
