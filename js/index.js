@@ -1125,11 +1125,7 @@ async function renderManageProfile(userID) {
 			client.authStore.isValid == true &&
 			client.authStore.model.profile.id == userID
 		) {
-			const result = await client.records.getOne(
-				"profiles",
-				client.authStore.model.profile.id
-			);
-			const user = result.item;
+			const user = await client.records.getOne("profiles", client.authStore.model.profile.id);
 			document.getElementById("settings").style.display = "flex";
 			document.getElementById("settings-fieldset").style.display = "block";
 			document.getElementById("settings").innerHTML = "";
@@ -1142,6 +1138,17 @@ async function renderManageProfile(userID) {
 								<form class="form-generic" id="editavatar-form" action="?page=settings" method="post" enctype="multipart/form-data">
 									<input type="file" name="avatar" id="avatar" accept="image/*">
 									<input type="submit" value="< Upload >" class="btn btn-main">
+								</form>
+							</div>	
+						</div>	
+					</div>
+					<div class="post-item">
+						<div class="post-content-wrapper">
+							<div class="post-content" id="edit-bio">
+								<i class="fa-solid fa-user-edit"></i> Edit Bio
+								<form class="form-generic" id="editbio-form" action="?page=settings" method="post" enctype="multipart/form-data">
+									<textarea name="bio" id="bio" rows="4" cols="50" style="resize: none;width:97%;height:5rem;" maxlength="250">${user.bio}</textarea>
+									<input type="submit" value="< Edit Bio >" class="btn btn-main">
 								</form>
 							</div>	
 						</div>	
@@ -1162,6 +1169,15 @@ async function renderManageProfile(userID) {
 			} else {
 				form.addEventListener("submit", editAvatarFromForm);
 			}
+			// add event listener to edit bio form
+			var form1 = document.getElementById("editbio-form");
+			if (form1.attachEvent) {
+				form1.attachEvent("submit", editBioFromForm);
+			}
+			else {
+				form1.addEventListener("submit", editBioFromForm);
+			}
+
 		}
 	} catch (error) {
 		console.log(error);
@@ -1193,6 +1209,26 @@ async function editAvatarFromForm(e) {
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to upload avatar", "settings");
+	}
+}
+
+async function editBioFromForm(e) {
+	try {
+		e.preventDefault();
+		const form = e.target;
+		const bio = form.bio.value;
+		if (bio == undefined) {
+			console.log("no bio");
+			return;
+		}
+		await client.records.update("profiles", client.authStore.model.profile.id, {
+			bio: bio,
+		});
+		form.reset();
+		window.location.href = "/?page=user&user=" + client.authStore.model.profile.id;
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to edit bio", "settings");
 	}
 }
 
