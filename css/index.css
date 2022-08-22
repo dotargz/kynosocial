@@ -148,7 +148,7 @@ a {
     color: #999;
 }
 
-a:hover {
+a:hover, .post-content > a:not(#signoutlink):hover {
     color: purple;
 }
 
