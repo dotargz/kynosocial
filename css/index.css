@@ -139,6 +139,11 @@ a {
     transition: cubic-bezier(1,.46,1,0) 0.25s;
 }
 
+.post-content > a:not(#signoutlink) {
+    text-decoration: underline;
+    color: blue;
+}
+
 .post-created a {
     color: #999;
 }

@@ -1165,7 +1165,7 @@ async function renderManageProfile(userID) {
 					<div class="post-item">
 						<div class="post-content-wrapper">
 							<div class="post-content">
-							<a href="?page=signout"><i class="fa-solid fa-right-from-bracket"></i> Sign out</a>
+							<a href="?page=signout" id="signoutlink"><i class="fa-solid fa-right-from-bracket"></i> Sign out</a>
 							</div>	
 						</div>	
 					</div>
