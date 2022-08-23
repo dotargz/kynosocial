@@ -68,42 +68,40 @@ async function renderHomePage() {
 			const created = post.created;
 			const updated = post.updated;
 			const html = `
-        <div class="post-item">
-            <div class="post-image-wrapper">
-                <div class="post-image">
-                    <a href="?page=user&user=${postUser.id}">
-                        <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
-													postUser.id
-												}/${
+			<div class="post-item">
+				<div class="post-image-wrapper">
+					<div class="post-image">
+						<a href="?page=user&user=${postUser.id}">
+							<img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+				postUser.id
+			}/${
 				postUser.avatar
 			}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 				postUser.id
 			}.svg?colors[]=grey'">
-                    </a>
-                </div>
-                <div class="post-username">
-                    <a href="?page=user&user=${postUser.id}">${await cleanText(
-				postUserName
-			)}</a>
-                </div>
-            </div>
-            <div class="post-content-wrapper">
-                <div class="post-title">
-                    <a href="/?page=post&post=${post.id}">${await truncateText(
+						</a>
+					</div>
+					<div class="post-username">
+						<a href="?page=user&user=${postUser.id}">${await cleanText(postUserName)}</a>
+					</div>
+				</div>
+				<div class="post-content-wrapper">
+					<div class="post-title">
+						<a href="/?page=post&post=${post.id}">${await truncateText(
 				await cleanText(title),
 				24
 			)}</a>
-                </div>
-                <div class="post-content">
-                    ${await truncateText(await md.renderInline(await cleanText(content)), 56)}
-                </div>
-                <div class="post-created">
-                    ${created} · <a href="?page=category&category=${
-				postCategory.id
-			}">#${postCategory.name}</a>
-                </div>
-            </div>
-        </div>`;
+					</div>
+					<div class="post-content">
+						${await truncateText(await md.renderInline(await cleanText(content)), 56)}
+					</div>
+					<div class="post-created">
+						${created} · <a href="?page=category&category=${postCategory.id}">#${
+				postCategory.name
+			}</a>
+					</div>
+				</div>
+			</div>`;
 			document.getElementById("list").innerHTML += html;
 		}
 	} catch (error) {
@@ -204,8 +202,8 @@ async function renderPostPage() {
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
                         <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
-													postUser.id
-												}/${
+			postUser.id
+		}/${
 			postUser.avatar
 		}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 			postUser.id
@@ -316,9 +314,11 @@ async function renderUserPage() {
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
-                        <img alt="${user.name}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
-													user.id
-												}/${
+                        <img alt="${
+													user.name
+												}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+			user.id
+		}/${
 			user.avatar
 		}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 			user.id
@@ -670,8 +670,8 @@ async function renderTrendingPage() {
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
                         <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
-													postUser.id
-												}/${
+					postUser.id
+				}/${
 					postUser.avatar
 				}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 					postUser.id
@@ -690,7 +690,10 @@ async function renderTrendingPage() {
 				)}</a>
                 </div>
                 <div class="post-content">
-                    ${await truncateText(await md.renderInline(await cleanText(content)), 56)}
+                    ${await truncateText(
+											await md.renderInline(await cleanText(content)),
+											56
+										)}
                 </div>
                 <div class="post-created">
                     ${created} · <a href="?page=category&category=${
@@ -794,8 +797,8 @@ async function renderCategoryPage(categoryId) {
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
                         <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
-													postUser.id
-												}/${
+					postUser.id
+				}/${
 					postUser.avatar
 				}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 					postUser.id
@@ -814,7 +817,10 @@ async function renderCategoryPage(categoryId) {
 				)}</a>
                 </div>
                 <div class="post-content">
-                    ${await truncateText(await md.renderInline(await cleanText(content)), 56)}
+                    ${await truncateText(
+											await md.renderInline(await cleanText(content)),
+											56
+										)}
                 </div>
                 <div class="post-created">
                     ${created}
@@ -876,9 +882,9 @@ async function renderAddPostPage() {
 								${categoryResultList.items
 									.map((category) => {
 										if (category.name == "general") {
-										return `<option value="${category.id}" selected>${category.name}</option>`;
+											return `<option value="${category.id}" selected>${category.name}</option>`;
 										} else {
-										return `<option value="${category.id}">${category.name}</option>`;
+											return `<option value="${category.id}">${category.name}</option>`;
 										}
 									})
 									.join("")}
@@ -1041,9 +1047,11 @@ async function renderComments(isUserPageComment = false, ID = null) {
 					<div class="post-image-wrapper">
 						<div class="post-image">
 							<a href="?page=user&user=${author.id}">
-								<img alt="${author.name}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
-									author.id
-								}/${
+								<img alt="${
+									author.name
+								}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+					author.id
+				}/${
 					author.avatar
 				}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 					author.id
@@ -1057,7 +1065,10 @@ async function renderComments(isUserPageComment = false, ID = null) {
 							<a href="/?page=user&user=${author.id}">${author.name}</a> ${userBadgesIcons}
 						</div>
 						<div class="post-content">
-							${await truncateText(await md.renderInline(await cleanText(comment.content)), 56)}
+							${await truncateText(
+								await md.renderInline(await cleanText(comment.content)),
+								56
+							)}
 						</div>
 						<div class="post-created">
 							${comment.created}
