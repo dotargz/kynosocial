@@ -52,7 +52,7 @@ async function renderHomePage() {
 
 		document.getElementById("list").innerHTML = "";
 		document.getElementById("list-legend").innerHTML = "Home";
-		document.getElementById("document-title").innerHTML = "Kynosocial - Home";
+		document.getElementById("document-title").innerHTML = "kynosocial - home";
 		for (let i = 0; i < posts.length; i++) {
 			const post = posts[i];
 			const postUser = post["@expand"].author;
@@ -195,7 +195,7 @@ async function renderPostPage() {
 		}
 		const title = post.title;
 		document.getElementById("document-title").innerHTML =
-			'Kynosocial - "' + title + '"';
+			'kynosocial - "' + title + '"';
 		const content = post.content;
 		const created = post.created;
 		const html = `
@@ -289,7 +289,7 @@ async function renderUserPage() {
 		const userBadgesIcons = badgehtml;
 		// put all results into an html list
 		document.getElementById("document-title").innerHTML =
-			"Kynosocial - " + user.name + "'s profile";
+			"kynosocial - " + user.name + "'s profile";
 		document.getElementById("list").innerHTML = "";
 		document.getElementById("list-legend").innerHTML = "User";
 
@@ -648,7 +648,7 @@ async function renderTrendingPage() {
 		document.getElementById("list").innerHTML = "";
 		document.getElementById("list-legend").innerHTML = "Trending";
 		document.getElementById("document-title").innerHTML =
-			"Kynosocial - Trending";
+			"kynosocial - trending";
 		if (resultList.totalItems > 0) {
 			for (let i = 0; i < posts.length; i++) {
 				const post = posts[i];
@@ -730,7 +730,7 @@ async function renderCategoriesPage() {
 		document.getElementById("list").innerHTML = "";
 		document.getElementById("list-legend").innerHTML = "Categories";
 		document.getElementById("document-title").innerHTML =
-			"Kynosocial - Categories";
+			"kynosocial - categories";
 		for (let i = 0; i < categories.length; i++) {
 			const category = categories[i];
 			const categoryName = category.name;
@@ -773,7 +773,7 @@ async function renderCategoryPage(categoryId) {
 		document.getElementById("list").innerHTML = "";
 		document.getElementById("list-legend").innerHTML = "#" + category.name;
 		document.getElementById("document-title").innerHTML =
-			"Kynosocial - #" + category.name;
+			"kynosocial - #" + category.name;
 
 		if (resultList.totalItems > 0) {
 			for (let i = 0; i < posts.length; i++) {
@@ -856,7 +856,7 @@ async function renderAddPostPage() {
 		document.getElementById("list").innerHTML = "";
 		document.getElementById("list-legend").innerHTML = "Add Post";
 		document.getElementById("document-title").innerHTML =
-			"Kynosocial - Add Post";
+			"kynosocial - add post";
 		const html = `
 		<div class="post-item">
 			<div class="post-content-wrapper">
