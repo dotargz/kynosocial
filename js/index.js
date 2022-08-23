@@ -1006,7 +1006,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 				<div class="post-content">
 					<form id="comment-form" action="#" method="post">
 						<div class="form-group">
-							<textarea style="resize:none;width:24rem;height:3rem;" class="form-control" id="comment" name="comment" placeholder="Add a comment..." ></textarea>
+							<textarea style="resize:none;height:3rem;" class="form-control" id="comment" name="comment" placeholder="Add a comment..." ></textarea>
 							${hiddenformvalue}
 						</div>
 						<button type="submit" class="btn btn-main">\< Comment \></button>
@@ -1161,7 +1161,7 @@ async function renderManageProfile(userID) {
 								<i class="fa-solid fa-user-edit"></i> Edit Avatar
 								<form class="form-generic" id="editavatar-form" action="?page=settings" method="post" enctype="multipart/form-data">
 									<input type="file" name="avatar" id="avatar" accept="image/*">
-									<input type="submit" value="< Upload >" class="btn btn-main">
+									<input type="submit" style="width:25.33rem;max-width:90vw;" value="< Upload >" class="btn btn-main">
 								</form>
 							</div>	
 						</div>	
@@ -1171,8 +1171,8 @@ async function renderManageProfile(userID) {
 							<div class="post-content" id="edit-bio">
 							<i class="fa-solid fa-book"></i> Edit Bio
 								<form class="form-generic" id="editbio-form" action="?page=settings" method="post" enctype="multipart/form-data">
-									<textarea name="bio" id="bio" rows="4" cols="50" style="resize: none;width:97%;height:5rem;" maxlength="250">${user.bio}</textarea>
-									<input type="submit" value="< Edit Bio >" class="btn btn-main">
+									<textarea name="bio" id="bio" style="resize:none;height:5rem;width:25rem;max-width:90vw;" maxlength="250">${user.bio}</textarea>
+									<input type="submit" style="width:25.33rem;max-width:90vw;" value="< Edit Bio >" class="btn btn-main">
 								</form>
 							</div>	
 						</div>	
