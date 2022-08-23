@@ -17,6 +17,7 @@ try {
 // auth
 console.log(client.authStore.model);
 
+// utility functions
 async function truncateText(text, length) {
 	if (text.length > length) {
 		return text.substring(0, length) + "...";
@@ -29,6 +30,32 @@ async function cleanText(text) {
 	return text.replace(/(<([^>]+)>)/gi, "").trim();
 }
 
+async function getBadgeHTML(userObject) {
+	let badgehtml = "";
+	if (userObject.badges.length > 0) {
+		for (let i = 0; i < userObject.badges.length; i++) {
+			if (userObject.badges[i] == "dev") {
+				badgehtml += `<i class="fa-solid fa-code" data-tippy-content="Developer"></i> `;
+			} else if (userObject.badges[i] == "bot") {
+				badgehtml += `<i class="fa-solid fa-robot" data-tippy-content="Bot"></i> `;
+			} else if (userObject.badges[i] == "mod") {
+				badgehtml += `<i class="fa-solid fa-cogs" data-tippy-content="Moderator"></i> `;
+			} else if (userObject.badges[i] == "admin") {
+				badgehtml += `<i class="fa-solid fa-user-cog" data-tippy-content="Administrator"></i> `;
+			} else if (userObject.badges[i] == "beta") {
+				badgehtml += `<i class="fa-solid fa-user-astronaut" data-tippy-content="Beta Tester"></i> `;
+			} else if (userObject.badges[i] == "alpha") {
+				badgehtml += `<i class="fa-solid fa-user-astronaut" data-tippy-content="Alpha Tester"></i> `;
+			} else if (userObject.badges[i] == "bloom") {
+				badgehtml += `<i class="fa-solid fa-seedling" data-tippy-content="Bloom Subscriber"></i> `;
+			} else if (userObject.badges[i] == "verified") {
+				badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
+			}
+		}
+		return badgehtml;
+	}
+}
+
 async function removeItemOnce(arr, value) {
 	var index = arr.indexOf(value);
 	if (index > -1) {
@@ -37,6 +64,7 @@ async function removeItemOnce(arr, value) {
 	return arr;
 }
 
+// render functions
 async function renderHomePage() {
 	try {
 		// fetch a paginated records list
@@ -264,27 +292,7 @@ async function renderUserPage() {
 			userbio = user.bio;
 		}
 		// compute badges
-		let badgehtml = "";
-		if (user.badges.length > 0) {
-			for (let i = 0; i < user.badges.length; i++) {
-				if (user.badges[i] == "dev") {
-					badgehtml += `<i class="fa-solid fa-code" data-tippy-content="Developer"></i> `;
-				} else if (user.badges[i] == "bot") {
-					badgehtml += `<i class="fa-solid fa-robot" data-tippy-content="Bot"></i> `;
-				} else if (user.badges[i] == "mod") {
-					badgehtml += `<i class="fa-solid fa-cogs" data-tippy-content="Moderator"></i> `;
-				} else if (user.badges[i] == "admin") {
-					badgehtml += `<i class="fa-solid fa-user-cog" data-tippy-content="Administrator"></i> `;
-				} else if (user.badges[i] == "beta") {
-					badgehtml += `<i class="fa-solid fa-user-astronaut" data-tippy-content="Beta Tester"></i> `;
-				} else if (user.badges[i] == "bloom") {
-					badgehtml += `<i class="fa-solid fa-seedling" data-tippy-content="Bloom Subscriber"></i> `;
-				} else if (user.badges[i] == "verified") {
-					badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
-				}
-			}
-		}
-		const userBadgesIcons = badgehtml;
+		const userBadgesIcons = await getBadgeHTML(user);
 		// put all results into an html list
 		document.getElementById("document-title").innerHTML =
 			"kynosocial - " + user.name + "'s profile";
@@ -1021,27 +1029,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 				const comment = comments[i];
 				const author = comment["@expand"].author;
 				// compute badges
-				let badgehtml = "";
-				if (author.badges.length > 0) {
-					for (let i = 0; i < author.badges.length; i++) {
-						if (author.badges[i] == "dev") {
-							badgehtml += `<i class="fa-solid fa-code" data-tippy-content="Developer"></i> `;
-						} else if (author.badges[i] == "bot") {
-							badgehtml += `<i class="fa-solid fa-robot" data-tippy-content="Bot"></i> `;
-						} else if (author.badges[i] == "mod") {
-							badgehtml += `<i class="fa-solid fa-cogs" data-tippy-content="Moderator"></i> `;
-						} else if (author.badges[i] == "admin") {
-							badgehtml += `<i class="fa-solid fa-user-cog" data-tippy-content="Administrator"></i> `;
-						} else if (author.badges[i] == "beta") {
-							badgehtml += `<i class="fa-solid fa-user-astronaut" data-tippy-content="Beta Tester"></i> `;
-						} else if (author.badges[i] == "bloom") {
-							badgehtml += `<i class="fa-solid fa-seedling" data-tippy-content="Bloom Subscriber"></i> `;
-						} else if (author.badges[i] == "verified") {
-							badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
-						}
-					}
-				}
-				const userBadgesIcons = badgehtml;
+				const userBadgesIcons = await getBadgeHTML(author);
 				const html = `
 				<div class="post-item">
 					<div class="post-image-wrapper">
