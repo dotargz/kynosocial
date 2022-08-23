@@ -127,7 +127,7 @@ em > .post-created, strong > .post-created, a > .post-created {
 }
 
 #nav-links {
-	width: 24rem;
+	width: 25rem;
 	max-width: 95vw;
 	font-size: 0.9em;
     display: flex;
