@@ -72,7 +72,7 @@ async function renderHomePage() {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+                        <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
 												}/${
 				postUser.avatar
@@ -203,7 +203,7 @@ async function renderPostPage() {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+                        <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
 												}/${
 			postUser.avatar
@@ -316,7 +316,7 @@ async function renderUserPage() {
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
-                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+                        <img alt="${user.name}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													user.id
 												}/${
 			user.avatar
@@ -669,7 +669,7 @@ async function renderTrendingPage() {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+                        <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
 												}/${
 					postUser.avatar
@@ -793,7 +793,7 @@ async function renderCategoryPage(categoryId) {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+                        <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 													postUser.id
 												}/${
 					postUser.avatar
@@ -956,7 +956,7 @@ async function renderErrorPage(err, div) {
 	//document.getElementById(`${div}-legend`).innerHTML = "Error";
 	document.getElementById(
 		div
-	).innerHTML = `<img src="img/error.gif" width="85%"><p><i class="fa-solid fa-bug"></i> An error has occurred.</p><span class="post-created">(${err})</span>`;
+	).innerHTML = `<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="85%"><p><i class="fa-solid fa-bug"></i> An error has occurred.</p><span class="post-created">(${err})</span>`;
 }
 
 async function renderComments(isUserPageComment = false, ID = null) {
@@ -1041,7 +1041,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 					<div class="post-image-wrapper">
 						<div class="post-image">
 							<a href="?page=user&user=${author.id}">
-								<img src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+								<img alt="${author.name}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
 									author.id
 								}/${
 					author.avatar
