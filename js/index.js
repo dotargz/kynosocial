@@ -51,8 +51,8 @@ async function renderHomePage() {
 		// put all results into an html list
 
 		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "Home";
-		document.getElementById("document-title").innerHTML = "kynosocial - home";
+		document.getElementById("list-legend").innerHTML = "Recent";
+		document.getElementById("document-title").innerHTML = "kynosocial - recent";
 		for (let i = 0; i < posts.length; i++) {
 			const post = posts[i];
 			const postUser = post["@expand"].author;
@@ -814,7 +814,7 @@ async function renderCategoryPage(categoryId) {
 				)}</a>
                 </div>
                 <div class="post-content">
-                    ${await truncateText(content, 56)}
+                    ${await truncateText(await md.renderInline(await cleanText(content)), 56)}
                 </div>
                 <div class="post-created">
                     ${created}
