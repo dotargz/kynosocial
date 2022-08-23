@@ -45,7 +45,7 @@ async function getBadgeHTML(userObject) {
 			} else if (userObject.badges[i] == "beta") {
 				badgehtml += `<i class="fa-solid fa-user-astronaut" data-tippy-content="Beta Tester"></i> `;
 			} else if (userObject.badges[i] == "alpha") {
-				badgehtml += `<i class="fa-solid fa-user-astronaut" data-tippy-content="Alpha Tester"></i> `;
+				badgehtml += `<i class="fa-solid fa-flask-vial" data-tippy-content="Alpha Tester"></i> `;
 			} else if (userObject.badges[i] == "bloom") {
 				badgehtml += `<i class="fa-solid fa-seedling" data-tippy-content="Bloom Subscriber"></i> `;
 			} else if (userObject.badges[i] == "verified") {
