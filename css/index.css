@@ -290,7 +290,8 @@ select {
 	border: 1px solid black;
 	font-family: "Fira Mono", monospace;
 	height: 1.3rem;
-	width: 100%;
+	width: 25rem;
+    max-width: 90vw;
 	font-size: 0.8em;
 	background-color: #f2f2f2;
 	transition: cubic-bezier(1, 0.46, 1, 0) 0.15s;
