@@ -1006,7 +1006,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 				<div class="post-content">
 					<form id="comment-form" action="#" method="post">
 						<div class="form-group">
-							<textarea style="resize:none;height:3rem;" class="form-control" id="comment" name="comment" placeholder="Add a comment..." ></textarea>
+							<textarea style="resize:none;height:5rem;width:24.8rem;max-width:90vw;" class="form-control" id="comment" name="comment" placeholder="Add a comment..." ></textarea>
 							${hiddenformvalue}
 						</div>
 						<button type="submit" class="btn btn-main">\< Comment \></button>
