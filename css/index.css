@@ -194,8 +194,8 @@ a:hover,
 	flex-direction: column;
 	align-items: center;
 	justify-content: left;
-	max-width: 25rem;
-	width: 100%;
+	width: 25rem;
+	max-width: 90vw;
 }
 
 small {
@@ -319,7 +319,7 @@ button {
 }
 
 /* Media Queries */
-@media screen and (max-width: 25rem) {
+@media screen and (max-width: 25em) {
 	.post-item {
 		width: 100%;
 	}
