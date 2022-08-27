@@ -6,6 +6,8 @@ html {
 	width: 100%;
 	background-color: #f2f2f2;
 	font-family: "Fira Mono", monospace;
+    color: black;
+    background: hsl(0,0%,90%) url("/img/noise.png");
 }
 
 #main {
@@ -293,7 +295,8 @@ select {
 	width: 25rem;
     max-width: 90vw;
 	font-size: 0.8em;
-	background-color: #f2f2f2;
+	color: black;
+    background-color: hsl(0,0%,90%) url("/img/noise.png");
 	transition: cubic-bezier(1, 0.46, 1, 0) 0.15s;
 }
 
@@ -308,12 +311,15 @@ button:focus {
 	outline: purple solid 1px;
 	border: purple solid 1px;
 	background-color: white;
+    color: black;
+    background-color: hsl(0,0%,90%) url("/img/noise.png");
 }
 
 input[type="file"]:focus {
 	border: none;
 	outline: none;
-	background-color: #f2f2f2;
+    color: black;
+    background: hsl(0,0%,90%) url("/img/noise.png");
 }
 
 button {

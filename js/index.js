@@ -8,7 +8,7 @@ import PocketBase from "./pocketbase.es.mjs";
 let client;
 
 try {
-	client = new PocketBase("https://api.kynosocial.onespark.dev");
+	client = new PocketBase("https://backend.kyno.social");
 } catch (error) {
 	console.log(error);
 	renderErrorPage("Failed to load client", "list");
@@ -100,7 +100,7 @@ async function renderHomePage() {
 				<div class="post-image-wrapper">
 					<div class="post-image">
 						<a href="?page=user&user=${postUser.id}">
-							<img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+							<img alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 				postUser.id
 			}/${
 				postUser.avatar
@@ -229,7 +229,7 @@ async function renderPostPage() {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+                        <img alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 			postUser.id
 		}/${
 			postUser.avatar
@@ -324,7 +324,7 @@ async function renderUserPage() {
                 <div class="post-image">
                         <img alt="${
 													user.name
-												}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+												}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 			user.id
 		}/${
 			user.avatar
@@ -677,7 +677,7 @@ async function renderTrendingPage() {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+                        <img alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 					postUser.id
 				}/${
 					postUser.avatar
@@ -804,7 +804,7 @@ async function renderCategoryPage(categoryId) {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img alt="${postUserName}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+                        <img alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 					postUser.id
 				}/${
 					postUser.avatar
@@ -1037,7 +1037,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 							<a href="?page=user&user=${author.id}">
 								<img alt="${
 									author.name
-								}'s profile picture" src="https://api.kynosocial.onespark.dev/api/files/systemprofiles0/${
+								}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 					author.id
 				}/${
 					author.avatar
