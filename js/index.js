@@ -145,7 +145,7 @@ async function renderNotices() {
 			document.getElementById("list-notice").style.display = "flex";
 			document.getElementById("list-notice-fieldset").style.display = "block";
 			document.getElementById("list-notice").innerHTML =
-				'<p>You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to post.<br style="margin-bottom:0.5rem;"><a href="?page=signup"><button class="btn-main">< Sign up ></button></a> <a href="?page=signin"><button class="btn-alt">< Sign in ></button></a></p>';
+				'<p>You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to post.<br><a href="?page=signup"><button class="btn-main">< Sign up ></button></a> <a href="?page=signin"><button class="btn-alt">< Sign in ></button></a></p>';
 		}
 	} catch (error) {
 		console.log(error);
@@ -307,14 +307,14 @@ async function renderUserPage() {
 		) {
 			followbutton = ``;
 		} else {
-			followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main" style="font-size:0.5rem;width:64px;">< Follow ></button></a>`;
+			followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main followbtn-small">< Follow ></button></a>`;
 			// add event listener to follow button
 		}
 
 		// if already following, change button to unfollow
 		if (client.authStore.isValid == true) {
 			if (self.following.includes(user.id)) {
-				followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main" style="font-size:0.48rem;width:64px;">< Unfollow ></button></a>`;
+				followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main followbtn-small">< Unfollow ></button></a>`;
 			}
 		}
 
@@ -717,7 +717,7 @@ async function renderTrendingPage() {
 			<div class="post-item">
 				<div class="post-content-wrapper">
 					<div class="post-content">
-					<i class="fa-solid fa-arrow-trend-up"></i> No trending posts right now.
+						<i class="fa-solid fa-arrow-trend-up"></i> No trending posts right now.
 					</div>
 				</div>
 			</div>
@@ -1014,7 +1014,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 				<div class="post-content">
 					<form id="comment-form" action="#" method="post">
 						<div class="form-group">
-							<textarea style="resize:none;height:5rem;width:24.8rem;max-width:90vw;" class="form-control" id="comment" name="comment" placeholder="Add a comment..." ></textarea>
+							<textarea class="comment-ta" class="form-control" id="comment" name="comment" placeholder="Add a comment..." ></textarea>
 							${hiddenformvalue}
 						</div>
 						<button type="submit" class="btn btn-main">\< Comment \></button>
@@ -1149,7 +1149,7 @@ async function renderManageProfile(userID) {
 								<i class="fa-solid fa-user-edit"></i> Edit Avatar
 								<form class="form-generic" id="editavatar-form" action="?page=settings" method="post" enctype="multipart/form-data">
 									<input type="file" name="avatar" id="avatar" accept="image/*">
-									<input type="submit" style="width:25.33rem;max-width:90vw;" value="< Upload >" class="btn btn-main">
+									<input type="submit" class="upload-i" value="< Save Avatar >" class="btn btn-main">
 								</form>
 							</div>	
 						</div>	
@@ -1159,9 +1159,28 @@ async function renderManageProfile(userID) {
 							<div class="post-content" id="edit-bio">
 							<i class="fa-solid fa-book"></i> Edit Bio
 								<form class="form-generic" id="editbio-form" action="?page=settings" method="post" enctype="multipart/form-data">
-									<textarea name="bio" id="bio" style="resize:none;height:5rem;width:25rem;max-width:90vw;" maxlength="250">${user.bio}</textarea>
-									<input type="submit" style="width:25.33rem;max-width:90vw;" value="< Edit Bio >" class="btn btn-main">
+									<textarea name="bio" id="bio" maxlength="250">${
+										user.bio
+									}</textarea>
+									<input type="submit" class="upload-i" value="< Save Bio >" class="btn btn-main">
 								</form>
+							</div>	
+						</div>	
+					</div>
+					<div class="post-item">
+						<div class="post-content-wrapper">
+							<div class="post-content" id="edit-bio">
+							<i class="fa-solid fa-book"></i> Edit Theme
+								<form class="form-generic" id="edittheme-form" action="?page=settings" method="post" enctype="multipart/form-data">
+									<select name="theme" id="theme">
+										<option value="old" ${
+											localStorage.getItem("theme") == "old" ? "selected" : ""
+										}>Old</option>
+										<option value="new" ${
+											localStorage.getItem("theme") == "new" ? "selected" : ""
+										}>New</option>
+									</select>
+									<input type="submit" class="upload-i" value="< Save Theme >" class="btn btn-main">
 							</div>	
 						</div>	
 					</div>
@@ -1187,6 +1206,13 @@ async function renderManageProfile(userID) {
 				form1.attachEvent("submit", editBioFromForm);
 			} else {
 				form1.addEventListener("submit", editBioFromForm);
+			}
+			// add event listener to edit theme form
+			var form2 = document.getElementById("edittheme-form");
+			if (form2.attachEvent) {
+				form2.attachEvent("submit", editThemeFromForm);
+			} else {
+				form2.addEventListener("submit", editThemeFromForm);
 			}
 		}
 	} catch (error) {
@@ -1241,6 +1267,24 @@ async function editBioFromForm(e) {
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to edit bio", "settings");
+	}
+}
+
+async function editThemeFromForm(e) {
+	try {
+		e.preventDefault();
+		const form = e.target;
+		const theme = form.theme.value;
+		if (theme == undefined) {
+			console.log("no theme");
+			return;
+		}
+		localStorage.setItem("theme", theme);
+		form.reset();
+		window.location.href = "/?page=user&user=" + client.authStore.model.profile.id;
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to edit theme", "settings");
 	}
 }
 

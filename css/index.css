@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
+
 body,
 html {
 	margin: 0;
@@ -350,4 +352,32 @@ superscript {
 
 .views-icon {
 	margin-right: 0.2rem;
+}
+
+br {
+	margin-bottom:0.5rem;
+}
+
+
+/* Patched CSS */
+.followbtn-small {
+	font-size:0.5rem;
+	width:64px;
+}
+
+.comment-ta {
+	resize:none;height:5rem;width:24.8rem;max-width:90vw;
+}
+
+.upload-i {
+	width:25.33rem;
+	max-width:90vw;
+}
+
+#theme {
+	width:25rem;max-width:90vw;
+}
+
+#bio {
+	resize:none;height:5rem;width:25rem;max-width:90vw;
 }

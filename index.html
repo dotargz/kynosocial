@@ -38,10 +38,20 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script src="https://kit.fontawesome.com/9cb2f2488a.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="css/index.css">
+
+    <!-- Dynamic CSS based on current theme -->
+    <script>
+        const theme = localStorage.getItem('theme');
+        if (theme === 'new') {
+            document.write('<link rel="stylesheet" href="/css/newtheme.css">');
+        } else if (theme === 'old') {
+            document.write('<link rel="stylesheet" href="/css/index.css">');
+        } else {
+            document.write('<link rel="stylesheet" href="/css/index.css">');
+            localStorage.setItem('theme', 'old');
+        }
+        console.log("Current theme: " + theme);
+    </script>
 </head>
 <body>
     <div id="main">
@@ -51,7 +61,7 @@
                 <i class="fa-solid fa-plus"></i>
             </div>
             </a>
-            <h1 id="h1-title"><brandname>kynosocial<superscript>αlpha</superscript></brandname></h1>
+            <h1 id="h1-title"><brandname>kynosocial<superscript>alpha</superscript></brandname></h1>
             <a href="?page=proflie" id="nav-profile-link">
             <div id="nav-profile">
                 <i class="fa-solid fa-user"></i>
