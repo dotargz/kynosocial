@@ -41,13 +41,12 @@
 
     <!-- Dynamic CSS based on current theme -->
     <script>
-        const theme = localStorage.getItem('theme');
-        if (theme === 'modern') {
-            document.write('<link rel="stylesheet" href="/css/themes/modern.css">');
-        } else if (theme === 'retro') {
+        const theme = localStorage.getItem('theme') || 'retro';
+        try {
+            document.write(`<link rel="stylesheet" href="/css/themes/${theme}.css">`);
+        } catch(error) {
             document.write('<link rel="stylesheet" href="/css/themes/retro.css">');
-        } else {
-            document.write('<link rel="stylesheet" href="/css/themes/retro.css">');
+            console.log(error);
             localStorage.setItem('theme', 'retro');
         }
         console.log("Current theme: " + theme);
@@ -104,6 +103,9 @@
                 <p><i class="fa-solid fa-gear fa-spin"></i> Loading comments...</p>
             </div>
         </fieldset>
+        <div id="footer">
+            <p>© 2022 kynosocial. All rights reserved.</p>
+        </div>
     </div>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>

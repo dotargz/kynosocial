@@ -357,6 +357,8 @@ textarea {
     resize: none;
     padding: 0.2rem;
     font-size: var(--small-font-size);
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     transition: 0.2s;
 }
 
@@ -364,6 +366,7 @@ select {
     border: 2px solid var(--secondary-color);
     border-radius: var(--border-radius);
     background-color: var(--primary-color);
+    color: var(--secondary-color);
     width: 100%;
     height: 2rem;
     padding: 0.2rem;

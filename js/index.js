@@ -970,7 +970,7 @@ async function renderErrorPage(err, div) {
 	//document.getElementById(`${div}-legend`).innerHTML = "Error";
 	document.getElementById(
 		div
-	).innerHTML = `<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="85%"><p><i class="fa-solid fa-bug"></i> An error has occurred.</p><span class="post-created">(${err})</span>`;
+	).innerHTML = `<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="100%"><p><i class="fa-solid fa-bug"></i> An error has occurred.</p><span class="post-created">(${err})</span>`;
 }
 
 async function renderComments(isUserPageComment = false, ID = null) {
@@ -1128,6 +1128,23 @@ async function commentFromForm(e) {
 	}
 }
 
+async function getThemeSelectorHTML() {
+	try {
+		// Theme files are stored in the /css/themes folder
+		const themes = ["modern", "retro", "minimalist", "modern-dark"];
+		let html = "";
+		for (let i = 0; i < themes.length; i++) {
+			const theme = themes[i];
+			html += `<option value="${theme}" ${localStorage.getItem("theme") == theme ? "selected" : ""}>${theme}</option>`;
+		}
+		console.log(html);
+		return html;
+
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 async function renderManageProfile(userID) {
 	try {
 		if (
@@ -1160,7 +1177,7 @@ async function renderManageProfile(userID) {
 							<i class="fa-solid fa-book"></i> Edit Bio
 								<form class="form-generic" id="editbio-form" action="?page=settings" method="post" enctype="multipart/form-data">
 									<textarea name="bio" id="bio" maxlength="250">${
-										user.bio
+										user.bio 
 									}</textarea>
 									<input type="submit" class="upload-i" value="< Save Bio >" class="btn btn-main">
 								</form>
@@ -1173,14 +1190,10 @@ async function renderManageProfile(userID) {
 							<i class="fa-solid fa-book"></i> Edit Theme
 								<form class="form-generic" id="edittheme-form" action="?page=settings" method="post" enctype="multipart/form-data">
 									<select name="theme" id="theme">
-										<option value="retro" ${
-											localStorage.getItem("theme") == "retro" ? "selected" : ""
-										}>Retro</option>
-										<option value="modern" ${
-											localStorage.getItem("theme") == "modern" ? "selected" : ""
-										}>Modern</option>
+									${await getThemeSelectorHTML()}
 									</select>
 									<input type="submit" class="upload-i" value="< Save Theme >" class="btn btn-main">
+								</form>
 							</div>	
 						</div>	
 					</div>
