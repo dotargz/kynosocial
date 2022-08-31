@@ -38,6 +38,7 @@ html {
 	font-weight: bold;
 	font-size: var(--large-font-size);
 	word-wrap: break-word;
+	width: 100%;
 }
 
 .post-content {
