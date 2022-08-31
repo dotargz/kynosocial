@@ -1173,12 +1173,12 @@ async function renderManageProfile(userID) {
 							<i class="fa-solid fa-book"></i> Edit Theme
 								<form class="form-generic" id="edittheme-form" action="?page=settings" method="post" enctype="multipart/form-data">
 									<select name="theme" id="theme">
-										<option value="old" ${
-											localStorage.getItem("theme") == "old" ? "selected" : ""
-										}>Old</option>
-										<option value="new" ${
-											localStorage.getItem("theme") == "new" ? "selected" : ""
-										}>New</option>
+										<option value="retro" ${
+											localStorage.getItem("theme") == "retro" ? "selected" : ""
+										}>Retro</option>
+										<option value="modern" ${
+											localStorage.getItem("theme") == "modern" ? "selected" : ""
+										}>Modern</option>
 									</select>
 									<input type="submit" class="upload-i" value="< Save Theme >" class="btn btn-main">
 							</div>	

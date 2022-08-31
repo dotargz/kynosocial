@@ -42,16 +42,17 @@
     <!-- Dynamic CSS based on current theme -->
     <script>
         const theme = localStorage.getItem('theme');
-        if (theme === 'new') {
-            document.write('<link rel="stylesheet" href="/css/newtheme.css">');
-        } else if (theme === 'old') {
-            document.write('<link rel="stylesheet" href="/css/index.css">');
+        if (theme === 'modern') {
+            document.write('<link rel="stylesheet" href="/css/themes/modern.css">');
+        } else if (theme === 'retro') {
+            document.write('<link rel="stylesheet" href="/css/themes/retro.css">');
         } else {
-            document.write('<link rel="stylesheet" href="/css/index.css">');
-            localStorage.setItem('theme', 'old');
+            document.write('<link rel="stylesheet" href="/css/themes/retro.css">');
+            localStorage.setItem('theme', 'retro');
         }
         console.log("Current theme: " + theme);
     </script>
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body>
     <div id="main">
