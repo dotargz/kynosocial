@@ -280,11 +280,13 @@ fieldset {
 #comments-fieldset {
 	display: none;
     width: calc(100% - 1.2rem - 8px);
+	max-width: calc(100% - 1.2rem - 8px);
 }
 
 #list-fieldset {
     width: 95%;
     width: calc(100% - 1.2rem - 8px);
+    max-width: calc(100% - 1.2rem - 8px);
 }
 
 /* Forms */
