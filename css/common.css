@@ -37,13 +37,13 @@ html {
 .user-title {
 	font-weight: bold;
 	font-size: var(--large-font-size);
-	word-wrap: break-word;
+	word-break: break-word;
 	width: 100%;
 }
 
 .post-content {
 	font-size: var(--primary-font-size);
-	word-wrap: break-word;
+    word-break: break-word;
 	width: 100%;
 }
 
@@ -74,7 +74,7 @@ a > .post-created {
 .post-username {
 	font-size: var(--small-font-size);
 	color: var(--secondary-color);
-	word-wrap: break-word;
+	word-break: break-word;
 }
 
 /* Base styling */
