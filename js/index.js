@@ -106,7 +106,7 @@ async function renderHomePage() {
 				postUser.id
 			}/${
 				postUser.avatar
-			}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+			}?thumb=64x64" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 				postUser.id
 			}.svg?colors[]=grey'">
 						</a>
@@ -235,7 +235,7 @@ async function renderPostPage() {
 			postUser.id
 		}/${
 			postUser.avatar
-		}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+		}?thumb=64x64" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 			postUser.id
 		}.svg?colors[]=grey'">
                     </a>
@@ -330,7 +330,7 @@ async function renderUserPage() {
 			user.id
 		}/${
 			user.avatar
-		}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+		}?thumb=64x64" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 			user.id
 		}.svg?colors[]=grey'">
                 </div>
@@ -683,7 +683,7 @@ async function renderTrendingPage() {
 					postUser.id
 				}/${
 					postUser.avatar
-				}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+				}?thumb=64x64" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 					postUser.id
 				}.svg?colors[]=grey'">
                     </a>
@@ -810,7 +810,7 @@ async function renderCategoryPage(categoryId) {
 					postUser.id
 				}/${
 					postUser.avatar
-				}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+				}?thumb=64x64" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 					postUser.id
 				}.svg?colors[]=grey'">
                     </a>
@@ -1043,7 +1043,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 					author.id
 				}/${
 					author.avatar
-				}" width="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+				}?thumb=64x64" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
 					author.id
 				}.svg?colors[]=grey'">
 							</a>
