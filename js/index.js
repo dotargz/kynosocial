@@ -1166,7 +1166,7 @@ async function renderManageProfile(userID) {
 								<i class="fa-solid fa-user-edit"></i> Edit Avatar
 								<form class="form-generic" id="editavatar-form" action="?page=settings" method="post" enctype="multipart/form-data">
 									<input type="file" name="avatar" id="avatar" accept="image/*">
-									<input type="submit" class="upload-i" value="< Save Avatar >" class="btn btn-main">
+									<input type="submit" class="upload-i" id="avatarupload" value="< Save Avatar >" class="btn btn-main">
 								</form>
 							</div>	
 						</div>	
@@ -1237,11 +1237,14 @@ async function renderManageProfile(userID) {
 async function editAvatarFromForm(e) {
 	try {
 		e.preventDefault();
+		const button = document.getElementById("avatarupload");
+		button.disabled = true;
+		button.value = "< Uploading... >";
 		const form = e.target;
 		const avatar = form.avatar.files[0];
 		if (avatar == undefined) {
-			console.log("no avatar");
-			return;
+			window.location.href =
+			"/?page=user&user=" + client.authStore.model.profile.id;
 		}
 		console.log(client.authStore.model.profile.badges);
 		await client.users.refresh();
