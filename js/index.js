@@ -52,7 +52,7 @@ async function getBadgeHTML(userObject) {
 				badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
 			}
 		}
-		return badgehtml;
+		return badgehtml || "";
 	}
 }
 
