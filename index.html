@@ -36,14 +36,14 @@
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es7"></script>
     <script src="https://kit.fontawesome.com/9cb2f2488a.js" crossorigin="anonymous"></script>
-    
 
+    <link rel="stylesheet" href="/css/common.css">
+    
     <!-- Dynamic CSS based on current theme -->
     <script>
         const theme = localStorage.getItem('theme') || 'modern';
-        document.write('<link rel="stylesheet" href="/css/themes/' + theme + '.css">');
+        document.write(`<link rel="stylesheet" href="/css/themes/${theme}.css">`);
     </script>
-    <link rel="stylesheet" href="/css/common.css">
 </head>
 <body>
     <div id="main">
