@@ -50,10 +50,12 @@ async function getBadgeHTML(userObject) {
 				badgehtml += `<i class="fa-solid fa-seedling" data-tippy-content="Bloom Subscriber"></i> `;
 			} else if (userObject.badges[i] == "verified") {
 				badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
+			} else {
+				badgehtml += `<i class="fa-solid fa-question" data-tippy-content="Secret Badge"></i> `;
 			}
 		}
-		return badgehtml || "";
 	}
+	return badgehtml || "";
 }
 
 async function removeItemOnce(arr, value) {
