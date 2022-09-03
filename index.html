@@ -41,7 +41,10 @@
     
     <!-- Dynamic CSS based on current theme -->
     <script>
-        const theme = localStorage.getItem('theme') || 'modern';
+        const theme = localStorage.getItem('theme');
+        if (theme == undefined || theme == null) {
+            localStorage.setItem('theme', 'modern');
+        }
         document.write(`<link rel="stylesheet" href="/css/themes/${theme}.css">`);
     </script>
 </head>

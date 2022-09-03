@@ -1133,7 +1133,7 @@ async function commentFromForm(e) {
 async function getThemeSelectorHTML() {
 	try {
 		// Theme files are stored in the /css/themes folder
-		const themes = ["modern", "retro", "minimalist", "modern-dark"];
+		const themes = ["modern", "retro"];
 		let html = "";
 		for (let i = 0; i < themes.length; i++) {
 			const theme = themes[i];
