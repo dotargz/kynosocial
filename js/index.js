@@ -1137,11 +1137,12 @@ async function getThemeSelectorHTML() {
 		let html = "";
 		for (let i = 0; i < themes.length; i++) {
 			const theme = themes[i];
-			html += `<option value="${theme}" ${localStorage.getItem("theme") == theme ? "selected" : ""}>${theme}</option>`;
+			html += `<option value="${theme}" ${
+				localStorage.getItem("theme") == theme ? "selected" : ""
+			}>${theme}</option>`;
 		}
 		console.log(html);
 		return html;
-
 	} catch (error) {
 		console.log(error);
 	}
@@ -1178,9 +1179,7 @@ async function renderManageProfile(userID) {
 							<div class="post-content" id="edit-bio">
 							<i class="fa-solid fa-book"></i> Edit Bio
 								<form class="form-generic" id="editbio-form" action="?page=settings" method="post" enctype="multipart/form-data">
-									<textarea name="bio" id="bio" maxlength="250">${
-										user.bio 
-									}</textarea>
+									<textarea name="bio" id="bio" maxlength="250">${user.bio}</textarea>
 									<input type="submit" class="upload-i" value="< Save Bio >" class="btn btn-main">
 								</form>
 							</div>	
@@ -1246,7 +1245,7 @@ async function editAvatarFromForm(e) {
 		const avatar = form.avatar.files[0];
 		if (avatar == undefined) {
 			window.location.href =
-			"/?page=user&user=" + client.authStore.model.profile.id;
+				"/?page=user&user=" + client.authStore.model.profile.id;
 		}
 		console.log(client.authStore.model.profile.badges);
 		await client.users.refresh();
@@ -1299,7 +1298,8 @@ async function editThemeFromForm(e) {
 		}
 		localStorage.setItem("theme", theme);
 		form.reset();
-		window.location.href = "/?page=user&user=" + client.authStore.model.profile.id;
+		window.location.href =
+			"/?page=user&user=" + client.authStore.model.profile.id;
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to edit theme", "settings");
