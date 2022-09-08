@@ -1055,10 +1055,7 @@ async function renderComments(isUserPageComment = false, ID = null) {
 							<a href="/?page=user&user=${author.id}">${author.name}</a> ${userBadgesIcons}
 						</div>
 						<div class="post-content">
-							${await truncateText(
-								await md.renderInline(await cleanText(comment.content)),
-								56
-							)}
+							${await md.renderInline(await cleanText(comment.content))}
 						</div>
 						<div class="post-created">
 							${comment.created}
