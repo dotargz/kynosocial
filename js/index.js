@@ -1346,7 +1346,7 @@ async function renderPage() {
 		tippy("[data-tippy-content]");
 	} catch (error) {
 		console.log(error);
-		await renderErrorPage();
+		await renderErrorPage("Failed to load literally anything", "list");
 	}
 }
 
