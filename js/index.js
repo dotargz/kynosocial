@@ -1352,3 +1352,8 @@ async function renderPage() {
 
 // render page
 await renderPage();
+
+// console log warning to protect user account
+console.log(
+	"%c\r\n\r\n __        ___    ____  _   _ ___ _   _  ____ _ \r\n \\ \\      \/ \/ \\  |  _ \\| \\ | |_ _| \\ | |\/ ___| |\r\n  \\ \\ \/\\ \/ \/ _ \\ | |_) |  \\| || ||  \\| | |  _| |\r\n   \\ V  V \/ ___ \\|  _ <| |\\  || || |\\  | |_| |_|\r\n    \\_\/\\_\/_\/   \\_\\_| \\_\\_| \\_|___|_| \\_|\\____(_)\r\n\r\n\rThis is the browser console.\nIf you do not know what you are doing,\nplease do not enter any commands here or paste any code.\nDoing so may compromise your account.\r\n\r\n", "color: red; font-size: 2.5vmin;"
+);
