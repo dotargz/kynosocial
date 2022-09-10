@@ -67,10 +67,10 @@ async function removeItemOnce(arr, value) {
 }
 
 // render functions
-async function renderHomePage() {
+async function renderHomePage(section = 1) {
 	try {
 		// fetch a paginated records list
-		const resultList = await client.records.getList("posts", 1, 15, {
+		const resultList = await client.records.getList("posts", section, 15, {
 			filter: 'created >= "2022-01-01 00:00:00"',
 			sort: "-created,id",
 			expand: "author,category",
@@ -133,6 +133,34 @@ async function renderHomePage() {
 				</div>
 			</div>`;
 			document.getElementById("list").innerHTML += html;
+		}
+
+		// render pagination with arrow buttons
+		// only render up to 5 pages, the current page, and the 2 pages before and after it
+		if (resultList.totalPages > 1) {
+			const pagination = document.getElementById("pagination");
+			pagination.innerHTML = "";
+			const page = resultList.page;
+			const pages = resultList.totalPages;
+			const start = Math.max(1, page - 2);
+			const end = Math.min(pages, page + 2);
+			if (page > 1) {
+				pagination.innerHTML += `<a href="?page=home&section=${
+					page - 1
+				}"><i class="fa-solid fa-chevron-left"></i></a>`;
+			}
+			for (let i = start; i <= end; i++) {
+				if (i == page) {
+					pagination.innerHTML += `<a href="?page=home&section=${i}" class="active">${i}</a>`;
+				} else {
+					pagination.innerHTML += `<a href="?page=home&section=${i}">${i}</a>`;
+				}
+			}
+			if (page < pages) {
+				pagination.innerHTML += `<a href="?page=home&section=${
+					page + 1
+				}"><i class="fa-solid fa-chevron-right"></i></a>`;
+			}
 		}
 	} catch (error) {
 		console.log(error);
@@ -635,10 +663,10 @@ async function renderSignoutPage() {
 	window.location.href = "/";
 }
 
-async function renderTrendingPage() {
+async function renderTrendingPage(section = 1) {
 	try {
 		// only show posts from the last week
-		const resultList = await client.records.getList("posts", 1, 15, {
+		const resultList = await client.records.getList("posts", section, 15, {
 			filter:
 				'created >= "' +
 				DateTime.now()
@@ -714,6 +742,34 @@ async function renderTrendingPage() {
         </div>`;
 				document.getElementById("list").innerHTML += html;
 			}
+
+			// render pagination with arrow buttons
+			// only render up to 5 pages, the current page, and the 2 pages before and after it
+			if (resultList.totalPages > 1) {
+				const pagination = document.getElementById("pagination");
+				pagination.innerHTML = "";
+				const page = resultList.page;
+				const pages = resultList.totalPages;
+				const start = Math.max(1, page - 2);
+				const end = Math.min(pages, page + 2);
+				if (page > 1) {
+					pagination.innerHTML += `<a href="?page=trending&section=${
+						page - 1
+					}"><i class="fa-solid fa-chevron-left"></i></a>`;
+				}
+				for (let i = start; i <= end; i++) {
+					if (i == page) {
+						pagination.innerHTML += `<a href="?page=trending&section=${i}" class="active">${i}</a>`;
+					} else {
+						pagination.innerHTML += `<a href="?page=trending&section=${i}">${i}</a>`;
+					}
+				}
+				if (page < pages) {
+					pagination.innerHTML += `<a href="?page=trending&section=${
+						page + 1
+					}"><i class="fa-solid fa-chevron-right"></i></a>`;
+				}
+			}
 		} else {
 			document.getElementById("list").innerHTML = `
 			<div class="post-item">
@@ -731,9 +787,9 @@ async function renderTrendingPage() {
 	}
 }
 
-async function renderCategoriesPage() {
+async function renderCategoriesPage(section) {
 	try {
-		const resultList = await client.records.getList("categories", 1, 15, {
+		const resultList = await client.records.getList("categories", section, 15, {
 			sort: "name",
 		});
 		console.log(resultList);
@@ -765,16 +821,43 @@ async function renderCategoriesPage() {
 		</div>`;
 			document.getElementById("list").innerHTML += html;
 		}
+		// render pagination with arrow buttons
+		// only render up to 5 pages, the current page, and the 2 pages before and after it
+		if (resultList.totalPages > 1) {
+			const pagination = document.getElementById("pagination");
+			pagination.innerHTML = "";
+			const page = resultList.page;
+			const pages = resultList.totalPages;
+			const start = Math.max(1, page - 2);
+			const end = Math.min(pages, page + 2);
+			if (page > 1) {
+				pagination.innerHTML += `<a href="?page=categories&section=${
+					page - 1
+				}"><i class="fa-solid fa-chevron-left"></i></a>`;
+			}
+			for (let i = start; i <= end; i++) {
+				if (i == page) {
+					pagination.innerHTML += `<a href="?page=categories&section=${i}" class="active">${i}</a>`;
+				} else {
+					pagination.innerHTML += `<a href="?page=categories&section=${i}">${i}</a>`;
+				}
+			}
+			if (page < pages) {
+				pagination.innerHTML += `<a href="?page=categories&section=${
+					page + 1
+				}"><i class="fa-solid fa-chevron-right"></i></a>`;
+			}
+		}
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load categories page", "list");
 	}
 }
 
-async function renderCategoryPage(categoryId) {
+async function renderCategoryPage(categoryId, section) {
 	try {
 		const category = await client.records.getOne("categories", categoryId);
-		const resultList = await client.records.getList("posts", 1, 15, {
+		const resultList = await client.records.getList("posts", section, 15, {
 			filter: 'category.id = "' + categoryId + '"',
 			sort: "-views,-created",
 			expand: "author",
@@ -838,6 +921,34 @@ async function renderCategoryPage(categoryId) {
             </div>
         </div>`;
 				document.getElementById("list").innerHTML += html;
+			}
+
+			// render pagination with arrow buttons
+			// only render up to 5 pages, the current page, and the 2 pages before and after it
+			if (resultList.totalPages > 1) {
+				const pagination = document.getElementById("pagination");
+				pagination.innerHTML = "";
+				const page = resultList.page;
+				const pages = resultList.totalPages;
+				const start = Math.max(1, page - 2);
+				const end = Math.min(pages, page + 2);
+				if (page > 1) {
+					pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${
+						page - 1
+					}"><i class="fa-solid fa-chevron-left"></i></a>`;
+				}
+				for (let i = start; i <= end; i++) {
+					if (i == page) {
+						pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${i}" class="active">${i}</a>`;
+					} else {
+						pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${i}">${i}</a>`;
+					}
+				}
+				if (page < pages) {
+					pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${
+						page + 1
+					}"><i class="fa-solid fa-chevron-right"></i></a>`;
+				}
 			}
 		} else {
 			document.getElementById("list").innerHTML = `
@@ -975,18 +1086,18 @@ async function renderErrorPage(err, div) {
 	).innerHTML = `<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="100%"><p><i class="fa-solid fa-bug"></i> An error has occurred.</p><span class="post-created">(${err})</span>`;
 }
 
-async function renderComments(isUserPageComment = false, ID = null) {
+async function renderComments(isUserPageComment = false, ID = null, section = 1) {
 	try {
 		let resultList;
 		if (isUserPageComment == false) {
-			resultList = await client.records.getList("post_comments", 1, 15, {
+			resultList = await client.records.getList("post_comments", section, 15, {
 				filter:
 					'created >= "2022-01-01 00:00:00" && linked_post.id = "' + ID + '"',
 				sort: "-created,id",
 				expand: "author",
 			});
 		} else {
-			resultList = await client.records.getList("user_comments", 1, 15, {
+			resultList = await client.records.getList("user_comments", section, 15, {
 				filter:
 					'created >= "2022-01-01 00:00:00" && linked_profile.id = "' +
 					ID +
@@ -1064,6 +1175,35 @@ async function renderComments(isUserPageComment = false, ID = null) {
 				</div>`;
 				document.getElementById("comments").innerHTML += html;
 			}
+
+			// render pagination with arrow buttons
+		// only render up to 5 pages, the current page, and the 2 pages before and after it
+		if (resultList.totalPages > 1) {
+			const pagination = document.getElementById("comments-pagination");
+			pagination.innerHTML = "";
+			const type = isUserPageComment ? "user" : "post";
+			const page = resultList.page;
+			const pages = resultList.totalPages;
+			const start = Math.max(1, page - 2);
+			const end = Math.min(pages, page + 2);
+			if (page > 1) {
+				pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
+					page - 1
+				}"><i class="fa-solid fa-chevron-left"></i></a>`;
+			}
+			for (let i = start; i <= end; i++) {
+				if (i == page) {
+					pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}" class="active">${i}</a>`;
+				} else {
+					pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}">${i}</a>`;
+				}
+			}
+			if (page < pages) {
+				pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
+					page + 1
+				}"><i class="fa-solid fa-chevron-right"></i></a>`;
+			}
+		}
 		} else {
 			document.getElementById("comments").innerHTML += `
 			<div class="post-item">
@@ -1316,30 +1456,30 @@ async function renderPage() {
 		} else if (page == "signout") {
 			await renderSignoutPage();
 		} else if (page == "trending") {
-			await renderTrendingPage();
+			await renderTrendingPage(params.section);
 			await renderNotices();
 		} else if (page == "categories") {
-			await renderCategoriesPage();
+			await renderCategoriesPage(params.section);
 			await renderNotices();
 		} else if (page == "category") {
-			await renderCategoryPage(params.category);
+			await renderCategoryPage(params.category, params.section); // todo
 			await renderNotices();
 		} else if (page == "error") {
 			await renderErrorPage();
 		} else if (page == "post") {
 			await renderPostPage();
 			await renderNotices();
-			await renderComments(false, params.post);
+			await renderComments(false, params.post, params.commentsection);
 		} else if (page == "user") {
 			await renderUserPage();
 			await renderNotices();
-			await renderComments(true, params.user);
+			await renderComments(true, params.user, params.commentsection);
 			await renderManageProfile(params.user);
 		} else if (page == "addpost") {
 			await renderAddPostPage();
 			await renderNotices();
 		} else {
-			await renderHomePage();
+			await renderHomePage(params.section);
 			await renderNotices();
 		}
 		await renderNavbar();
@@ -1355,5 +1495,6 @@ await renderPage();
 
 // console log warning to protect user account
 console.log(
-	"%c\r\n\r\n __        ___    ____  _   _ ___ _   _  ____ _ \r\n \\ \\      \/ \/ \\  |  _ \\| \\ | |_ _| \\ | |\/ ___| |\r\n  \\ \\ \/\\ \/ \/ _ \\ | |_) |  \\| || ||  \\| | |  _| |\r\n   \\ V  V \/ ___ \\|  _ <| |\\  || || |\\  | |_| |_|\r\n    \\_\/\\_\/_\/   \\_\\_| \\_\\_| \\_|___|_| \\_|\\____(_)\r\n\r\n\rThis is the browser console.\nIf you do not know what you are doing,\nplease do not enter any commands here or paste any code.\nDoing so may compromise your account.\r\n\r\n", "color: red; font-size: 2.5vmin;"
+	"%c\r\n\r\n __        ___    ____  _   _ ___ _   _  ____ _ \r\n \\ \\      / / \\  |  _ \\| \\ | |_ _| \\ | |/ ___| |\r\n  \\ \\ /\\ / / _ \\ | |_) |  \\| || ||  \\| | |  _| |\r\n   \\ V  V / ___ \\|  _ <| |\\  || || |\\  | |_| |_|\r\n    \\_/\\_/_/   \\_\\_| \\_\\_| \\_|___|_| \\_|\\____(_)\r\n\r\n\rThis is the browser console.\nIf you do not know what you are doing,\nplease do not enter any commands here or paste any code.\nDoing so may compromise your account.\r\n\r\n",
+	"color: red; font-size: 2.5vmin;"
 );

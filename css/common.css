@@ -155,6 +155,38 @@ a > .post-created {
 	color: var(--secondary-color);
 }
 
+#pagination, #comments-pagination {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-evenly;
+	width: 100%;
+	max-width: 100%;
+	height: max-content;
+}
+
+#pagination a, #comments-pagination a {
+	text-decoration: none;
+	background-color: var(--secondary-color);
+	border: 1px solid var(--secondary-color);
+	border-radius: var(--border-radius);
+	padding: 0.5rem;
+	padding-inline: 1em;
+	color: var(--primary-color);
+	font-size: var(--small-font-size);
+}
+
+#pagination a:hover, #comments-pagination a:hover {
+	background-color: var(--primary-color);
+	color: var(--secondary-color);
+}
+
+#pagination a.active, #comments-pagination a.active {
+	background-color: var(--tertiary-color);
+	color: var(--primary-color);
+	border: 1px solid var(--tertiary-color);
+}
+
 /* Links */
 a {
 	text-decoration: none;
@@ -198,6 +230,7 @@ a:hover,
 	align-items: flex-start;
 	justify-content: left;
     width: 100%;
+	flex-shrink: 0;
 }
 
 /* Images & Media */
@@ -279,12 +312,12 @@ fieldset {
 #settings-fieldset,
 #comments-fieldset {
 	display: none;
+	flex-direction: column;
     width: calc(100% - 1.2rem - 8px);
 	max-width: calc(100% - 1.2rem - 8px);
 }
 
 #list-fieldset {
-    width: 95%;
     width: calc(100% - 1.2rem - 8px);
     max-width: calc(100% - 1.2rem - 8px);
 }
