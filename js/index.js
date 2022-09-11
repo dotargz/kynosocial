@@ -173,7 +173,7 @@ async function renderNotices() {
 		// display a signin notice if username is anon
 		if (client.authStore.isValid == false) {
 			document.getElementById("list-notice").style.display = "flex";
-			document.getElementById("list-notice-fieldset").style.display = "block";
+			document.getElementById("list-notice-fieldset").style.display = "flex";
 			document.getElementById("list-notice").innerHTML =
 				'<p>You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to post.<br><a href="?page=signup"><button class="btn-main">< Sign up ></button></a> <a href="?page=signin"><button class="btn-alt">< Sign in ></button></a></p>';
 		}
@@ -234,7 +234,7 @@ async function renderPostPage() {
 			category: record.category,
 			author: record.author,
 		};
-		await client.records.update("posts", postId, data);
+		client.records.update("posts", postId, data);
 
 		// put all results into an html list
 
@@ -298,22 +298,14 @@ async function renderPostPage() {
 	}
 }
 
-async function renderUserPage() {
+async function renderUserPage(id) {
 	try {
-		const params = new Proxy(new URLSearchParams(window.location.search), {
-			get: (searchParams, prop) => searchParams.get(prop),
-		});
-		const id = params.user;
 		const user = await client.records.getOne("profiles", id, {});
-
 		let self;
 		// get self if logged in
+		client.users.refresh();
 		if (client.authStore.isValid == true) {
-			self = await client.records.getOne(
-				"profiles",
-				client.authStore.model.profile.id,
-				{}
-			);
+			self = client.authStore.model.profile;
 		}
 		let userbio;
 		if (user.bio == "") {
@@ -1079,7 +1071,7 @@ async function renderErrorPage(err, div) {
 		div = "list";
 	}
 	document.getElementById(div).style.display = "flex";
-	document.getElementById(`${div}-fieldset`).style.display = "block";
+	document.getElementById(`${div}-fieldset`).style.display = "flex";
 	//document.getElementById(`${div}-legend`).innerHTML = "Error";
 	document.getElementById(
 		div
@@ -1296,7 +1288,7 @@ async function renderManageProfile(userID) {
 				client.authStore.model.profile.id
 			);
 			document.getElementById("settings").style.display = "flex";
-			document.getElementById("settings-fieldset").style.display = "block";
+			document.getElementById("settings-fieldset").style.display = "flex";
 			document.getElementById("settings").innerHTML = "";
 			document.getElementById("settings-legend").innerHTML = "Settings";
 			const html = `
@@ -1449,44 +1441,44 @@ async function renderPage() {
 	});
 	const page = params.page;
 	try {
+		renderNavbar();
 		if (page == "signin") {
-			await renderSigninPage();
+			renderSigninPage();
 		} else if (page == "signup") {
-			await renderSignupPage();
+			renderSignupPage();
 		} else if (page == "signout") {
-			await renderSignoutPage();
+			renderSignoutPage();
 		} else if (page == "trending") {
-			await renderTrendingPage(params.section);
-			await renderNotices();
+			renderTrendingPage(params.section);
+			renderNotices();
 		} else if (page == "categories") {
-			await renderCategoriesPage(params.section);
-			await renderNotices();
+			renderCategoriesPage(params.section);
+			renderNotices();
 		} else if (page == "category") {
-			await renderCategoryPage(params.category, params.section); // todo
-			await renderNotices();
+			renderCategoryPage(params.category, params.section); // todo
+			renderNotices();
 		} else if (page == "error") {
-			await renderErrorPage();
+			renderErrorPage();
 		} else if (page == "post") {
-			await renderPostPage();
-			await renderNotices();
-			await renderComments(false, params.post, params.commentsection);
+			renderPostPage();
+			renderNotices();
+			renderComments(false, params.post, params.commentsection);
 		} else if (page == "user") {
-			await renderUserPage();
-			await renderNotices();
-			await renderComments(true, params.user, params.commentsection);
-			await renderManageProfile(params.user);
+			await renderUserPage(params.user);
+			renderNotices();
+			renderComments(true, params.user, params.commentsection);
+			renderManageProfile(params.user);
 		} else if (page == "addpost") {
-			await renderAddPostPage();
-			await renderNotices();
+			renderAddPostPage();
+			renderNotices();
 		} else {
-			await renderHomePage(params.section);
-			await renderNotices();
+			renderHomePage(params.section);
+			renderNotices();
 		}
-		await renderNavbar();
 		tippy("[data-tippy-content]");
 	} catch (error) {
 		console.log(error);
-		await renderErrorPage("Failed to load literally anything", "list");
+		renderErrorPage("Failed to load literally anything", "list");
 	}
 }
 
