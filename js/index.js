@@ -102,7 +102,7 @@ async function renderHomePage(section = 1) {
 				<div class="post-image-wrapper">
 					<div class="post-image">
 						<a href="?page=user&user=${postUser.id}">
-							<img alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
+							<img loading="lazy" alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 				postUser.id
 			}/${
 				postUser.avatar
@@ -259,7 +259,7 @@ async function renderPostPage() {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
+                        <img loading="lazy" alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 			postUser.id
 		}/${
 			postUser.avatar
@@ -344,7 +344,7 @@ async function renderUserPage(id) {
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
-                        <img alt="${
+                        <img loading="lazy" alt="${
 													user.name
 												}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 			user.id
@@ -699,7 +699,7 @@ async function renderTrendingPage(section = 1) {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
+                        <img loading="lazy" alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 					postUser.id
 				}/${
 					postUser.avatar
@@ -881,7 +881,7 @@ async function renderCategoryPage(categoryId, section) {
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
-                        <img alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
+                        <img loading="lazy" alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 					postUser.id
 				}/${
 					postUser.avatar
@@ -1140,7 +1140,7 @@ async function renderComments(isUserPageComment = false, ID = null, section = 1)
 					<div class="post-image-wrapper">
 						<div class="post-image">
 							<a href="?page=user&user=${author.id}">
-								<img alt="${
+								<img loading="lazy" alt="${
 									author.name
 								}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
 					author.id
