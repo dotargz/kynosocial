@@ -70,7 +70,7 @@ async function removeItemOnce(arr, value) {
 async function renderHomePage(section = 1) {
 	try {
 		// fetch a paginated records list
-		const resultList = await client.records.getList("posts", section, 15, {
+		const resultList = await client.records.getList("posts", section, 10, {
 			filter: 'created >= "2022-01-01 00:00:00"',
 			sort: "-created,id",
 			expand: "author,category",
@@ -658,7 +658,7 @@ async function renderSignoutPage() {
 async function renderTrendingPage(section = 1) {
 	try {
 		// only show posts from the last week
-		const resultList = await client.records.getList("posts", section, 15, {
+		const resultList = await client.records.getList("posts", section, 10, {
 			filter:
 				'created >= "' +
 				DateTime.now()
@@ -781,7 +781,7 @@ async function renderTrendingPage(section = 1) {
 
 async function renderCategoriesPage(section) {
 	try {
-		const resultList = await client.records.getList("categories", section, 15, {
+		const resultList = await client.records.getList("categories", section, 10, {
 			sort: "name",
 		});
 		console.log(resultList);
@@ -849,7 +849,7 @@ async function renderCategoriesPage(section) {
 async function renderCategoryPage(categoryId, section) {
 	try {
 		const category = await client.records.getOne("categories", categoryId);
-		const resultList = await client.records.getList("posts", section, 15, {
+		const resultList = await client.records.getList("posts", section, 10, {
 			filter: 'category.id = "' + categoryId + '"',
 			sort: "-views,-created",
 			expand: "author",
@@ -965,7 +965,7 @@ async function renderAddPostPage() {
 		const categoryResultList = await client.records.getList(
 			"categories",
 			1,
-			15,
+			100,
 			{
 				sort: "name",
 			}
@@ -1082,14 +1082,14 @@ async function renderComments(isUserPageComment = false, ID = null, section = 1)
 	try {
 		let resultList;
 		if (isUserPageComment == false) {
-			resultList = await client.records.getList("post_comments", section, 15, {
+			resultList = await client.records.getList("post_comments", section, 10, {
 				filter:
 					'created >= "2022-01-01 00:00:00" && linked_post.id = "' + ID + '"',
 				sort: "-created,id",
 				expand: "author",
 			});
 		} else {
-			resultList = await client.records.getList("user_comments", section, 15, {
+			resultList = await client.records.getList("user_comments", section, 10, {
 				filter:
 					'created >= "2022-01-01 00:00:00" && linked_profile.id = "' +
 					ID +
@@ -1449,31 +1449,31 @@ async function renderPage() {
 		} else if (page == "signout") {
 			renderSignoutPage();
 		} else if (page == "trending") {
-			renderTrendingPage(params.section);
 			renderNotices();
+			await renderTrendingPage(params.section);
 		} else if (page == "categories") {
-			renderCategoriesPage(params.section);
 			renderNotices();
+			await renderCategoriesPage(params.section);
 		} else if (page == "category") {
-			renderCategoryPage(params.category, params.section); // todo
 			renderNotices();
+			await renderCategoryPage(params.category, params.section); // todo
 		} else if (page == "error") {
 			renderErrorPage();
 		} else if (page == "post") {
-			renderPostPage();
 			renderNotices();
+			await renderPostPage();
 			await renderComments(false, params.post, params.commentsection);
 		} else if (page == "user") {
-			await renderUserPage(params.user);
 			renderNotices();
+			await renderUserPage(params.user);
 			await renderComments(true, params.user, params.commentsection);
 			renderManageProfile(params.user);
 		} else if (page == "addpost") {
+			renderNotices();
 			renderAddPostPage();
-			renderNotices();
 		} else {
-			renderHomePage(params.section);
 			renderNotices();
+			await renderHomePage(params.section);
 		}
 		await tippy("[data-tippy-content]");
 	} catch (error) {
