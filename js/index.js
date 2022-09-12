@@ -1462,11 +1462,11 @@ async function renderPage() {
 		} else if (page == "post") {
 			renderPostPage();
 			renderNotices();
-			renderComments(false, params.post, params.commentsection);
+			await renderComments(false, params.post, params.commentsection);
 		} else if (page == "user") {
 			await renderUserPage(params.user);
 			renderNotices();
-			renderComments(true, params.user, params.commentsection);
+			await renderComments(true, params.user, params.commentsection);
 			renderManageProfile(params.user);
 		} else if (page == "addpost") {
 			renderAddPostPage();
@@ -1475,7 +1475,7 @@ async function renderPage() {
 			renderHomePage(params.section);
 			renderNotices();
 		}
-		tippy("[data-tippy-content]");
+		await tippy("[data-tippy-content]");
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load literally anything", "list");
