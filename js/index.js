@@ -206,16 +206,6 @@ async function renderNavbar() {
 	}
 }
 
-async function unRenderNotices() {
-	try {
-		document.getElementById("list-notice").style.display = "none";
-		document.getElementById("list-notice").innerHTML = "Could not load notices";
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to unload notices", "list-notice");
-	}
-}
-
 async function renderPostPage() {
 	try {
 		const params = new Proxy(new URLSearchParams(window.location.search), {
