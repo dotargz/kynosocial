@@ -1078,7 +1078,11 @@ async function renderErrorPage(err, div) {
 	).innerHTML = `<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="100%"><p><i class="fa-solid fa-bug"></i> An error has occurred.</p><span class="post-created">(${err})</span>`;
 }
 
-async function renderComments(isUserPageComment = false, ID = null, section = 1) {
+async function renderComments(
+	isUserPageComment = false,
+	ID = null,
+	section = 1
+) {
 	try {
 		let resultList;
 		if (isUserPageComment == false) {
@@ -1169,33 +1173,33 @@ async function renderComments(isUserPageComment = false, ID = null, section = 1)
 			}
 
 			// render pagination with arrow buttons
-		// only render up to 5 pages, the current page, and the 2 pages before and after it
-		if (resultList.totalPages > 1) {
-			const pagination = document.getElementById("comments-pagination");
-			pagination.innerHTML = "";
-			const type = isUserPageComment ? "user" : "post";
-			const page = resultList.page;
-			const pages = resultList.totalPages;
-			const start = Math.max(1, page - 2);
-			const end = Math.min(pages, page + 2);
-			if (page > 1) {
-				pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
-					page - 1
-				}"><i class="fa-solid fa-chevron-left"></i></a>`;
-			}
-			for (let i = start; i <= end; i++) {
-				if (i == page) {
-					pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}" class="active">${i}</a>`;
-				} else {
-					pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}">${i}</a>`;
+			// only render up to 5 pages, the current page, and the 2 pages before and after it
+			if (resultList.totalPages > 1) {
+				const pagination = document.getElementById("comments-pagination");
+				pagination.innerHTML = "";
+				const type = isUserPageComment ? "user" : "post";
+				const page = resultList.page;
+				const pages = resultList.totalPages;
+				const start = Math.max(1, page - 2);
+				const end = Math.min(pages, page + 2);
+				if (page > 1) {
+					pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
+						page - 1
+					}"><i class="fa-solid fa-chevron-left"></i></a>`;
+				}
+				for (let i = start; i <= end; i++) {
+					if (i == page) {
+						pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}" class="active">${i}</a>`;
+					} else {
+						pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}">${i}</a>`;
+					}
+				}
+				if (page < pages) {
+					pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
+						page + 1
+					}"><i class="fa-solid fa-chevron-right"></i></a>`;
 				}
 			}
-			if (page < pages) {
-				pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
-					page + 1
-				}"><i class="fa-solid fa-chevron-right"></i></a>`;
-			}
-		}
 		} else {
 			document.getElementById("comments").innerHTML += `
 			<div class="post-item">
@@ -1450,32 +1454,39 @@ async function renderPage() {
 			renderSignoutPage();
 		} else if (page == "trending") {
 			renderNotices();
-			await renderTrendingPage(params.section);
+			renderTrendingPage(params.section);
 		} else if (page == "categories") {
 			renderNotices();
-			await renderCategoriesPage(params.section);
+			renderCategoriesPage(params.section);
 		} else if (page == "category") {
 			renderNotices();
-			await renderCategoryPage(params.category, params.section); // todo
+			renderCategoryPage(params.category, params.section);
 		} else if (page == "error") {
 			renderErrorPage();
 		} else if (page == "post") {
-			renderNotices();
-			await renderPostPage();
-			await renderComments(false, params.post, params.commentsection);
+			await Promise.all([
+				renderNotices(),
+				renderPostPage(),
+				renderComments(false, params.post, params.commentsection),
+			]).then(() => {
+				tippy("[data-tippy-content]");
+			});
 		} else if (page == "user") {
-			renderNotices();
-			await renderUserPage(params.user);
-			await renderComments(true, params.user, params.commentsection);
-			renderManageProfile(params.user);
+			await Promise.all([
+				renderNotices(),
+				await renderUserPage(params.user),
+				renderManageProfile(params.user),
+				renderComments(true, params.user, params.commentsection),
+			]).then(() => {
+				tippy("[data-tippy-content]");
+			});
 		} else if (page == "addpost") {
 			renderNotices();
 			renderAddPostPage();
 		} else {
 			renderNotices();
-			await renderHomePage(params.section);
+			renderHomePage(params.section);
 		}
-		await tippy("[data-tippy-content]");
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load literally anything", "list");
