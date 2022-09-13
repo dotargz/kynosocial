@@ -445,7 +445,6 @@ input[type="file"]:focus {
 	align-items: center;
 	justify-content: center;
 	width: 100%;
-	height: 100%;
 	color: var(--secondary-color);
 	font-size: var(--small-font-size);
 	padding: 0.8rem;
