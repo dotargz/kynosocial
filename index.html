@@ -43,10 +43,14 @@
     <script>
         let theme = localStorage.getItem('theme');
         if (theme == undefined || theme == null) {
+            try {
             localStorage.setItem('theme', 'modern');
+            } catch(error) {
+                console.log(error)
+            }
             theme = 'modern';
         }
-        document.write(`<link rel="stylesheet" href="/css/themes/${theme}.css">`);
+        document.write(`<link rel="stylesheet" href="https://kyno.social/css/themes/${theme}.css">`);
         console.log(`Loaded theme: ${theme}`);
     </script>
 </head>

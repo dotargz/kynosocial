@@ -300,7 +300,11 @@ async function renderPostPage() {
 
 async function renderUserPage(id) {
 	try {
-		const user = await client.records.getOne("profiles", id, {});
+		const params = new Proxy(new URLSearchParams(window.location.search), {
+			get: (searchParams, prop) => searchParams.get(prop),
+		});
+		const userId = params.user
+		const user = await client.records.getOne("profiles", userId, {});
 		let self;
 		// get self if logged in
 		client.users.refresh();
