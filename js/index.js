@@ -1,3 +1,4 @@
+/*global tippy, luxon, numeral */
 "use strict";
 var DateTime = luxon.DateTime;
 
