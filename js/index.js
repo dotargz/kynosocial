@@ -289,7 +289,7 @@ async function renderPostPage() {
 	}
 }
 
-async function renderUserPage(id) {
+async function renderUserPage() {
 	try {
 		const params = new Proxy(new URLSearchParams(window.location.search), {
 			get: (searchParams, prop) => searchParams.get(prop),
@@ -596,14 +596,6 @@ async function signupFromForm(e) {
 		console.log(createdUser);
 		await client.users.authViaEmail(email, password);
 		await client.users.refresh();
-		const updatedProfile = await client.records.update(
-			"profiles",
-			createdUser.profile.id,
-			{
-				name: username,
-				badges: createdUser.profile.badges,
-			}
-		);
 		window.location.href = "/";
 		return false;
 	} catch (error) {
@@ -688,7 +680,6 @@ async function renderTrendingPage(section = 1) {
 				const title = post.title;
 				const content = post.content;
 				const created = post.created;
-				const updated = post.updated;
 				const html = `
         <div class="post-item">
             <div class="post-image-wrapper">
@@ -1469,7 +1460,7 @@ async function renderPage() {
 		} else if (page == "user") {
 			await Promise.all([
 				renderNotices(),
-				await renderUserPage(params.user),
+				await renderUserPage(),
 				renderManageProfile(params.user),
 				renderComments(true, params.user, params.commentsection),
 			]).then(() => {
