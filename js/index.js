@@ -16,7 +16,7 @@ try {
 }
 
 // auth
-console.log(client.authStore.model);
+
 
 // utility functions
 async function truncateText(text, length) {
@@ -76,7 +76,7 @@ async function renderHomePage(section = 1) {
 			sort: "-created,id",
 			expand: "author,category",
 		});
-		console.log(resultList);
+		
 		const posts = resultList.items;
 
 		// put all results into an html list
@@ -393,7 +393,7 @@ async function followUserManager(e) {
 			}
 		);
 
-		console.log(self.following);
+		
 
 		if (self.following.includes(userID) == false) {
 			const follow = {
@@ -465,7 +465,7 @@ async function signinFromForm(e) {
 		const form = e.target;
 		const email = form.email.value;
 		const password = form.password.value;
-		console.log(email, password);
+		
 		client.authStore.clear();
 		await client.users.authViaEmail(email, password);
 		window.location.href = "/";
@@ -593,7 +593,7 @@ async function signupFromForm(e) {
 			password: password,
 			passwordConfirm: confirmPassword,
 		});
-		console.log(createdUser);
+		
 		await client.users.authViaEmail(email, password);
 		await client.users.refresh();
 		const updatedProfile = await client.records.update(
@@ -665,7 +665,7 @@ async function renderTrendingPage(section = 1) {
 			sort: "-views,-created",
 			expand: "author,category",
 		});
-		console.log(resultList);
+		
 		const posts = resultList.items;
 
 		// put all results into an html list
@@ -779,7 +779,7 @@ async function renderCategoriesPage(section) {
 		const resultList = await client.records.getList("categories", section, 10, {
 			sort: "name",
 		});
-		console.log(resultList);
+		
 		const categories = resultList.items;
 
 		// put all results into an html list
@@ -849,7 +849,7 @@ async function renderCategoryPage(categoryId, section) {
 			sort: "-views,-created",
 			expand: "author",
 		});
-		console.log(resultList);
+		
 		const posts = resultList.items;
 
 		// put all results into an html list
@@ -1227,7 +1227,7 @@ async function commentFromForm(e) {
 		e.preventDefault();
 		const form = e.target;
 		const comment = form.comment.value;
-		console.log(comment);
+		
 		if (comment == "") {
 			return;
 		}
@@ -1269,7 +1269,7 @@ async function getThemeSelectorHTML() {
 				localStorage.getItem("theme") == theme ? "selected" : ""
 			}>${theme}</option>`;
 		}
-		console.log(html);
+		
 		return html;
 	} catch (error) {
 		console.log(error);
@@ -1375,7 +1375,7 @@ async function editAvatarFromForm(e) {
 			window.location.href =
 				"/?page=user&user=" + client.authStore.model.profile.id;
 		}
-		console.log(client.authStore.model.profile.badges);
+		
 		await client.users.refresh();
 		const formData = new FormData();
 		formData.append("avatar", avatar);
@@ -1384,7 +1384,7 @@ async function editAvatarFromForm(e) {
 			client.authStore.model.profile.id,
 			formData
 		);
-		console.log(result);
+		
 		form.reset();
 		window.location.href =
 			"/?page=user&user=" + client.authStore.model.profile.id;
@@ -1400,7 +1400,7 @@ async function editBioFromForm(e) {
 		const form = e.target;
 		const bio = form.bio.value;
 		if (bio == undefined) {
-			console.log("no bio");
+			
 			return;
 		}
 		await client.records.update("profiles", client.authStore.model.profile.id, {
@@ -1421,7 +1421,7 @@ async function editThemeFromForm(e) {
 		const form = e.target;
 		const theme = form.theme.value;
 		if (theme == undefined) {
-			console.log("no theme");
+			
 			return;
 		}
 		localStorage.setItem("theme", theme);
