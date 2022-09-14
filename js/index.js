@@ -190,7 +190,7 @@ async function renderNavbar() {
 			client.authStore.isValid == false ||
 			client.authStore.model == {} ||
 			client.authStore.model == undefined ||
-			client.authStore.model == null
+			client.authStore.model === null
 		) {
 			document.getElementById("nav-profile-link").href = "?page=signin";
 			document.getElementById("nav-profile").innerHTML =
@@ -290,7 +290,11 @@ async function renderPostPage() {
 
 async function renderUserPage(id) {
 	try {
-		const user = await client.records.getOne("profiles", id, {});
+		const params = new Proxy(new URLSearchParams(window.location.search), {
+			get: (searchParams, prop) => searchParams.get(prop),
+		});
+		const userId = params.user
+		const user = await client.records.getOne("profiles", userId, {});
 		let self;
 		// get self if logged in
 		client.users.refresh();
@@ -610,7 +614,7 @@ async function signupFromForm(e) {
 function renderErrorMessage(message, element) {
 	const messageId = message.replace(/\s/g, "");
 	let errorCounter = window.localStorage.getItem(messageId);
-	if (errorCounter == null) {
+	if (errorCounter === null) {
 		window.localStorage.setItem(messageId, 1);
 		errorCounter = "1";
 	} else {
@@ -1035,7 +1039,7 @@ async function addPostFromForm(e) {
 			renderErrorMessage("Please fill in all fields", "postcontent");
 			return;
 		}
-		if (category == null) {
+		if (category === null) {
 			renderErrorMessage("Please select a category", "postcategory");
 			return;
 		}
@@ -1054,10 +1058,10 @@ async function addPostFromForm(e) {
 }
 
 async function renderErrorPage(err, div) {
-	if (err == null) {
+	if (err === null) {
 		err = "An unknown error has occurred";
 	}
-	if (div == null) {
+	if (div === null) {
 		div = "list";
 	}
 	document.getElementById(div).style.display = "flex";
