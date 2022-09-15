@@ -1432,6 +1432,7 @@ async function editThemeFromForm(e) {
 }
 
 async function sendVerificationEmail() {
+	await client.users.refresh();
 	try {
 		// check if user is logged in
 		if (client.authStore.isValid == false) {
@@ -1439,7 +1440,7 @@ async function sendVerificationEmail() {
 			return;
 		}
 		if (client.authStore.model.verified) {
-			window.location.href = "/?page=user&user=" + client.authStore.model.id;
+			window.location.href = "/?page=user&user=" + client.authStore.model.profile.id;
 			return;
 		}
 		// show success message
