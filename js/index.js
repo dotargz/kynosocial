@@ -1004,6 +1004,7 @@ async function renderAddPostPage() {
 							</select>
 						</div>
 						<button type="submit" class="btn btn-main">< Add Post ></button>
+						<span id="add-post-error" class="error"></span>
 					</form>
 				</div>
 			</div>
@@ -1026,7 +1027,8 @@ async function renderAddPostPage() {
 async function addPostFromForm(e) {
 	try {
 		e.preventDefault();
-		const form = event.target;
+		await client.users.refresh();
+		const form = e.target;
 		const title = form.posttitle.value;
 		const content = form.postcontent.value;
 		const categoryId = form.postcategory.value;
@@ -1035,8 +1037,11 @@ async function addPostFromForm(e) {
 			"profiles",
 			client.authStore.model.profile.id
 		);
-
 		// verify the form
+		if (client.authStore.model.verified == false) {
+			renderErrorMessage("You must verify your email before posting.", "add-post-error");
+			return;
+		}
 		if (title == "") {
 			renderErrorMessage("Please fill in all fields", "posttitlegroup");
 			return;
