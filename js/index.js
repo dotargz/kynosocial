@@ -604,6 +604,10 @@ async function signupFromForm(e) {
 
 		await client.users.authViaEmail(email, password);
 		await client.users.refresh();
+		await client.records.update("profiles", createdUser.profile.id, {
+			name: username,
+			badges: createdUser.profile.badges,
+		});
 		window.location.href = "/";
 		return false;
 	} catch (error) {
