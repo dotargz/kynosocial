@@ -606,6 +606,10 @@ async function signupFromForm(e) {
 
 		await client.users.authViaEmail(email, password);
 		await client.users.refresh();
+		await client.records.update("profiles", createdUser.profile.id, {
+			name: username,
+			badges: createdUser.profile.badges,
+		});
 		window.location.href = "/";
 		return false;
 	} catch (error) {
@@ -977,15 +981,15 @@ async function renderAddPostPage() {
 			<div class="post-content-wrapper">
 				<div class="post-content">
 					<form id="add-post-form" action="?page=addpost" method="post">
-						<div class="form-group">
+						<div class="form-group" id="posttitlegroup">
 							<label for="title">Title</label>
 							<input type="text" class="form-control" id="posttitle" name="title" placeholder="Title">
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="postcontentgroup">
 							<label for="content">Content</label>
 							<textarea style="resize:none;height:5rem;" class="form-control" id="postcontent" name="content" rows="3" placeholder="Remember, be nice!"></textarea>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="postcategorygroup">
 							<label for="category">Category</label>
 							<select class="form-control" id="postcategory" name="category">
 								${categoryResultList.items
@@ -1034,15 +1038,15 @@ async function addPostFromForm(e) {
 
 		// verify the form
 		if (title == "") {
-			renderErrorMessage("Please fill in all fields", "postcontent");
+			renderErrorMessage("Please fill in all fields", "posttitlegroup");
 			return;
 		}
 		if (content == "") {
-			renderErrorMessage("Please fill in all fields", "postcontent");
+			renderErrorMessage("Please fill in all fields", "postcontentgroup");
 			return;
 		}
 		if (category === null) {
-			renderErrorMessage("Please select a category", "postcategory");
+			renderErrorMessage("Please select a category", "postcategorygroup");
 			return;
 		}
 
