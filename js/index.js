@@ -1435,6 +1435,7 @@ async function sendVerificationEmail() {
 	try {
 		// check if user is logged in
 		if (client.authStore.isValid == false) {
+			window.location.href = "/?page=signin";
 			return;
 		}
 		if (client.authStore.model.verified) {
