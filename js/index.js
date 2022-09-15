@@ -1440,7 +1440,7 @@ async function sendVerificationEmail() {
 			return;
 		}
 		if (client.authStore.model.verified) {
-			window.location.href = "/?page=user&user=" + client.authStore.model.profile.id;
+			window.location.href = `/?page=user&user=${client.authStore.model.profile.id}`;
 			return;
 		}
 		// show success message
