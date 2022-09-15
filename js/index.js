@@ -16,7 +16,10 @@ try {
 }
 
 // auth
-
+if (client.authStore.isValid) {
+	client.users.refresh();
+}
+console.log(client.authStore.model);
 
 // utility functions
 async function truncateText(text, length) {
@@ -76,7 +79,7 @@ async function renderHomePage(section = 1) {
 			sort: "-created,id",
 			expand: "author,category",
 		});
-		
+
 		const posts = resultList.items;
 
 		// put all results into an html list
@@ -176,7 +179,14 @@ async function renderNotices() {
 			document.getElementById("list-notice").style.display = "flex";
 			document.getElementById("list-notice-fieldset").style.display = "flex";
 			document.getElementById("list-notice").innerHTML =
-				'<p>You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to post.<br><a href="?page=signup"><button class="btn-main">< Sign up ></button></a> <a href="?page=signin"><button class="btn-alt">< Sign in ></button></a></p>';
+				'<p>You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to interact with the site.<br><a href="?page=signup"><button class="btn-main">< Sign up ></button></a> <a href="?page=signin"><button class="btn-alt">< Sign in ></button></a></p>';
+		}
+		// display a notice if the user is not verified using email
+		else if (client.authStore.model.verified == false) {
+			document.getElementById("list-notice").style.display = "flex";
+			document.getElementById("list-notice-fieldset").style.display = "flex";
+			document.getElementById("list-notice").innerHTML =
+				'<p>Your email address is currently <b class="purple-text">NOT</b> verified. Please verify your email address to post.<br><a href="?page=verify"><button class="btn-main">< Send Verification Link ></button></a></p>';
 		}
 	} catch (error) {
 		console.log(error);
@@ -294,7 +304,7 @@ async function renderUserPage() {
 		const params = new Proxy(new URLSearchParams(window.location.search), {
 			get: (searchParams, prop) => searchParams.get(prop),
 		});
-		const userId = params.user
+		const userId = params.user;
 		const user = await client.records.getOne("profiles", userId, {});
 		let self;
 		// get self if logged in
@@ -393,8 +403,6 @@ async function followUserManager(e) {
 			}
 		);
 
-		
-
 		if (self.following.includes(userID) == false) {
 			const follow = {
 				following: await self.following.concat(user.id),
@@ -465,7 +473,7 @@ async function signinFromForm(e) {
 		const form = e.target;
 		const email = form.email.value;
 		const password = form.password.value;
-		
+
 		client.authStore.clear();
 		await client.users.authViaEmail(email, password);
 		window.location.href = "/";
@@ -593,7 +601,7 @@ async function signupFromForm(e) {
 			password: password,
 			passwordConfirm: confirmPassword,
 		});
-		
+
 		await client.users.authViaEmail(email, password);
 		await client.users.refresh();
 		window.location.href = "/";
@@ -657,7 +665,7 @@ async function renderTrendingPage(section = 1) {
 			sort: "-views,-created",
 			expand: "author,category",
 		});
-		
+
 		const posts = resultList.items;
 
 		// put all results into an html list
@@ -770,7 +778,7 @@ async function renderCategoriesPage(section) {
 		const resultList = await client.records.getList("categories", section, 10, {
 			sort: "name",
 		});
-		
+
 		const categories = resultList.items;
 
 		// put all results into an html list
@@ -840,7 +848,7 @@ async function renderCategoryPage(categoryId, section) {
 			sort: "-views,-created",
 			expand: "author",
 		});
-		
+
 		const posts = resultList.items;
 
 		// put all results into an html list
@@ -1218,7 +1226,7 @@ async function commentFromForm(e) {
 		e.preventDefault();
 		const form = e.target;
 		const comment = form.comment.value;
-		
+
 		if (comment == "") {
 			return;
 		}
@@ -1260,7 +1268,7 @@ async function getThemeSelectorHTML() {
 				localStorage.getItem("theme") == theme ? "selected" : ""
 			}>${theme}</option>`;
 		}
-		
+
 		return html;
 	} catch (error) {
 		console.log(error);
@@ -1366,7 +1374,7 @@ async function editAvatarFromForm(e) {
 			window.location.href =
 				"/?page=user&user=" + client.authStore.model.profile.id;
 		}
-		
+
 		await client.users.refresh();
 		const formData = new FormData();
 		formData.append("avatar", avatar);
@@ -1375,7 +1383,7 @@ async function editAvatarFromForm(e) {
 			client.authStore.model.profile.id,
 			formData
 		);
-		
+
 		form.reset();
 		window.location.href =
 			"/?page=user&user=" + client.authStore.model.profile.id;
@@ -1391,7 +1399,6 @@ async function editBioFromForm(e) {
 		const form = e.target;
 		const bio = form.bio.value;
 		if (bio == undefined) {
-			
 			return;
 		}
 		await client.records.update("profiles", client.authStore.model.profile.id, {
@@ -1412,7 +1419,6 @@ async function editThemeFromForm(e) {
 		const form = e.target;
 		const theme = form.theme.value;
 		if (theme == undefined) {
-			
 			return;
 		}
 		localStorage.setItem("theme", theme);
@@ -1422,6 +1428,37 @@ async function editThemeFromForm(e) {
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to edit theme", "settings");
+	}
+}
+
+async function sendVerificationEmail() {
+	try {
+		// check if user is logged in
+		if (client.authStore.isValid == false) {
+			return;
+		}
+		if (client.authStore.model.verified) {
+			window.location.href = "/?page=user&user=" + client.authStore.model.id;
+			return;
+		}
+		// show success message
+		document.getElementById("list").innerHTML = "";
+		document.getElementById("list-legend").innerHTML = "Email Verification";
+		document.getElementById("document-title").innerHTML = "kynosocial - verify";
+		document.getElementById("list").innerHTML = `
+			<div class="post-item">
+				<div class="post-content-wrapper">
+					<div class="post-content">
+						<i class="fa-solid fa-envelope"></i> Verification email sent!
+					</div>
+				</div>
+			</div>
+		`;
+		// send verification email
+		await client.users.requestVerification(client.authStore.model.email);
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to send verification email", "settings");
 	}
 }
 
@@ -1469,6 +1506,8 @@ async function renderPage() {
 		} else if (page == "addpost") {
 			renderNotices();
 			renderAddPostPage();
+		} else if (page == "verify") {
+			sendVerificationEmail();
 		} else {
 			renderNotices();
 			renderHomePage(params.section);
