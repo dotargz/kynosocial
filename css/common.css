@@ -194,7 +194,7 @@ a {
 	transition: 0.2s;
 }
 
-.post-content > a:not(#signoutlink) {
+.post-content > a:not(#signoutlink), #list-notice > p > a {
 	text-decoration: underline;
 	color: var(--link-color);
 }
@@ -204,7 +204,7 @@ a {
 }
 
 a:hover,
-.post-content > a:not(#signoutlink):hover {
+.post-content > a:not(#signoutlink):hover, #list-notice > p > a:hover {
 	color: var(--link-hover-color);
 }
 

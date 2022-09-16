@@ -55,7 +55,7 @@ async function getBadgeHTML(userObject) {
 			} else if (userObject.badges[i] == "verified") {
 				badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
 			} else if (userObject.badges[i] == "donut-giver") {
-				badgehtml += `<i class="fa-solid fa-donut" data-tippy-content="Donut Giver"></i> `;
+				badgehtml += `<i class="fa-solid fa-heart" data-tippy-content="Donut Giver"></i> `;
 			} else {
 				badgehtml += `<i class="fa-solid fa-question" data-tippy-content="Secret Badge"></i> `;
 			}
@@ -189,6 +189,24 @@ async function renderNotices() {
 			document.getElementById("list-notice-fieldset").style.display = "flex";
 			document.getElementById("list-notice").innerHTML =
 				'<p>Your email address is currently <b class="purple-text">NOT</b> verified. Please verify your email address to post.<br><a href="?page=verify"><button class="btn-main">< Send Verification Link ></button></a></p>';
+		}
+		// get dynamic notices from the backend
+		else {
+			const rl = await client.records.getList('notices', 1, 50, {
+				filter: 'created >= "2022-01-01 00:00:00"',
+			});
+			const notices = rl.items;
+			if (notices.length > 0) {
+				document.getElementById("list-notice").innerHTML = "";
+				for (const notice of notices) {
+					if (notice.active == true) {
+						document.getElementById("list-notice").innerHTML += `
+						<p><b>${await md.renderInline(await cleanText(notice.title))}</b><br>${await md.renderInline(await cleanText(notice.content))}</p>`;
+						document.getElementById("list-notice").style.display = "flex";
+						document.getElementById("list-notice-fieldset").style.display = "flex";
+					}
+				}
+			}
 		}
 	} catch (error) {
 		console.log(error);
