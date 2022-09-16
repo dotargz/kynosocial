@@ -210,7 +210,7 @@ async function renderNotices() {
 		}
 	} catch (error) {
 		console.log(error);
-		renderErrorPage("Failed to load notices", "list-notice");
+		renderErrorPage("Failed to load notices", "list-notice", false);
 	}
 }
 
@@ -1086,7 +1086,7 @@ async function addPostFromForm(e) {
 	}
 }
 
-async function renderErrorPage(err, div) {
+async function renderErrorPage(err, div, showgif = true) {
 	if (err === null) {
 		err = "An unknown error has occurred";
 	}
@@ -1095,10 +1095,16 @@ async function renderErrorPage(err, div) {
 	}
 	document.getElementById(div).style.display = "flex";
 	document.getElementById(`${div}-fieldset`).style.display = "flex";
-	//document.getElementById(`${div}-legend`).innerHTML = "Error";
+	// document.getElementById(`${div}-legend`).innerHTML = "Error";
+	let img;
+	if (showgif) {
+		img = '<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="100%">';
+	} else {
+		img = '';
+	}
 	document.getElementById(
 		div
-	).innerHTML = `<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="100%"><p><i class="fa-solid fa-bug"></i> An error has occurred.</p><span class="post-created">(${err})</span>`;
+	).innerHTML = `${img}<p><i class="fa-solid fa-bug"></i> An error has occurred.</p><span class="post-created">(${err})</span>`;
 }
 
 async function renderComments(
