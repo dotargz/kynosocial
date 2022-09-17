@@ -110,7 +110,11 @@
     <script>
         let theme = localStorage.getItem('theme');
         if (theme == undefined || theme == null) { localStorage.setItem('theme', 'modern'); theme = 'modern'; }
-        document.body.classList.add(theme);
+        document.body.classList.add(theme.split(', ')[0]);
+        let colorscheme = theme.split(', ')[1];
+        if (colorscheme !== null && colorscheme !== undefined) {
+            document.body.classList.add(colorscheme);
+        }
         console.log(`Loaded theme: ${theme}`);
     </script>
 </body>

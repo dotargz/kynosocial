@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+.modern.blue {
+    --root-background: #b1d6ff;
+    --part-background: rgba(255,255,255,0.5);
+}
+.modern.purple {
+    --root-background: #cfb1ff;
+    --part-background: rgba(255,255,255,0.5);
+}
+
 .modern {
     --primary-color: #ffffff;
     --primary-alt-color: #c4eeff;
@@ -13,7 +22,8 @@
     --primary-font-size: 1rem;
     --small-font-size: 0.8rem;
     --smaller-font-size: 0.7rem;
-    --root-background: #ffffff;
+    --root-background: #fff;
+    --part-background: rgba(0, 0, 0, 0.05);
     --global-img-filter: none;
 
     --fieldset-style: 4px solid black;
@@ -32,6 +42,7 @@
     --small-font-size: 0.8rem;
     --smaller-font-size: 0.7rem;
     --root-background: hsl(0,0%,90%) url("/img/noise.png");
+    --part-background: rgba(0, 0, 0, 0.1);
     --global-img-filter: grayscale(100%);
 
     --fieldset-style: 4px double black;

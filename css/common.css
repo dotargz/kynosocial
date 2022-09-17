@@ -302,6 +302,7 @@ button:disabled:hover {
 /* Fieldsets */
 
 fieldset {
+	background-color: var(--part-background);
 	border: var(--fieldset-style);
     border-radius: var(--border-radius);
     padding: 0.6rem;
