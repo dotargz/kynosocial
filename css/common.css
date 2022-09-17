@@ -55,8 +55,7 @@ html {
 	width: 64px;
 	margin-right: 0.8rem;
 }
-.post-image {
-	margin: 0;
+.post-image img {
 	border: 1px solid rgba(0,0,0,0.5);
 	border-radius: var(--border-radius);
 }
