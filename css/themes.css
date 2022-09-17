@@ -3,11 +3,15 @@
 
 .modern.blue {
     --root-background: #b1d6ff;
-    --part-background: rgba(255,255,255,0.5);
+    --part-background: rgba(255,255,255,0.35);
+}
+.modern.yellow {
+    --root-background: #fff1b1;
+    --part-background: rgba(255,255,255,0.35);
 }
 .modern.purple {
     --root-background: #cfb1ff;
-    --part-background: rgba(255,255,255,0.5);
+    --part-background: rgba(255,255,255,0.35);
 }
 
 .modern {
