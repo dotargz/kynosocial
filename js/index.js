@@ -34,31 +34,30 @@ async function cleanText(text) {
 	return text.replace(/(<([^>]+)>)/gi, "").trim();
 }
 
-async function getBadgeHTML(userObject) {
+async function getBadgeHTML(userObject, all=false) {
 	let badgehtml = "";
 	if (userObject.badges.length > 0) {
 		for (let i = 0; i < userObject.badges.length; i++) {
-			if (userObject.badges[i] == "dev") {
-				badgehtml += `<i class="fa-solid fa-code" data-tippy-content="Developer"></i> `;
-			} else if (userObject.badges[i] == "bot") {
+			if (userObject.badges[i] == "bot") {
 				badgehtml += `<i class="fa-solid fa-robot" data-tippy-content="Bot"></i> `;
-			} else if (userObject.badges[i] == "mod") {
-				badgehtml += `<i class="fa-solid fa-cogs" data-tippy-content="Moderator"></i> `;
 			} else if (userObject.badges[i] == "admin") {
 				badgehtml += `<i class="fa-solid fa-user-cog" data-tippy-content="Administrator"></i> `;
-			} else if (userObject.badges[i] == "beta") {
-				badgehtml += `<i class="fa-solid fa-user-astronaut" data-tippy-content="Beta Tester"></i> `;
+			} else if (userObject.badges[i] == "dev") {
+				badgehtml += `<i class="fa-solid fa-code" data-tippy-content="Developer"></i> `;
+			} else if (userObject.badges[i] == "mod") {
+				badgehtml += `<i class="fa-solid fa-cogs" data-tippy-content="Moderator"></i> `;
+			} else if (userObject.badges[i] == "verified") {
+				badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
 			} else if (userObject.badges[i] == "bughunter") {
 				badgehtml += `<i class="fa-solid fa-bug-slash" data-tippy-content="Bug Hunter"></i> `;
 			} else if (userObject.badges[i] == "bloom") {
 				badgehtml += `<i class="fa-solid fa-seedling" data-tippy-content="Bloom Subscriber"></i> `;
-			} else if (userObject.badges[i] == "verified") {
-				badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
 			} else if (userObject.badges[i] == "donut-giver") {
 				badgehtml += `<i class="fa-solid fa-heart" data-tippy-content="Donut Giver"></i> `;
 			} else {
 				badgehtml += `<i class="fa-solid fa-question" data-tippy-content="Secret Badge"></i> `;
 			}
+			if (!all && i === 0) break;
 		}
 	}
 	return badgehtml || "";
@@ -187,14 +186,14 @@ async function renderNotices() {
 			document.getElementById("list-notice").style.display = "flex";
 			document.getElementById("list-notice-fieldset").style.display = "flex";
 			document.getElementById("list-notice").innerHTML =
-				'<p class="list-notice-text">You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to interact with the site.<br><a href="?page=signup"><button class="btn-main">< Sign up ></button></a> <a href="?page=signin"><button class="btn-alt">< Sign in ></button></a></p>';
+				'<p class="list-notice-text">You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to interact with the site.<br><a href="?page=signup"><button class="btn-main">Sign up</button></a> <a href="?page=signin"><button class="btn-alt">Sign in</button></a></p>';
 		}
 		// display a notice if the user is not verified using email
 		else if (client.authStore.model.verified == false) {
 			document.getElementById("list-notice").style.display = "flex";
 			document.getElementById("list-notice-fieldset").style.display = "flex";
 			document.getElementById("list-notice").innerHTML =
-				'<p class="list-notice-text">Your email address is currently <b class="purple-text">NOT</b> verified. Please verify your email address to post.<br><a href="?page=verify"><button class="btn-main">< Send Verification Link ></button></a></p>';
+				'<p class="list-notice-text">Your email address is currently <b class="purple-text">NOT</b> verified. Please verify your email address to post.<br><a href="?page=verify"><button class="btn-main">Send verification link</button></a></p>';
 		}
 		// get dynamic notices from the backend
 		else {
@@ -207,7 +206,7 @@ async function renderNotices() {
 				for (const notice of notices) {
 					if (notice.active == true) {
 						document.getElementById("list-notice").innerHTML += `
-						<p><b>${await md.renderInline(await cleanText(notice.title))}</b><br>${await md.renderInline(await cleanText(notice.content))}</p>`;
+						<p class="list-notice-text"><strong>${await md.renderInline(await cleanText(notice.title))}</strong><br>${await md.renderInline(await cleanText(notice.content))}</p>`;
 						document.getElementById("list-notice").style.display = "flex";
 						document.getElementById("list-notice-fieldset").style.display = "flex";
 					}
@@ -340,12 +339,12 @@ async function renderUserPage() {
 		}
 		let userbio;
 		if (user.bio == "") {
-			userbio = "< No biography found >";
+			userbio = "No biography found";
 		} else {
 			userbio = user.bio;
 		}
 		// compute badges
-		const userBadgesIcons = await getBadgeHTML(user);
+		const userBadgesIcons = await getBadgeHTML(user, true);
 		// put all results into an html list
 		document.getElementById("document-title").innerHTML =
 			"kynosocial - " + user.name + "'s profile";
@@ -360,14 +359,14 @@ async function renderUserPage() {
 		) {
 			followbutton = ``;
 		} else {
-			followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main followbtn-small">< Follow ></button></a>`;
+			followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main followbtn-small">Follow</button></a>`;
 			// add event listener to follow button
 		}
 
 		// if already following, change button to unfollow
 		if (client.authStore.isValid == true) {
 			if (self.following.includes(user.id)) {
-				followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main followbtn-small">< Unfollow ></button></a>`;
+				followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main followbtn-small">Unfollow</button></a>`;
 			}
 		}
 
@@ -475,8 +474,8 @@ async function renderSigninPage() {
 				<label for="password">Password:</label>
 				<input type="password" class="form-control" id="password" name="password" placeholder="Password...">
 			</div>
-			<button type="submit" class="btn btn-main">\< Sign in \></button>
-			<p style="font-size:0.8rem;margin-bottom:0;text-align:center;width:100%;">Don't have an account? <button type="button" class="btn btn-main" onclick="window.location.href='?page=signup'">< Sign up ></button></p>
+			<button type="submit" class="btn btn-main">Sign in</button>
+			<p style="font-size:0.8rem;margin-bottom:0;text-align:center;width:100%;">Don't have an account? <button type="button" class="btn btn-main" onclick="window.location.href='?page=signup'">Sign up</button></p>
 		</form>
 		</div>
 		`;
@@ -532,8 +531,8 @@ async function renderSignupPage() {
 				<label for="password">Confirm Password:</label>
 				<input type="password" class="form-control" id="confirmpassword" name="confirm-password" placeholder="Confirm Password" required>
 			</div>
-			<button type="submit" class="btn btn-main">\< Sign up \></button>
-			<p style="font-size:0.8rem;margin-bottom:0;text-align:center;width:100%;">Already have an account? <button type="button" class="btn btn-main" onclick="window.location.href='?page=signin'">< Sign in ></button></p>
+			<button type="submit" class="btn btn-main">Sign up</button>
+			<p style="font-size:0.8rem;margin-bottom:0;text-align:center;width:100%;">Already have an account? <button type="button" class="btn btn-main" onclick="window.location.href='?page=signin'">Sign in</button></p>
 		</form>
 		</div>
 		`;
@@ -1027,7 +1026,7 @@ async function renderAddPostPage() {
 									.join("")}
 							</select>
 						</div>
-						<button type="submit" class="btn btn-main">< Add Post ></button>
+						<button type="submit" class="btn btn-main">Add Post</button>
 						<span id="add-post-error" class="error"></span>
 					</form>
 				</div>
@@ -1161,7 +1160,7 @@ async function renderComments(
 							<textarea class="comment-ta" class="form-control" id="comment" name="comment" placeholder="Add a comment..." ></textarea>
 							${hiddenformvalue}
 						</div>
-						<button type="submit" class="btn btn-main">\< Comment \></button>
+						<button type="submit" class="btn btn-main">Comment</button>
 					</form>
 				</div>
 			</div>
@@ -1337,7 +1336,7 @@ async function renderManageProfile(userID) {
 								<i class="fa-solid fa-user-edit"></i> Edit Avatar
 								<form class="form-generic" id="editavatar-form" action="?page=settings" method="post" enctype="multipart/form-data">
 									<input type="file" name="avatar" id="avatar" accept="image/*">
-									<input type="submit" class="upload-i" id="avatarupload" value="< Save Avatar >" class="btn btn-main">
+									<input type="submit" class="upload-i" id="avatarupload" value="Save Avatar" class="btn btn-main">
 								</form>
 							</div>	
 						</div>	
@@ -1348,7 +1347,7 @@ async function renderManageProfile(userID) {
 							<i class="fa-solid fa-book"></i> Edit Bio
 								<form class="form-generic" id="editbio-form" action="?page=settings" method="post" enctype="multipart/form-data">
 									<textarea name="bio" id="bio" maxlength="250">${user.bio}</textarea>
-									<input type="submit" class="upload-i" value="< Save Bio >" class="btn btn-main">
+									<input type="submit" class="upload-i" value="Save Bio" class="btn btn-main">
 								</form>
 							</div>	
 						</div>	
@@ -1361,7 +1360,7 @@ async function renderManageProfile(userID) {
 									<select name="theme" id="theme">
 									${await getThemeSelectorHTML()}
 									</select>
-									<input type="submit" class="upload-i" value="< Save Theme >" class="btn btn-main">
+									<input type="submit" class="upload-i" value="Save Theme" class="btn btn-main">
 								</form>
 							</div>	
 						</div>	
@@ -1408,7 +1407,7 @@ async function editAvatarFromForm(e) {
 		e.preventDefault();
 		const button = document.getElementById("avatarupload");
 		button.disabled = true;
-		button.value = "< Uploading... >";
+		button.value = "Uploading...";
 		const form = e.target;
 		const avatar = form.avatar.files[0];
 		if (avatar == undefined) {
