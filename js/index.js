@@ -103,6 +103,12 @@ async function renderHomePage(section = 1) {
 			const content = post.content;
 			const created = post.created;
 			const updated = post.updated;
+			let amountWeShouldTruncateContent = 69;
+			if (document.body.clientWidth > 800) {
+				amountWeShouldTruncateContent = 170;
+			} else if (document.body.clientWidth > 600) {
+				amountWeShouldTruncateContent = 100;
+			}
 			const html = `
 			<div class="post-item">
 				<div class="post-image-wrapper">
@@ -129,7 +135,7 @@ async function renderHomePage(section = 1) {
 			)}</a>
 					</div>
 					<div class="post-content">
-						${await truncateText(await md.renderInline(await cleanText(content)), 69)}
+						${await truncateText(await md.renderInline(await cleanText(content)), amountWeShouldTruncateContent)}
 					</div>
 					<div class="post-created">
 						${created} · <a href="?page=category&category=${postCategory.id}">#${
