@@ -129,7 +129,7 @@ async function renderHomePage(section = 1) {
 			)}</a>
 					</div>
 					<div class="post-content">
-						${await truncateText(await md.renderInline(await cleanText(content)), 56)}
+						${await truncateText(await md.renderInline(await cleanText(content)), 69)}
 					</div>
 					<div class="post-created">
 						${created} · <a href="?page=category&category=${postCategory.id}">#${
