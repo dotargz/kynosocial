@@ -89,7 +89,7 @@ a > .post-created {
 	width: calc(100% - 30px);
 	margin: 15px;
 	margin-top: 0;
-	max-width: 500px;
+	max-width: 600px;
 	align-items: center;
 }
 
