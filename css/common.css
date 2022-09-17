@@ -54,6 +54,7 @@ html {
 	justify-content: flex-start;
 	width: 64px;
 	margin-right: 0.8rem;
+	border: 1px rgba(0,0,0,0.5);
 }
 
 .post-created,
