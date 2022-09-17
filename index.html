@@ -37,18 +37,8 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es7"></script>
     <script src="https://kit.fontawesome.com/9cb2f2488a.js" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="/css/common.css">
-    
-    <!-- Dynamic CSS based on current theme -->
-    <script>
-        let theme = localStorage.getItem('theme');
-        if (theme == undefined || theme == null) {
-            localStorage.setItem('theme', 'modern');
-            theme = 'modern';
-        }
-        document.write(`<link rel="stylesheet" href="https://kyno.social/css/themes/${theme}.css">`);
-        console.log(`Loaded theme: ${theme}`);
-    </script>
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/themes.css">
 </head>
 <body>
     <div id="main">
@@ -73,7 +63,7 @@
         <fieldset id="list-notice-fieldset">
             <legend id="list-notice-legend">Notice</legend>
         <div id="list-notice">
-            <p><i class="fa-solid fa-gear fa-spin"></i> Loading notices...</p>
+            <p class="list-notice-text"><i class="fa-solid fa-gear fa-spin"></i> Loading notices...</p>
         </div>
         </fieldset>
         <fieldset id="list-fieldset">
@@ -107,7 +97,7 @@
         </fieldset>
         <div id="footer">
             <p>© 2022 OneSpark. All rights reserved.</p>
-            <p>Made with <i class="fa-solid fa-heart fa-beat" style="color:red;"></i> by <a href="https://blueskye.dev">BlueSkye</a></p>
+            <p>Made with <i class="fa-solid fa-heart fa-beat" style="color:red;"></i> by <a href="https://blueskye.dev">BlueSkye</a> & <a href="https://foxl.design">foxlldev</a></p>
         </div>
     </div>
     <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
@@ -116,5 +106,12 @@
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js" integrity="sha512-SYfDUYPg5xspsG6OOpXU366G8SZsdHOhqk/icdrYJ2E/WKZxPxze7d2HD3AyXpT7U22PZ5y74xRpqZ6A2bJ+kQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="js/index.js" type="module"></script>
+    <!-- Dynamic CSS based on current theme -->
+    <script>
+        let theme = localStorage.getItem('theme');
+        if (theme == undefined || theme == null) { localStorage.setItem('theme', 'modern'); theme = 'modern'; }
+        document.body.classList.add(theme);
+        console.log(`Loaded theme: ${theme}`);
+    </script>
 </body>
 </html>

@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+.modern {
+    --primary-color: #ffffff;
+    --primary-alt-color: #c4eeff;
+    --secondary-color: #0e0e0e;
+    --tertiary-color: purple;
+    --link-color: #0000ff;
+    --link-hover-color: purple;
+    --font-family: 'Public Sans', sans-serif;
+    --large-font-size: 1.2rem;
+    --primary-font-size: 1rem;
+    --small-font-size: 0.8rem;
+    --smaller-font-size: 0.7rem;
+    --root-background: #ffffff;
+    --global-img-filter: none;
+
+    --fieldset-style: 4px solid black;
+    --border-radius: 5px;
+}
+.retro {
+    --primary-color: #f5f5f5f5;
+    --primary-alt-color: #ffe2e2f5;
+    --secondary-color: #0e0e0e;
+    --tertiary-color: purple;
+    --link-color: purple;
+    --link-hover-color: rgb(180, 0, 180);
+    --font-family: 'Fira Code', monospace;
+    --large-font-size: 1.2rem;
+    --primary-font-size: 1rem;
+    --small-font-size: 0.8rem;
+    --smaller-font-size: 0.7rem;
+    --root-background: hsl(0,0%,90%) url("/img/noise.png");
+    --global-img-filter: grayscale(100%);
+
+    --fieldset-style: 4px double black;
+    --border-radius: 0px;
+}

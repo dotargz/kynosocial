@@ -181,14 +181,14 @@ async function renderNotices() {
 			document.getElementById("list-notice").style.display = "flex";
 			document.getElementById("list-notice-fieldset").style.display = "flex";
 			document.getElementById("list-notice").innerHTML =
-				'<p>You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to interact with the site.<br><a href="?page=signup"><button class="btn-main">< Sign up ></button></a> <a href="?page=signin"><button class="btn-alt">< Sign in ></button></a></p>';
+				'<p class="list-notice-text">You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to interact with the site.<br><a href="?page=signup"><button class="btn-main">< Sign up ></button></a> <a href="?page=signin"><button class="btn-alt">< Sign in ></button></a></p>';
 		}
 		// display a notice if the user is not verified using email
 		else if (client.authStore.model.verified == false) {
 			document.getElementById("list-notice").style.display = "flex";
 			document.getElementById("list-notice-fieldset").style.display = "flex";
 			document.getElementById("list-notice").innerHTML =
-				'<p>Your email address is currently <b class="purple-text">NOT</b> verified. Please verify your email address to post.<br><a href="?page=verify"><button class="btn-main">< Send Verification Link ></button></a></p>';
+				'<p class="list-notice-text">Your email address is currently <b class="purple-text">NOT</b> verified. Please verify your email address to post.<br><a href="?page=verify"><button class="btn-main">< Send Verification Link ></button></a></p>';
 		}
 		// get dynamic notices from the backend
 		else {
@@ -462,12 +462,12 @@ async function renderSigninPage() {
 		<div class="post-item">
 		<form id="signin-form" action="?page=signin" method="post">
 			<div class="form-group">
-				<label for="email">E-Mail:</label>
-				<input type="email" class="form-control" id="email" name="email" placeholder="E-Mail">
+				<label for="email">Email:</label>
+				<input type="email" class="form-control" id="email" name="email" placeholder="Email...">
 			</div>
 			<div class="form-group">
 				<label for="password">Password:</label>
-				<input type="password" class="form-control" id="password" name="password" placeholder="Password">
+				<input type="password" class="form-control" id="password" name="password" placeholder="Password...">
 			</div>
 			<button type="submit" class="btn btn-main">\< Sign in \></button>
 			<p style="font-size:0.8rem;margin-bottom:0;text-align:center;width:100%;">Don't have an account? <button type="button" class="btn btn-main" onclick="window.location.href='?page=signup'">< Sign up ></button></p>
@@ -1561,5 +1561,5 @@ await renderPage();
 // console log warning to protect user account
 console.log(
 	"%c\r\n\r\n __        ___    ____  _   _ ___ _   _  ____ _ \r\n \\ \\      / / \\  |  _ \\| \\ | |_ _| \\ | |/ ___| |\r\n  \\ \\ /\\ / / _ \\ | |_) |  \\| || ||  \\| | |  _| |\r\n   \\ V  V / ___ \\|  _ <| |\\  || || |\\  | |_| |_|\r\n    \\_/\\_/_/   \\_\\_| \\_\\_| \\_|___|_| \\_|\\____(_)\r\n\r\n\rThis is the browser console.\nIf you do not know what you are doing,\nplease do not enter any commands here or paste any code.\nDoing so may compromise your account.\r\n\r\n",
-	"color: red; font-size: 2.5vmin; "
+	"color: red; "
 );
