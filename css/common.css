@@ -89,7 +89,7 @@ a > .post-created {
 	width: calc(100% - 30px);
 	margin: 15px;
 	margin-top: 0;
-	max-width: 800px;
+	max-width: 500px;
 	align-items: center;
 }
 
@@ -149,12 +149,24 @@ a > .post-created {
 	color: var(--primary-color);
 	text-decoration: none;
 	padding: 0.4rem;
+	flex: 1;
+	text-align: center;
 	transition: 0.2s;
 }
 
 #nav-links a:hover {
 	background-color: var(--primary-color);
 	color: var(--secondary-color);
+}
+
+/* make first and last nav links round on left and right respetivly when hovered */
+#nav-links a:first-child:hover {
+	border-top-left-radius: var(--border-radius);
+	border-bottom-left-radius: var(--border-radius);
+}
+#nav-links a:last-child:hover {
+	border-top-right-radius: var(--border-radius);
+	border-bottom-right-radius: var(--border-radius);
 }
 
 #pagination, #comments-pagination {
@@ -263,6 +275,7 @@ small {
 	transition: 0.2s;
 	cursor: pointer;
     font-size: 0.9em;
+	padding-inline: 1em;
 }
 
 .btn-main:hover,
@@ -295,6 +308,7 @@ button:disabled:hover {
 	transition: 0.2s;
 	cursor: pointer;
     font-size: 0.9em;
+	padding-inline: 1em;
 }
 
 .btn-alt:hover {
@@ -485,7 +499,7 @@ superscript {
 }
 
 br {
-	margin-bottom:0.5rem;
+	
 }
 
 .followbtn-small {

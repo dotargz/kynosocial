@@ -18,8 +18,8 @@ try {
 // auth
 if (client.authStore.isValid) {
 	client.users.refresh();
+	console.log(client.authStore.model);
 }
-console.log(client.authStore.model);
 
 // utility functions
 async function truncateText(text, length) {
