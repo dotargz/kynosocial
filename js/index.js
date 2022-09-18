@@ -150,14 +150,21 @@ async function renderHomePage(section = 1) {
 		}
 
 		// render pagination with arrow buttons
-		// only render up to 5 pages, the current page, and the 2 pages before and after it
+		// only render up to 5 pages at a time, forwards and backwards
 		if (resultList.totalPages > 1) {
 			const pagination = document.getElementById("pagination");
 			pagination.innerHTML = "";
 			const page = resultList.page;
 			const pages = resultList.totalPages;
-			const start = Math.max(1, page - 2);
-			const end = Math.min(pages, page + 2);
+			let look = 2;
+			if (page <= look) {
+				look = 5 - page;
+			}
+			if (page >= pages - (look - 1)) {
+				look = 5 - (pages - page);
+			}
+			const start = Math.max(1, page - look);
+			const end = Math.min(pages, page + look);
 			if (page > 1) {
 				pagination.innerHTML += `<a href="?page=home&section=${
 					page - 1
@@ -773,8 +780,15 @@ async function renderTrendingPage(section = 1) {
 				pagination.innerHTML = "";
 				const page = resultList.page;
 				const pages = resultList.totalPages;
-				const start = Math.max(1, page - 2);
-				const end = Math.min(pages, page + 2);
+				let look = 2;
+				if (page <= look) {
+					look = 5 - page;
+				}
+				if (page >= pages - (look - 1)) {
+					look = 5 - (pages - page);
+				}
+				const start = Math.max(1, page - look);
+				const end = Math.min(pages, page + look);
 				if (page > 1) {
 					pagination.innerHTML += `<a href="?page=trending&section=${
 						page - 1
@@ -851,8 +865,15 @@ async function renderCategoriesPage(section) {
 			pagination.innerHTML = "";
 			const page = resultList.page;
 			const pages = resultList.totalPages;
-			const start = Math.max(1, page - 2);
-			const end = Math.min(pages, page + 2);
+			let look = 2;
+			if (page <= look) {
+				look = 5 - page;
+			}
+			if (page >= pages - (look - 1)) {
+				look = 5 - (pages - page);
+			}
+			const start = Math.max(1, page - look);
+			const end = Math.min(pages, page + look);
 			if (page > 1) {
 				pagination.innerHTML += `<a href="?page=categories&section=${
 					page - 1
@@ -953,8 +974,15 @@ async function renderCategoryPage(categoryId, section) {
 				pagination.innerHTML = "";
 				const page = resultList.page;
 				const pages = resultList.totalPages;
-				const start = Math.max(1, page - 2);
-				const end = Math.min(pages, page + 2);
+				let look = 2;
+				if (page <= look) {
+					look = 5 - page;
+				}
+				if (page >= pages - (look - 1)) {
+					look = 5 - (pages - page);
+				}
+				const start = Math.max(1, page - look);
+				const end = Math.min(pages, page + look);
 				if (page > 1) {
 					pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${
 						page - 1
@@ -1226,8 +1254,15 @@ async function renderComments(
 				const type = isUserPageComment ? "user" : "post";
 				const page = resultList.page;
 				const pages = resultList.totalPages;
-				const start = Math.max(1, page - 2);
-				const end = Math.min(pages, page + 2);
+				let look = 2;
+				if (page <= look) {
+					look = 5 - page;
+				}
+				if (page >= pages - (look - 1)) {
+					look = 5 - (pages - page);
+				}
+				const start = Math.max(1, page - look);
+				const end = Math.min(pages, page + look);
 				if (page > 1) {
 					pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
 						page - 1
