@@ -502,3 +502,7 @@ superscript {
 	font-size:0.5rem;
 	width:64px;
 }
+
+#list h1, #list h2, #list h3, #list h4, #list h5, #list h6 {
+	margin-top: 0.5rem;
+}

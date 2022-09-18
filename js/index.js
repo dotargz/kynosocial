@@ -34,7 +34,7 @@ async function cleanText(text) {
 	return text.replace(/(<([^>]+)>)/gi, "").trim();
 }
 
-async function getBadgeHTML(userObject, all=false) {
+async function getBadgeHTML(userObject, all = false) {
 	let badgehtml = "";
 	if (userObject.badges.length > 0) {
 		for (let i = 0; i < userObject.badges.length; i++) {
@@ -134,7 +134,10 @@ async function renderHomePage(section = 1) {
 			)}</a>
 					</div>
 					<div class="post-content">
-						${await truncateText(await md.renderInline(await cleanText(content)), amountWeShouldTruncateContent)}
+						${await truncateText(
+							await md.renderInline(await cleanText(content)),
+							amountWeShouldTruncateContent
+						)}
 					</div>
 					<div class="post-created">
 						${created} · <a href="?page=category&category=${postCategory.id}">#${
@@ -197,7 +200,7 @@ async function renderNotices() {
 		}
 		// get dynamic notices from the backend
 		else {
-			const rl = await client.records.getList('notices', 1, 50, {
+			const rl = await client.records.getList("notices", 1, 50, {
 				filter: 'created >= "2022-01-01 00:00:00"',
 			});
 			const notices = rl.items;
@@ -206,9 +209,14 @@ async function renderNotices() {
 				for (const notice of notices) {
 					if (notice.active == true) {
 						document.getElementById("list-notice").innerHTML += `
-						<p class="list-notice-text"><strong>${await md.renderInline(await cleanText(notice.title))}</strong><br>${await md.renderInline(await cleanText(notice.content))}</p>`;
+						<p class="list-notice-text"><strong>${await md.renderInline(
+							await cleanText(notice.title)
+						)}</strong><br>${await md.renderInline(
+							await cleanText(notice.content)
+						)}</p>`;
 						document.getElementById("list-notice").style.display = "flex";
-						document.getElementById("list-notice-fieldset").style.display = "flex";
+						document.getElementById("list-notice-fieldset").style.display =
+							"flex";
 					}
 				}
 			}
@@ -1062,7 +1070,10 @@ async function addPostFromForm(e) {
 		);
 		// verify the form
 		if (client.authStore.model.verified == false) {
-			renderErrorMessage("You must verify your email before posting.", "add-post-error");
+			renderErrorMessage(
+				"You must verify your email before posting.",
+				"add-post-error"
+			);
 			return;
 		}
 		if (title == "") {
@@ -1103,9 +1114,10 @@ async function renderErrorPage(err, div, showgif = true) {
 	// document.getElementById(`${div}-legend`).innerHTML = "Error";
 	let img;
 	if (showgif) {
-		img = '<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="100%">';
+		img =
+			'<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="100%">';
 	} else {
-		img = '';
+		img = "";
 	}
 	document.getElementById(
 		div
@@ -1300,7 +1312,13 @@ async function commentFromForm(e) {
 async function getThemeSelectorHTML() {
 	try {
 		// Theme files are stored in the /css/themes folder
-		const themes = ["modern", "retro", "modern, blue", "modern, yellow", "modern, purple"];
+		const themes = [
+			"modern",
+			"retro",
+			"modern, blue",
+			"modern, yellow",
+			"modern, purple",
+		];
 		let html = "";
 		for (let i = 0; i < themes.length; i++) {
 			const theme = themes[i];
@@ -1504,6 +1522,265 @@ async function sendVerificationEmail() {
 	}
 }
 
+function renderEULAPage() {
+	try {
+		document.getElementById("list").innerHTML = "";
+		document.getElementById("list-legend").innerHTML = "EULA";
+		document.getElementById("document-title").innerHTML = "kynosocial - eula";
+		document.getElementById("list").innerHTML = `
+			<div class="post-item">
+				<div class="post-content-wrapper">
+					<div class="post-content">
+						<h2>Kynosocial End User License Agreement</h2>
+
+					<p>This End User License Agreement ("Agreement") is a legal agreement between you and Kynosocial's lead developer BlueSkye ("Kynosocial"). By using the Kynosocial website, mobile application or other services (the "Service"), you agree to be bound by the terms and conditions of this Agreement. If you do not agree to the terms of this Agreement, do not use the Service.</p>
+					
+					<p>Kynosocial reserves the right to modify this Agreement at any time, and such modifications shall be effective immediately upon posting of the modified Agreement. You agree to review this Agreement periodically to be aware of such modifications, and your continued access or use of the Service shall be deemed your conclusive acceptance of the modified Agreement.</p>
+					
+					<h3>A1. License</h3>
+					
+					<p>Subject to the terms and conditions of this Agreement, Kynosocial hereby grants you a limited, revocable, non-exclusive, non-transferable license to access and use the Service.</p>
+					
+					<h3>A2. Eligibility</h3>
+					
+					<p>You must be at least 13 years of age to use the Service. By using the Service, you represent and warrant that you are at least 13 years of age and that you have the right, authority and capacity to enter into this Agreement and to abide by all of the terms and conditions of this Agreement. If you are under the age of 13, you may not use the Service.</p>
+					
+					<h3>A3. Prohibited Uses</h3>
+					
+					<p>The Service is for personal use only. You may not use the Service for any commercial purpose whatsoever, including, but not limited to, raising money, advertising or promoting a product, service or brand.</p>
+					
+					<p>You agree not to use the Service to:<p>
+					<ul>
+					<li>Post any content that is illegal, harmful, threatening, abusive, harassing, tortious, defamatory, vulgar, obscene, libelous, invasive of another's privacy, hateful, or racially, ethnically or otherwise objectionable;</li>
+					
+					<li>Post any content that you do not have a right to post under any law or under contractual or fiduciary relationships (such as inside information, proprietary and confidential information learned or disclosed as part of employment relationships or under nondisclosure agreements);</li>
+					
+					<li>Post any content that infringes any patent, trademark, trade secret, copyright or other proprietary rights of any party;</li>
+					
+					<li>Post any unsolicited or unauthorized advertising, promotional materials, "junk mail," "spam," "chain letters," "pyramid schemes," or any other form of solicitation;</li>
+					
+					<li>Post any content that contains software viruses or any other computer code, files or programs designed to interrupt, destroy or limit the functionality of any computer software or hardware or telecommunications equipment;</li>
+					
+					<li>Interfere with or disrupt the Service or servers or networks connected to the Service, or disobey any requirements, procedures, policies or regulations of networks connected to the Service;</li>
+					
+					<li>Intentionally or unintentionally violate any applicable local, state, national or international law;</li>
+					
+					<li>"Stalk" or otherwise harass another user of the Service; or</li>
+					
+					<li>Collect or store personal data about other users of the Service.</li>
+					</ul>
+					
+					<h3>A4. User Content</h3>
+					
+					<p>"User Content" means any and all content that you post on the Service, including, but not limited to, text, photos, videos, comments, and any other materials.</p>
+					
+					<p>You retain all ownership rights of your User Content. However, by posting your User Content on the Service, you grant Kynosocial a worldwide, non-exclusive, royalty-free, sub-licensable and transferable license to use, reproduce, distribute, prepare derivative works of, display, and perform your User Content in connection with the Service and Kynosocial's business, including, but not limited to, for the purpose of promoting and redistributing part or all of the Service in any media formats and through any media channels.</p>
+					
+					<p>You also agree that Kynosocial may remove or refuse to make available any of your User Content for any or no reason.</p>
+					
+					<h3>A5. Third-Party Content</h3>
+					
+					<p>The Service may contain content from third-parties ("Third-Party Content"). Kynosocial does not control, endorse or adopt any Third-Party Content and makes no representation or warranties of any kind regarding the Third-Party Content, including, but not limited to, its accuracy, completeness, timeliness, or reliability. You acknowledge that you must evaluate, and bear all risks associated with, the use of any Third-Party Content, and you agree that Kynosocial is not responsible or liable for any Third-Party Content.</p>
+					
+					<h3>A6. Termination</h3>
+					
+					<p>Kynosocial reserves the right, in its sole discretion, to terminate your access to all or part of the Service at any time, with or without notice, for any reason or no reason.</p>
+					
+					<h3>A7. Disclaimer of Warranties</h3>
+					
+					<p>THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS. TO THE FULLEST EXTENT PERMITTED BY LAW, KYNOSOCIAL EXPRESSLY DISCLAIMS ALL WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+					
+					<p>KYNOSOCIAL MAKES NO WARRANTY THAT: (i) THE SERVICE WILL MEET YOUR REQUIREMENTS; (ii) THE SERVICE WILL BE AVAILABLE ON AN UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE BASIS; (iii) THE RESULTS THAT MAY BE OBTAINED FROM THE USE OF THE SERVICE WILL BE ACCURATE OR RELIABLE; OR (iv) THE QUALITY OF ANY PRODUCTS, SERVICES, INFORMATION, OR OTHER MATERIAL PURCHASED OR OBTAINED BY YOU THROUGH THE SERVICE WILL MEET YOUR EXPECTATIONS.</p>
+					
+					<p>ANY MATERIAL DOWNLOADED OR OTHERWISE OBTAINED THROUGH THE USE OF THE SERVICE IS DONE AT YOUR OWN DISCRETION AND RISK, AND YOU WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE TO YOUR COMPUTER SYSTEM OR LOSS OF DATA THAT RESULTS FROM THE DOWNLOAD OF ANY SUCH MATERIAL.</p>
+					
+					<h3>A8. Limitation of Liability</h3>
+					
+					<p>YOU EXPRESSLY UNDERSTAND AND AGREE THAT KYNOSOCIAL SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES, INCLUDING, BUT NOT LIMITED TO, DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE, DATA OR OTHER INTANGIBLE LOSSES (EVEN IF KYNOSOCIAL HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES), RESULTING FROM: (i) THE USE OR THE INABILITY TO USE THE SERVICE; (ii) THE COST OF PROCUREMENT OF SUBSTITUTE GOODS AND SERVICES RESULTING FROM ANY GOODS, DATA, INFORMATION OR SERVICES PURCHASED OR OBTAINED OR MESSAGES RECEIVED OR TRANSACTIONS ENTERED INTO THROUGH OR FROM THE SERVICE; (iii) UNAUTHORIZED ACCESS TO OR ALTERATION OF YOUR TRANSMISSIONS OR DATA; (iv) STATEMENTS OR CONDUCT OF ANY THIRD PARTY ON THE SERVICE; OR (v) ANY OTHER MATTER RELATING TO THE SERVICE.</p>
+					
+					<p>IN NO EVENT SHALL KYNOSOCIAL'S TOTAL LIABILITY TO YOU FOR ALL DAMAGES, LOSSES, AND CAUSES OF ACTION EXCEED THE AMOUNT PAID BY YOU, IF ANY, FOR ACCESSING OR USING THE SERVICE.</p>
+					
+					<p>IF YOU ARE DISSATISFIED WITH THE SERVICE OR WITH ANY OF KYNOSOCIAL'S TERMS, CONDITIONS, RULES, POLICIES, GUIDELINES, OR PRACTICES, YOUR SOLE AND EXCLUSIVE REMEDY IS TO DISCONTINUE USING THE SERVICE.</p>
+					
+					<h3>A9. Indemnity</h3>
+					
+					<p>You agree to indemnify and hold Kynosocial and its affiliates, officers, directors, agents, and employees harmless from any claim or demand, including reasonable attorneys' fees, made by any third party due to or arising out of: (i) your use of the Service; (ii) your violation of this Agreement; or (iii) your violation of any rights of another.</p>
+					
+					<h3>A10. Miscellaneous</h3>
+					
+					<p>This Agreement constitutes the entire agreement between you and Kynosocial with respect to the Service, and supersedes all prior or contemporaneous communications, whether electronic, oral or written, between you and Kynosocial with respect to the Service.</p>
+					
+					<p>If any provision of this Agreement is held to be invalid or unenforceable, such provision shall be struck and the remaining provisions shall be enforced to the fullest extent under law.</p>
+					
+					<p>Kynosocial's failure to enforce any right or provision of this Agreement shall not constitute a waiver of such right or provision.</p>
+					
+					<p>This Agreement is governed by the laws of the State of Washington, without regard to its conflict of law provisions.</p>
+					
+					<p>This Agreement does not, and shall not be construed to, create any partnership, joint venture, employer-employee, agency or franchisor-franchisee relationship between you and Kynosocial.</p>
+					
+					<p>The Service is operated by Kynosocial from its offices in the United States. Kynosocial makes no representation that materials on the Service are appropriate or available for use in other locations. Those who choose to access the Service from other locations do so on their own initiative and are responsible for compliance with local laws, if and to the extent local laws are applicable.</p>
+					
+					<h3>A11. Contact Information</h3>
+					
+					<p>If you have any questions about this Agreement, please contact us at:</p>
+					
+					<p>support@kyno.social</p>
+					</div>
+				</div>
+			</div>
+					`;
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to load EULA", "list");
+	}
+}
+
+function renderPrivacyPage() {
+	try {
+		document.getElementById("list").innerHTML = "";
+		document.getElementById("list-legend").innerHTML = "Privacy Policy";
+		document.getElementById("document-title").innerHTML =
+			"kynosocial - privacy policy";
+		document.getElementById("list").innerHTML = `
+			<div class="post-item">
+				<div class="post-content-wrapper">
+					<div class="post-content">
+					<h2>Kynosocial Privacy Policy</h2>
+					<p>Kynosocial ("us", "we", or "our") operates the http://www.kyno.social website (the "Service").</p>
+
+					<p>This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p>
+					
+					<p>We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our End User Licence Agreement</p>
+					
+					<h3>A1. Information Collection And Use</h3>
+					
+					<p>We collect several different types of information for various purposes to provide and improve our Service to you. The types of data we collect include, but are not limited to:</p>
+					
+					<h4>1. Personal Data</h4>
+					
+					<p>While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you ("Personal Data"). Personally identifiable information may include, but is not limited to:</p>
+					
+					<ul>
+					<li>Email address</li>
+					
+					<li>First name and last name</li>
+					
+					<li>Cookies and Usage Data</li>
+					</ul>
+					
+					<h4>2. Usage Data</h4>
+					
+					<p>We may also collect information how the Service is accessed and used ("Usage Data"). This Usage Data may include information such as your computer's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that you visit, the time and date of your visit, the time spent on those pages, unique device identifiers and other diagnostic data.</p>
+					
+					<h4>3. Tracking & Cookie Data</h4>
+					
+					<p>We use cookies and similar tracking technologies ("Cookies") to track the activity on our Service and hold certain information.</p>
+					
+					<p>Cookies are files with a small amount of data which may include an anonymous unique identifier. Cookies are sent to your browser from a website and stored on your device. Tracking technologies also used are beacons, tags, and scripts to collect and track information and to improve and analyze our Service.</p>
+					
+					<p>You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Service.</p>
+					
+					<p>Examples of Cookies we use:</p>
+					
+					<ul>
+					<li>Session Cookies. We use Session Cookies to keep you signed into our Service between browser reloads and restarts.</li>
+					
+					<li>Preference Cookies. We use Preference Cookies to remember your preferences and various settings.</li>
+					
+					<li>Security Cookies. We use Security Cookies for security purposes.</li>
+					</ul>
+					<h3>A2. Use of Data</h3>
+					
+					<p>Kynosocial uses the collected data for various purposes:</p>
+					
+					<ul>
+					<li>To provide and maintain our Service</li>
+					<li>To notify you about changes to our Service</li>
+					<li>To allow you to participate in interactive features of our Service when you choose to do so</li>
+					<li>To provide customer support</li>
+					<li>To gather analysis or valuable information so that we can improve our Service</li>
+					<li>To detect, prevent and address technical issues</li>
+					</ul>
+
+					<h3>A3. Transfer Of Data</h3>
+					<p>Your information, including Personal Data, may be transferred to — and maintained on — computers located outside of your state, province, country or other governmental jurisdiction; where the data protection laws may differ than those from your jurisdiction.</p>
+					
+					<p>If you are located outside of United States and choose to provide information to us, please note that we transfer the data, including Personal Data, to United States and process it there.</p>
+					
+					<p>Your consent to this Privacy Policy followed by your submission of such information represents your agreement to that transfer.</p>
+					
+					<p>Kynosocial will take all steps reasonably necessary to ensure that your data is treated securely and in accordance with this Privacy Policy and no transfer of your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of your data and other personal information.</p>
+					
+					<h3>A4. Disclosure Of Data</h3>
+					
+					<p>Kynosocial may disclose your Personal Data in the good faith belief that such action is necessary to:</p>
+					
+					<ul>
+					<li>To comply with a legal obligation</li>
+					<li>To protect and defend the rights or property of Kynosocial</li>
+					<li>To prevent or investigate possible wrongdoing in connection with the Service</li>
+					<li>To protect the personal safety of users of the Service or the public</li>
+					<li>To protect against legal liability</li>
+					</ul>
+
+					<h3>A5. Security Of Data</h3>
+					
+					<p>The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.</p>
+					
+					<h3>A5. Links To Other Sites</h3>
+					
+					<p>Our Service may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.</p>
+					
+					<p>We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.</p>
+					
+					<h3>A6. Changes To This Privacy Policy</h3>
+					
+					<p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+					
+					<p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
+					
+					<h3>A7. Contact Us</h3>
+					
+					<p>If you have any questions about this Privacy Policy, please contact us:</p>
+					
+					<p>By email: support@kyno.social</p>
+					</div>
+				</div>
+			</div>
+			`;
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to load Privacy Policy", "list");
+	}
+}
+
+function renderAboutPage() {
+	try {
+		document.getElementById("list").innerHTML = "";
+		document.getElementById("list-legend").innerHTML = "About";
+		document.getElementById("document-title").innerHTML = "kynosocial - about";
+		document.getElementById("list").innerHTML = `
+			<div class="post-item">
+				<div class="post-content-wrapper">
+					<div class="post-content">
+					<img src="/img/aboutbanner.webp" alt="An abstract oil painting of a snowy mountain range" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+					<h2>Kynosocial: a social media company based around minimalism</h2>
+					<p>Our mission is to help people connect on a deeper level by creating a space for quality interactions, free of the noise and distractions of traditional social media.</p>
+					
+					<p>Kynosocial is a new kind of social media platform that emphasizes quality over quantity. We believe that less is more, and that true connection comes from quality interactions, not from a constant stream of meaningless distractions.</p>
+					
+					<p>On Kynosocial, you'll find a variety of features that encourage deeper connection and meaningful conversation. From our simple, elegant interface to our focus on quality content, we've created a social media experience that is both refreshing and addictive.</p>
+					
+					<p>We hope you'll join us on this journey to discover the power of minimalism in social media, and in life.</p>
+				</div>
+			</div>
+			`;
+	} catch (error) {
+		console.log(error);
+		renderErrorPage("Failed to load About page", "list");
+	}
+}
+
 async function renderPage() {
 	const params = new Proxy(new URLSearchParams(window.location.search), {
 		get: (searchParams, prop) => searchParams.get(prop),
@@ -1550,6 +1827,15 @@ async function renderPage() {
 			renderAddPostPage();
 		} else if (page == "verify") {
 			sendVerificationEmail();
+		} else if (page == "eula") {
+			renderNotices();
+			renderEULAPage();
+		} else if (page == "privacy") {
+			renderNotices();
+			renderPrivacyPage();
+		} else if (page == "about") {
+			renderNotices();
+			renderAboutPage();
 		} else {
 			renderNotices();
 			renderHomePage(params.section);
