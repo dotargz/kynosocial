@@ -1,2 +1,2 @@
 # kynosocial
-good styling: coming soon
+someone needs to do the README
