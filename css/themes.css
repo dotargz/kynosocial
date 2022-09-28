@@ -5,6 +5,10 @@
 	--root-background: #b1d6ff;
 	--part-background: rgba(255, 255, 255, 0.35);
 }
+.modern.green {
+	--root-background: #aaf1ba;
+	--part-background: rgba(255, 255, 255, 0.35);
+}
 .modern.yellow {
 	--root-background: #fff1b1;
 	--part-background: rgba(255, 255, 255, 0.35);

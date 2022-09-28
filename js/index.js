@@ -1351,6 +1351,7 @@ async function getThemeSelectorHTML() {
 			"modern",
 			"retro",
 			"modern, blue",
+			"modern, green",
 			"modern, yellow",
 			"modern, purple",
 		];
