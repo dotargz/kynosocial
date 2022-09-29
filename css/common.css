@@ -260,7 +260,7 @@ a:hover,
 
 #list,
 #comments,
-#settings, #advert {
+#settings {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
