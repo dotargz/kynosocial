@@ -1817,28 +1817,6 @@ function renderAboutPage() {
 	}
 }
 
-function renderAds() {
-	try {
-		// append ads to list
-		document.getElementById("list").innerHTML += `
-		<script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3342817188920263"
-     crossorigin="anonymous"></script>
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-format="fluid"
-     data-ad-layout-key="-h4-19+2y-6f+aj"
-     data-ad-client="ca-pub-3342817188920263"
-     data-ad-slot="6645637811"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>`; 
-
-	} catch (error) {
-		console.log(error);
-	}
-}
-
-
 async function renderPage() {
 	const params = new Proxy(new URLSearchParams(window.location.search), {
 		get: (searchParams, prop) => searchParams.get(prop),
@@ -1898,7 +1876,6 @@ async function renderPage() {
 			renderNotices();
 			renderHomePage(params.section);
 		}
-		renderAds();
 	} catch (error) {
 		console.log(error);
 		renderErrorPage("Failed to load literally anything", "list");
