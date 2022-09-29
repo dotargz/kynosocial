@@ -536,11 +536,3 @@ superscript {
 #list h6 {
 	margin-top: 0.5rem;
 }
-
-#ad-item {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-}
