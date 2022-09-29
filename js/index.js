@@ -9,117 +9,117 @@ import PocketBase from "./pocketbase.es.mjs";
 let client;
 
 try {
-	client = new PocketBase("https://backend.kyno.social");
+  client = new PocketBase("https://backend.kyno.social");
 } catch (error) {
-	console.log(error);
-	renderErrorPage("Failed to load client", "list");
+  console.log(error);
+  renderErrorPage("Failed to load client", "list");
 }
 
 // auth
 if (client.authStore.isValid) {
-	client.users.refresh();
-	console.log(client.authStore.model);
+  client.users.refresh();
+  console.log(client.authStore.model);
 }
 
 // utility functions
 async function truncateText(text, length) {
-	if (text.length > length) {
-		return text.substring(0, length) + "...";
-	} else {
-		return text;
-	}
+  if (text.length > length) {
+    return text.substring(0, length) + "...";
+  } else {
+    return text;
+  }
 }
 
 async function cleanText(text) {
-	return text.replace(/(<([^>]+)>)/gi, "").trim();
+  return text.replace(/(<([^>]+)>)/gi, "").trim();
 }
 
 async function getBadgeHTML(userObject, all = false) {
-	let badgehtml = "";
-	if (userObject.badges.length > 0) {
-		for (let i = 0; i < userObject.badges.length; i++) {
-			if (userObject.badges[i] == "bot") {
-				badgehtml += `<i class="fa-solid fa-robot" data-tippy-content="Bot"></i> `;
-			} else if (userObject.badges[i] == "admin") {
-				badgehtml += `<i class="fa-solid fa-user-cog" data-tippy-content="Administrator"></i> `;
-			} else if (userObject.badges[i] == "dev") {
-				badgehtml += `<i class="fa-solid fa-code" data-tippy-content="Developer"></i> `;
-			} else if (userObject.badges[i] == "mod") {
-				badgehtml += `<i class="fa-solid fa-cogs" data-tippy-content="Moderator"></i> `;
-			} else if (userObject.badges[i] == "verified") {
-				badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
-			} else if (userObject.badges[i] == "bughunter") {
-				badgehtml += `<i class="fa-solid fa-bug-slash" data-tippy-content="Bug Hunter"></i> `;
-			} else if (userObject.badges[i] == "bloom") {
-				badgehtml += `<i class="fa-solid fa-seedling" data-tippy-content="Bloom Subscriber"></i> `;
-			} else if (userObject.badges[i] == "donut-giver") {
-				badgehtml += `<i class="fa-solid fa-heart" data-tippy-content="Donut Giver"></i> `;
-			} else {
-				badgehtml += `<i class="fa-solid fa-question" data-tippy-content="Secret Badge"></i> `;
-			}
-			if (!all && i === 0) break;
-		}
-	}
-	return badgehtml || "";
+  let badgehtml = "";
+  if (userObject.badges.length > 0) {
+    for (let i = 0; i < userObject.badges.length; i++) {
+      if (userObject.badges[i] == "bot") {
+        badgehtml += `<i class="fa-solid fa-robot" data-tippy-content="Bot"></i> `;
+      } else if (userObject.badges[i] == "admin") {
+        badgehtml += `<i class="fa-solid fa-user-cog" data-tippy-content="Administrator"></i> `;
+      } else if (userObject.badges[i] == "dev") {
+        badgehtml += `<i class="fa-solid fa-code" data-tippy-content="Developer"></i> `;
+      } else if (userObject.badges[i] == "mod") {
+        badgehtml += `<i class="fa-solid fa-cogs" data-tippy-content="Moderator"></i> `;
+      } else if (userObject.badges[i] == "verified") {
+        badgehtml += `<i class="fa-solid fa-circle-check" data-tippy-content="Verified"></i> `;
+      } else if (userObject.badges[i] == "bughunter") {
+        badgehtml += `<i class="fa-solid fa-bug-slash" data-tippy-content="Bug Hunter"></i> `;
+      } else if (userObject.badges[i] == "bloom") {
+        badgehtml += `<i class="fa-solid fa-seedling" data-tippy-content="Bloom Subscriber"></i> `;
+      } else if (userObject.badges[i] == "donut-giver") {
+        badgehtml += `<i class="fa-solid fa-heart" data-tippy-content="Donut Giver"></i> `;
+      } else {
+        badgehtml += `<i class="fa-solid fa-question" data-tippy-content="Secret Badge"></i> `;
+      }
+      if (!all && i === 0) break;
+    }
+  }
+  return badgehtml || "";
 }
 
 async function removeItemOnce(arr, value) {
-	var index = arr.indexOf(value);
-	if (index > -1) {
-		arr.splice(index, 1);
-	}
-	return arr;
+  var index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
 }
 
 // render functions
 async function renderHomePage(section = 1) {
-	try {
-		// fetch a paginated records list
-		const resultList = await client.records.getList("posts", section, 10, {
-			filter: 'created >= "2022-01-01 00:00:00"',
-			sort: "-created,id",
-			expand: "author,category",
-		});
+  try {
+    // fetch a paginated records list
+    const resultList = await client.records.getList("posts", section, 10, {
+      filter: 'created >= "2022-01-01 00:00:00"',
+      sort: "-created,id",
+      expand: "author,category",
+    });
 
-		const posts = resultList.items;
+    const posts = resultList.items;
 
-		// put all results into an html list
+    // put all results into an html list
 
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "Recent";
-		document.getElementById("document-title").innerHTML = "kynosocial - recent";
-		for (let i = 0; i < posts.length; i++) {
-			const post = posts[i];
-			const postUser = post["@expand"].author;
-			const postCategory = post["@expand"].category;
-			let postUserName;
-			if (postUser.name == undefined) {
-				postUserName = "Anonymous";
-			} else {
-				postUserName = postUser.name;
-			}
-			const title = post.title;
-			const content = post.content;
-			const created = post.created;
-			const updated = post.updated;
-			let amountWeShouldTruncateContent = 69;
-			if (document.body.clientWidth > 800) {
-				amountWeShouldTruncateContent = 170;
-			} else if (document.body.clientWidth > 600) {
-				amountWeShouldTruncateContent = 100;
-			}
-			const html = `
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "Recent";
+    document.getElementById("document-title").innerHTML = "kynosocial - recent";
+    for (let i = 0; i < posts.length; i++) {
+      const post = posts[i];
+      const postUser = post["@expand"].author;
+      const postCategory = post["@expand"].category;
+      let postUserName;
+      if (postUser.name == undefined) {
+        postUserName = "Anonymous";
+      } else {
+        postUserName = postUser.name;
+      }
+      const title = post.title;
+      const content = post.content;
+      const created = post.created;
+      const updated = post.updated;
+      let amountWeShouldTruncateContent = 69;
+      if (document.body.clientWidth > 800) {
+        amountWeShouldTruncateContent = 170;
+      } else if (document.body.clientWidth > 600) {
+        amountWeShouldTruncateContent = 100;
+      }
+      const html = `
 			<div class="post-item">
 				<div class="post-image-wrapper">
 					<div class="post-image">
 						<a href="?page=user&user=${postUser.id}">
 							<img loading="lazy" alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
-				postUser.id
-			}/${
-				postUser.avatar
-			}?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
-				postUser.id
-			}.svg?colors[]=grey'">
+        postUser.id
+      }/${
+        postUser.avatar
+      }?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+        postUser.id
+      }.svg?colors[]=grey'">
 						</a>
 					</div>
 					<div class="post-username">
@@ -129,190 +129,190 @@ async function renderHomePage(section = 1) {
 				<div class="post-content-wrapper">
 					<div class="post-title">
 						<a href="/?page=post&post=${post.id}">${await truncateText(
-				await cleanText(title),
-				24
-			)}</a>
+        await cleanText(title),
+        24
+      )}</a>
 					</div>
 					<div class="post-content">
 						${await truncateText(
-							await md.renderInline(await cleanText(content)),
-							amountWeShouldTruncateContent
-						)}
+              await md.renderInline(await cleanText(content)),
+              amountWeShouldTruncateContent
+            )}
 					</div>
 					<div class="post-created">
 						${created} · <a href="?page=category&category=${postCategory.id}">#${
-				postCategory.name
-			}</a>
+        postCategory.name
+      }</a>
 					</div>
 				</div>
 			</div>`;
-			document.getElementById("list").innerHTML += html;
-		}
+      document.getElementById("list").innerHTML += html;
+    }
 
-		// render pagination with arrow buttons
-		// only render up to 5 pages at a time, forwards and backwards
-		if (resultList.totalPages > 1) {
-			const pagination = document.getElementById("pagination");
-			pagination.innerHTML = "";
-			const page = resultList.page;
-			const pages = resultList.totalPages;
-			let look = 2;
-			if (page <= look) {
-				look = 5 - page;
-			}
-			if (page >= pages - (look - 1)) {
-				look = 5 - (pages - page);
-			}
-			const start = Math.max(1, page - look);
-			const end = Math.min(pages, page + look);
-			if (page > 1) {
-				pagination.innerHTML += `<a href="?page=home&section=${
-					page - 1
-				}"><i class="fa-solid fa-chevron-left"></i></a>`;
-			}
-			for (let i = start; i <= end; i++) {
-				if (i == page) {
-					pagination.innerHTML += `<a href="?page=home&section=${i}" class="active">${i}</a>`;
-				} else {
-					pagination.innerHTML += `<a href="?page=home&section=${i}">${i}</a>`;
-				}
-			}
-			if (page < pages) {
-				pagination.innerHTML += `<a href="?page=home&section=${
-					page + 1
-				}"><i class="fa-solid fa-chevron-right"></i></a>`;
-			}
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load posts", "list");
-	}
+    // render pagination with arrow buttons
+    // only render up to 5 pages at a time, forwards and backwards
+    if (resultList.totalPages > 1) {
+      const pagination = document.getElementById("pagination");
+      pagination.innerHTML = "";
+      const page = resultList.page;
+      const pages = resultList.totalPages;
+      let look = 2;
+      if (page <= look) {
+        look = 5 - page;
+      }
+      if (page >= pages - (look - 1)) {
+        look = 5 - (pages - page);
+      }
+      const start = Math.max(1, page - look);
+      const end = Math.min(pages, page + look);
+      if (page > 1) {
+        pagination.innerHTML += `<a href="?page=home&section=${
+          page - 1
+        }"><i class="fa-solid fa-chevron-left"></i></a>`;
+      }
+      for (let i = start; i <= end; i++) {
+        if (i == page) {
+          pagination.innerHTML += `<a href="?page=home&section=${i}" class="active">${i}</a>`;
+        } else {
+          pagination.innerHTML += `<a href="?page=home&section=${i}">${i}</a>`;
+        }
+      }
+      if (page < pages) {
+        pagination.innerHTML += `<a href="?page=home&section=${
+          page + 1
+        }"><i class="fa-solid fa-chevron-right"></i></a>`;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load posts", "list");
+  }
 }
 
 async function renderNotices() {
-	try {
-		// display a signin notice if username is anon
-		if (client.authStore.isValid == false) {
-			document.getElementById("list-notice").style.display = "flex";
-			document.getElementById("list-notice-fieldset").style.display = "flex";
-			document.getElementById("list-notice").innerHTML =
-				'<p class="list-notice-text">You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to interact with the site.<br><a href="?page=signup"><button class="btn-main">Sign up</button></a> <a href="?page=signin"><button class="btn-alt">Sign in</button></a></p>';
-		}
-		// display a notice if the user is not verified using email
-		else if (client.authStore.model.verified == false) {
-			document.getElementById("list-notice").style.display = "flex";
-			document.getElementById("list-notice-fieldset").style.display = "flex";
-			document.getElementById("list-notice").innerHTML =
-				'<p class="list-notice-text">Your email address is currently <b class="purple-text">NOT</b> verified. Please verify your email address to post.<br><a href="?page=verify"><button class="btn-main">Send verification link</button></a></p>';
-		}
-		// get dynamic notices from the backend
-		else {
-			const rl = await client.records.getList("notices", 1, 50, {
-				filter: 'created >= "2022-01-01 00:00:00"',
-			});
-			const notices = rl.items;
-			if (notices.length > 0) {
-				document.getElementById("list-notice").innerHTML = "";
-				for (const notice of notices) {
-					if (notice.active == true) {
-						document.getElementById("list-notice").innerHTML += `
+  try {
+    // display a signin notice if username is anon
+    if (client.authStore.isValid == false) {
+      document.getElementById("list-notice").style.display = "flex";
+      document.getElementById("list-notice-fieldset").style.display = "flex";
+      document.getElementById("list-notice").innerHTML =
+        '<p class="list-notice-text">You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to interact with the site.<br><a href="?page=signup"><button class="btn-main">Sign up</button></a> <a href="?page=signin"><button class="btn-alt">Sign in</button></a></p>';
+    }
+    // display a notice if the user is not verified using email
+    else if (client.authStore.model.verified == false) {
+      document.getElementById("list-notice").style.display = "flex";
+      document.getElementById("list-notice-fieldset").style.display = "flex";
+      document.getElementById("list-notice").innerHTML =
+        '<p class="list-notice-text">Your email address is currently <b class="purple-text">NOT</b> verified. Please verify your email address to post.<br><a href="?page=verify"><button class="btn-main">Send verification link</button></a></p>';
+    }
+    // get dynamic notices from the backend
+    else {
+      const rl = await client.records.getList("notices", 1, 50, {
+        filter: 'created >= "2022-01-01 00:00:00"',
+      });
+      const notices = rl.items;
+      if (notices.length > 0) {
+        document.getElementById("list-notice").innerHTML = "";
+        for (const notice of notices) {
+          if (notice.active == true) {
+            document.getElementById("list-notice").innerHTML += `
 						<p class="list-notice-text"><strong>${await md.renderInline(
-							await cleanText(notice.title)
-						)}</strong><br>${await md.renderInline(
-							await cleanText(notice.content)
-						)}</p>`;
-						document.getElementById("list-notice").style.display = "flex";
-						document.getElementById("list-notice-fieldset").style.display =
-							"flex";
-					}
-				}
-			}
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load notices", "list-notice", false);
-	}
+              await cleanText(notice.title)
+            )}</strong><br>${await md.renderInline(
+              await cleanText(notice.content)
+            )}</p>`;
+            document.getElementById("list-notice").style.display = "flex";
+            document.getElementById("list-notice-fieldset").style.display =
+              "flex";
+          }
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load notices", "list-notice", false);
+  }
 }
 
 async function renderNavbar() {
-	try {
-		// redirect id 'nav-profile-link' to signin page if not signed in
-		if (
-			client.authStore.isValid == false ||
-			client.authStore.model == {} ||
-			client.authStore.model == undefined ||
-			client.authStore.model === null
-		) {
-			document.getElementById("nav-profile-link").href = "?page=signin";
-			document.getElementById("nav-profile").innerHTML =
-				'<i class="fa-solid fa-user-plus"></i>';
-			document.getElementById("nav-add-post-link").href = "?page=signin";
-		} else {
-			document.getElementById("nav-profile-link").href =
-				"?page=user&user=" + client.authStore.model.profile.id;
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load navbar", "list");
-	}
+  try {
+    // redirect id 'nav-profile-link' to signin page if not signed in
+    if (
+      client.authStore.isValid == false ||
+      client.authStore.model == {} ||
+      client.authStore.model == undefined ||
+      client.authStore.model === null
+    ) {
+      document.getElementById("nav-profile-link").href = "?page=signin";
+      document.getElementById("nav-profile").innerHTML =
+        '<i class="fa-solid fa-user-plus"></i>';
+      document.getElementById("nav-add-post-link").href = "?page=signin";
+    } else {
+      document.getElementById("nav-profile-link").href =
+        "?page=user&user=" + client.authStore.model.profile.id;
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load navbar", "list");
+  }
 }
 
 async function renderPostPage() {
-	try {
-		const params = new Proxy(new URLSearchParams(window.location.search), {
-			get: (searchParams, prop) => searchParams.get(prop),
-		});
-		const postId = params.post;
-		const record = await client.records.getOne("posts", postId, {
-			expand: "author,category",
-		});
+  try {
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    const postId = params.post;
+    const record = await client.records.getOne("posts", postId, {
+      expand: "author,category",
+    });
 
-		// add one to the post's view count
-		const data = {
-			views: record.views + 1,
-			title: record.title,
-			content: record.content,
-			category: record.category,
-			author: record.author,
-		};
-		client.records.update("posts", postId, data);
+    // add one to the post's view count
+    const data = {
+      views: record.views + 1,
+      title: record.title,
+      content: record.content,
+      category: record.category,
+      author: record.author,
+    };
+    client.records.update("posts", postId, data);
 
-		// put all results into an html list
+    // put all results into an html list
 
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "Post";
-		const post = record;
-		const postUser = post["@expand"].author;
-		const postCategory = post["@expand"].category;
-		let postUserName;
-		if (postUser.name == undefined) {
-			postUserName = "Anonymous";
-		} else {
-			postUserName = postUser.name;
-		}
-		const title = post.title;
-		document.getElementById("document-title").innerHTML =
-			'kynosocial - "' + title + '"';
-		const content = post.content;
-		const created = post.created;
-		const html = `
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "Post";
+    const post = record;
+    const postUser = post["@expand"].author;
+    const postCategory = post["@expand"].category;
+    let postUserName;
+    if (postUser.name == undefined) {
+      postUserName = "Anonymous";
+    } else {
+      postUserName = postUser.name;
+    }
+    const title = post.title;
+    document.getElementById("document-title").innerHTML =
+      'kynosocial - "' + title + '"';
+    const content = post.content;
+    const created = post.created;
+    const html = `
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
                         <img loading="lazy" alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
-			postUser.id
-		}/${
-			postUser.avatar
-		}?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
-			postUser.id
-		}.svg?colors[]=grey'">
+      postUser.id
+    }/${
+      postUser.avatar
+    }?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+      postUser.id
+    }.svg?colors[]=grey'">
                     </a>
                 </div>
                 <div class="post-username">
                     <a href="?page=user&user=${postUser.id}">${await cleanText(
-			postUserName
-		)}</a>
+      postUserName
+    )}</a>
                 </div>
 				<div class="post-views">
 					<i class="fa-solid fa-eye views-icon"></i>${numeral(post.views).format("0a")}
@@ -327,77 +327,77 @@ async function renderPostPage() {
                 </div>
                 <div class="post-created">
                     ${created} · <a href="?page=category&category=${
-			postCategory.id
-		}">#${postCategory.name}</a>
+      postCategory.id
+    }">#${postCategory.name}</a>
                 </div>
             </div>
         </div>`;
-		document.getElementById("list").innerHTML += html;
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load post", "list");
-	}
+    document.getElementById("list").innerHTML += html;
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load post", "list");
+  }
 }
 
 async function renderUserPage() {
-	try {
-		const params = new Proxy(new URLSearchParams(window.location.search), {
-			get: (searchParams, prop) => searchParams.get(prop),
-		});
-		const userId = params.user;
-		const user = await client.records.getOne("profiles", userId, {});
-		let self;
-		// get self if logged in
-		client.users.refresh();
-		if (client.authStore.isValid == true) {
-			self = client.authStore.model.profile;
-		}
-		let userbio;
-		if (user.bio == "") {
-			userbio = "No biography found";
-		} else {
-			userbio = user.bio;
-		}
-		// compute badges
-		const userBadgesIcons = await getBadgeHTML(user, true);
-		// put all results into an html list
-		document.getElementById("document-title").innerHTML =
-			"kynosocial - " + user.name + "'s profile";
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "User";
+  try {
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    const userId = params.user;
+    const user = await client.records.getOne("profiles", userId, {});
+    let self;
+    // get self if logged in
+    client.users.refresh();
+    if (client.authStore.isValid == true) {
+      self = client.authStore.model.profile;
+    }
+    let userbio;
+    if (user.bio == "") {
+      userbio = "No biography found";
+    } else {
+      userbio = user.bio;
+    }
+    // compute badges
+    const userBadgesIcons = await getBadgeHTML(user, true);
+    // put all results into an html list
+    document.getElementById("document-title").innerHTML =
+      "kynosocial - " + user.name + "'s profile";
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "User";
 
-		let followbutton = "";
+    let followbutton = "";
 
-		if (
-			client.authStore.isValid == false ||
-			user.id == client.authStore.model.profile.id
-		) {
-			followbutton = ``;
-		} else {
-			followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main followbtn-small">Follow</button></a>`;
-			// add event listener to follow button
-		}
+    if (
+      client.authStore.isValid == false ||
+      user.id == client.authStore.model.profile.id
+    ) {
+      followbutton = ``;
+    } else {
+      followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main followbtn-small">Follow</button></a>`;
+      // add event listener to follow button
+    }
 
-		// if already following, change button to unfollow
-		if (client.authStore.isValid == true) {
-			if (self.following.includes(user.id)) {
-				followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main followbtn-small">Unfollow</button></a>`;
-			}
-		}
+    // if already following, change button to unfollow
+    if (client.authStore.isValid == true) {
+      if (self.following.includes(user.id)) {
+        followbutton = `<a href="#"><button id="follow-${user.id}-btn" class="btn btn-main followbtn-small">Unfollow</button></a>`;
+      }
+    }
 
-		const html = `
+    const html = `
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
                         <img loading="lazy" alt="${
-													user.name
-												}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
-			user.id
-		}/${
-			user.avatar
-		}?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
-			user.id
-		}.svg?colors[]=grey'">
+                          user.name
+                        }'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
+      user.id
+    }/${
+      user.avatar
+    }?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+      user.id
+    }.svg?colors[]=grey'">
                 </div>
 				<div class="post-username">
 					${followbutton}
@@ -416,69 +416,69 @@ async function renderUserPage() {
                 </div>
             </div>
         </div>`;
-		document.getElementById("list").innerHTML += html;
+    document.getElementById("list").innerHTML += html;
 
-		if (client.authStore.isValid == true) {
-			if (user.id != client.authStore.model.profile.id) {
-				document
-					.getElementById(`follow-${user.id}-btn`)
-					.addEventListener("click", followUserManager);
-			}
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load user page", "list");
-	}
+    if (client.authStore.isValid == true) {
+      if (user.id != client.authStore.model.profile.id) {
+        document
+          .getElementById(`follow-${user.id}-btn`)
+          .addEventListener("click", followUserManager);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load user page", "list");
+  }
 }
 
 async function followUserManager(e) {
-	try {
-		const userID = e.target.id.split("-")[1];
-		const user = await client.records.getOne("profiles", userID, {});
-		const self = await client.records.getOne(
-			"profiles",
-			client.authStore.model.profile.id,
-			{
-				expand: "following",
-			}
-		);
+  try {
+    const userID = e.target.id.split("-")[1];
+    const user = await client.records.getOne("profiles", userID, {});
+    const self = await client.records.getOne(
+      "profiles",
+      client.authStore.model.profile.id,
+      {
+        expand: "following",
+      }
+    );
 
-		if (self.following.includes(userID) == false) {
-			const follow = {
-				following: await self.following.concat(user.id),
-				badges: self.badges,
-			};
-			await client.records.update(
-				"profiles",
-				client.authStore.model.profile.id,
-				follow
-			);
-			window.location.href = "?page=user&user=" + user.id;
-		} else if (self.following.includes(userID) == true) {
-			// calculate new following array
-			const newFollowing = await removeItemOnce(self.following, userID);
-			const follow = {
-				following: newFollowing,
-				badges: self.badges,
-			};
-			await client.records.update(
-				"profiles",
-				client.authStore.model.profile.id,
-				follow
-			);
-			window.location.href = "?page=user&user=" + userID;
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to (un)follow user", "list");
-	}
+    if (self.following.includes(userID) == false) {
+      const follow = {
+        following: await self.following.concat(user.id),
+        badges: self.badges,
+      };
+      await client.records.update(
+        "profiles",
+        client.authStore.model.profile.id,
+        follow
+      );
+      window.location.href = "?page=user&user=" + user.id;
+    } else if (self.following.includes(userID) == true) {
+      // calculate new following array
+      const newFollowing = await removeItemOnce(self.following, userID);
+      const follow = {
+        following: newFollowing,
+        badges: self.badges,
+      };
+      await client.records.update(
+        "profiles",
+        client.authStore.model.profile.id,
+        follow
+      );
+      window.location.href = "?page=user&user=" + userID;
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to (un)follow user", "list");
+  }
 }
 
 async function renderSigninPage() {
-	try {
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "Sign in";
-		const html = `
+  try {
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "Sign in";
+    const html = `
 		<div class="post-item">
 		<form id="signin-form" action="?page=signin" method="post">
 			<div class="form-group">
@@ -494,40 +494,40 @@ async function renderSigninPage() {
 		</form>
 		</div>
 		`;
-		document.getElementById("list").innerHTML += html;
-		var form = document.getElementById("signin-form");
-		if (form.attachEvent) {
-			form.attachEvent("submit", signinFromForm);
-		} else {
-			form.addEventListener("submit", signinFromForm);
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load signin page", "list");
-	}
+    document.getElementById("list").innerHTML += html;
+    var form = document.getElementById("signin-form");
+    if (form.attachEvent) {
+      form.attachEvent("submit", signinFromForm);
+    } else {
+      form.addEventListener("submit", signinFromForm);
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load signin page", "list");
+  }
 }
 
 async function signinFromForm(e) {
-	try {
-		e.preventDefault();
-		const form = e.target;
-		const email = form.email.value;
-		const password = form.password.value;
+  try {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
 
-		client.authStore.clear();
-		await client.users.authViaEmail(email, password);
-		window.location.href = "/";
-		return false;
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to signin", "list");
-	}
+    client.authStore.clear();
+    await client.users.authViaEmail(email, password);
+    window.location.href = "/";
+    return false;
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to signin", "list");
+  }
 }
 async function renderSignupPage() {
-	try {
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "Sign up";
-		const html = `
+  try {
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "Sign up";
+    const html = `
 		<div class="post-item">
 		<form id="signup-form" action="?page=signup" method="post">
 			<div class="form-group" id="signup-email-group">
@@ -551,122 +551,122 @@ async function renderSignupPage() {
 		</form>
 		</div>
 		`;
-		document.getElementById("list").innerHTML += html;
-		var form = document.getElementById("signup-form");
-		if (form.attachEvent) {
-			form.attachEvent("submit", signupFromForm);
-		} else {
-			form.addEventListener("submit", signupFromForm);
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load signup page", "list");
-	}
+    document.getElementById("list").innerHTML += html;
+    var form = document.getElementById("signup-form");
+    if (form.attachEvent) {
+      form.attachEvent("submit", signupFromForm);
+    } else {
+      form.addEventListener("submit", signupFromForm);
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load signup page", "list");
+  }
 }
 
 async function signupFromForm(e) {
-	try {
-		e.preventDefault();
+  try {
+    e.preventDefault();
 
-		const form = e.target;
-		const email = form.email.value;
-		const password = form.password.value;
-		const confirmPassword = form.confirmpassword.value;
-		const username = form.username.value;
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    const confirmPassword = form.confirmpassword.value;
+    const username = form.username.value;
 
-		// handle wrong input
+    // handle wrong input
 
-		if (email == "") {
-			renderErrorMessage("Please fill in all fields", "signup-email-group");
-			return false;
-		}
-		if (password == "") {
-			renderErrorMessage("Please fill in all fields", "signup-password-group");
-			return false;
-		}
-		if (confirmPassword == "") {
-			renderErrorMessage(
-				"Please fill in all fields",
-				"signup-confirmpassword-group"
-			);
-			return false;
-		}
-		if (username == "") {
-			renderErrorMessage("Please fill in all fields", "signup-username-group");
-			return false;
-		}
+    if (email == "") {
+      renderErrorMessage("Please fill in all fields", "signup-email-group");
+      return false;
+    }
+    if (password == "") {
+      renderErrorMessage("Please fill in all fields", "signup-password-group");
+      return false;
+    }
+    if (confirmPassword == "") {
+      renderErrorMessage(
+        "Please fill in all fields",
+        "signup-confirmpassword-group"
+      );
+      return false;
+    }
+    if (username == "") {
+      renderErrorMessage("Please fill in all fields", "signup-username-group");
+      return false;
+    }
 
-		if (
-			email
-				.toLowerCase()
-				.match(
-					/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-				) == false
-		) {
-			renderErrorMessage("Please enter a valid email", "signup-email-group");
-			return false;
-		}
+    if (
+      email
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        ) == false
+    ) {
+      renderErrorMessage("Please enter a valid email", "signup-email-group");
+      return false;
+    }
 
-		if (password != confirmPassword) {
-			renderErrorMessage(
-				"Passwords do not match",
-				"signup-confirmpassword-group"
-			);
-			return false;
-		}
-		if (password.length < 10) {
-			renderErrorMessage(
-				"Password must be at least 10 characters long",
-				"signup-password-group"
-			);
-			return false;
-		}
-		if (username.length < 3) {
-			renderErrorPage(
-				"Username must be at least 3 characters long",
-				"signup-username-group"
-			);
-			return false;
-		}
-		if (username.length > 20) {
-			renderErrorPage(
-				"Username must be at most 20 characters long",
-				"signup-username-group"
-			);
-			return false;
-		}
+    if (password != confirmPassword) {
+      renderErrorMessage(
+        "Passwords do not match",
+        "signup-confirmpassword-group"
+      );
+      return false;
+    }
+    if (password.length < 10) {
+      renderErrorMessage(
+        "Password must be at least 10 characters long",
+        "signup-password-group"
+      );
+      return false;
+    }
+    if (username.length < 3) {
+      renderErrorPage(
+        "Username must be at least 3 characters long",
+        "signup-username-group"
+      );
+      return false;
+    }
+    if (username.length > 20) {
+      renderErrorPage(
+        "Username must be at most 20 characters long",
+        "signup-username-group"
+      );
+      return false;
+    }
 
-		const createdUser = await client.users.create({
-			email: email,
-			password: password,
-			passwordConfirm: confirmPassword,
-		});
+    const createdUser = await client.users.create({
+      email: email,
+      password: password,
+      passwordConfirm: confirmPassword,
+    });
 
-		await client.users.authViaEmail(email, password);
-		await client.users.refresh();
-		await client.records.update("profiles", createdUser.profile.id, {
-			name: username,
-			badges: createdUser.profile.badges,
-		});
-		window.location.href = "/";
-		return false;
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to signup", "list");
-	}
+    await client.users.authViaEmail(email, password);
+    await client.users.refresh();
+    await client.records.update("profiles", createdUser.profile.id, {
+      name: username,
+      badges: createdUser.profile.badges,
+    });
+    window.location.href = "/";
+    return false;
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to signup", "list");
+  }
 }
 
 function renderErrorMessage(message, element) {
-	const messageId = message.replace(/\s/g, "");
-	let errorCounter = window.localStorage.getItem(messageId);
-	if (errorCounter === null) {
-		window.localStorage.setItem(messageId, 1);
-		errorCounter = "1";
-	} else {
-		window.localStorage.setItem(messageId, parseInt(errorCounter) + 1);
-	}
+  const messageId = message.replace(/\s/g, "");
+  let errorCounter = window.localStorage.getItem(messageId);
+  if (errorCounter === null) {
+    window.localStorage.setItem(messageId, 1);
+    errorCounter = "1";
+  } else {
+    window.localStorage.setItem(messageId, parseInt(errorCounter) + 1);
+  }
 
-	const html = `
+  const html = `
 	<div class="alert-item" id="${messageId}">
 		<div class="alert alert-danger" role="alert" style="color:red;margin:0;font-size:0.8rem;">
 			${message} (${errorCounter})
@@ -674,76 +674,76 @@ function renderErrorMessage(message, element) {
 	</div>
 	`;
 
-	if (
-		document
-			.getElementById(element)
-			.contains(document.getElementById(messageId)) == false
-	) {
-		document.getElementById(element).innerHTML += html;
-	} else {
-		document.getElementById(messageId).innerHTML = `
+  if (
+    document
+      .getElementById(element)
+      .contains(document.getElementById(messageId)) == false
+  ) {
+    document.getElementById(element).innerHTML += html;
+  } else {
+    document.getElementById(messageId).innerHTML = `
 		<div class="alert alert-danger" role="alert" style="color:red;margin:0;font-size:0.8rem;">
 			${message} (${errorCounter})
 		</div>
 		`;
-	}
+  }
 }
 
 async function renderSignoutPage() {
-	client.authStore.clear();
-	window.location.href = "/";
+  client.authStore.clear();
+  window.location.href = "/";
 }
 
 async function renderTrendingPage(section = 1) {
-	try {
-		// only show posts from the last week
-		const resultList = await client.records.getList("posts", section, 10, {
-			filter:
-				'created >= "' +
-				DateTime.now()
-					.setZone("Etc/UTC")
-					.minus({ weeks: 1 })
-					.endOf("day")
-					.toISO() +
-				'"',
-			sort: "-views,-created",
-			expand: "author,category",
-		});
+  try {
+    // only show posts from the last week
+    const resultList = await client.records.getList("posts", section, 10, {
+      filter:
+        'created >= "' +
+        DateTime.now()
+          .setZone("Etc/UTC")
+          .minus({ weeks: 1 })
+          .endOf("day")
+          .toISO() +
+        '"',
+      sort: "-views,-created",
+      expand: "author,category",
+    });
 
-		const posts = resultList.items;
+    const posts = resultList.items;
 
-		// put all results into an html list
+    // put all results into an html list
 
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "Trending";
-		document.getElementById("document-title").innerHTML =
-			"kynosocial - trending";
-		if (resultList.totalItems > 0) {
-			for (let i = 0; i < posts.length; i++) {
-				const post = posts[i];
-				const postUser = post["@expand"].author;
-				const postCategory = post["@expand"].category;
-				let postUserName;
-				if (postUser.name == undefined) {
-					postUserName = "Anonymous";
-				} else {
-					postUserName = postUser.name;
-				}
-				const title = post.title;
-				const content = post.content;
-				const created = post.created;
-				const html = `
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "Trending";
+    document.getElementById("document-title").innerHTML =
+      "kynosocial - trending";
+    if (resultList.totalItems > 0) {
+      for (let i = 0; i < posts.length; i++) {
+        const post = posts[i];
+        const postUser = post["@expand"].author;
+        const postCategory = post["@expand"].category;
+        let postUserName;
+        if (postUser.name == undefined) {
+          postUserName = "Anonymous";
+        } else {
+          postUserName = postUser.name;
+        }
+        const title = post.title;
+        const content = post.content;
+        const created = post.created;
+        const html = `
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
                         <img loading="lazy" alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
-					postUser.id
-				}/${
-					postUser.avatar
-				}?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
-					postUser.id
-				}.svg?colors[]=grey'">
+          postUser.id
+        }/${
+          postUser.avatar
+        }?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+          postUser.id
+        }.svg?colors[]=grey'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -753,62 +753,62 @@ async function renderTrendingPage(section = 1) {
             <div class="post-content-wrapper">
                 <div class="post-title">
                     <a href="/?page=post&post=${post.id}">${await truncateText(
-					await cleanText(title),
-					24
-				)}</a>
+          await cleanText(title),
+          24
+        )}</a>
                 </div>
                 <div class="post-content">
                     ${await truncateText(
-											await md.renderInline(await cleanText(content)),
-											56
-										)}
+                      await md.renderInline(await cleanText(content)),
+                      56
+                    )}
                 </div>
                 <div class="post-created">
                     ${created} · <a href="?page=category&category=${
-					postCategory.id
-				}">#${postCategory.name}</a>
+          postCategory.id
+        }">#${postCategory.name}</a>
                 </div>
             </div>
         </div>`;
-				document.getElementById("list").innerHTML += html;
-			}
+        document.getElementById("list").innerHTML += html;
+      }
 
-			// render pagination with arrow buttons
-			// only render up to 5 pages, the current page, and the 2 pages before and after it
-			if (resultList.totalPages > 1) {
-				const pagination = document.getElementById("pagination");
-				pagination.innerHTML = "";
-				const page = resultList.page;
-				const pages = resultList.totalPages;
-				let look = 2;
-				if (page <= look) {
-					look = 5 - page;
-				}
-				if (page >= pages - (look - 1)) {
-					look = 5 - (pages - page);
-				}
-				const start = Math.max(1, page - look);
-				const end = Math.min(pages, page + look);
-				if (page > 1) {
-					pagination.innerHTML += `<a href="?page=trending&section=${
-						page - 1
-					}"><i class="fa-solid fa-chevron-left"></i></a>`;
-				}
-				for (let i = start; i <= end; i++) {
-					if (i == page) {
-						pagination.innerHTML += `<a href="?page=trending&section=${i}" class="active">${i}</a>`;
-					} else {
-						pagination.innerHTML += `<a href="?page=trending&section=${i}">${i}</a>`;
-					}
-				}
-				if (page < pages) {
-					pagination.innerHTML += `<a href="?page=trending&section=${
-						page + 1
-					}"><i class="fa-solid fa-chevron-right"></i></a>`;
-				}
-			}
-		} else {
-			document.getElementById("list").innerHTML = `
+      // render pagination with arrow buttons
+      // only render up to 5 pages, the current page, and the 2 pages before and after it
+      if (resultList.totalPages > 1) {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+        const page = resultList.page;
+        const pages = resultList.totalPages;
+        let look = 2;
+        if (page <= look) {
+          look = 5 - page;
+        }
+        if (page >= pages - (look - 1)) {
+          look = 5 - (pages - page);
+        }
+        const start = Math.max(1, page - look);
+        const end = Math.min(pages, page + look);
+        if (page > 1) {
+          pagination.innerHTML += `<a href="?page=trending&section=${
+            page - 1
+          }"><i class="fa-solid fa-chevron-left"></i></a>`;
+        }
+        for (let i = start; i <= end; i++) {
+          if (i == page) {
+            pagination.innerHTML += `<a href="?page=trending&section=${i}" class="active">${i}</a>`;
+          } else {
+            pagination.innerHTML += `<a href="?page=trending&section=${i}">${i}</a>`;
+          }
+        }
+        if (page < pages) {
+          pagination.innerHTML += `<a href="?page=trending&section=${
+            page + 1
+          }"><i class="fa-solid fa-chevron-right"></i></a>`;
+        }
+      }
+    } else {
+      document.getElementById("list").innerHTML = `
 			<div class="post-item">
 				<div class="post-content-wrapper">
 					<div class="post-content">
@@ -817,32 +817,32 @@ async function renderTrendingPage(section = 1) {
 				</div>
 			</div>
 			`;
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load trending page", "list");
-	}
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load trending page", "list");
+  }
 }
 
 async function renderCategoriesPage(section) {
-	try {
-		const resultList = await client.records.getList("categories", section, 10, {
-			sort: "name",
-		});
+  try {
+    const resultList = await client.records.getList("categories", section, 10, {
+      sort: "name",
+    });
 
-		const categories = resultList.items;
+    const categories = resultList.items;
 
-		// put all results into an html list
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "Categories";
-		document.getElementById("document-title").innerHTML =
-			"kynosocial - categories";
-		for (let i = 0; i < categories.length; i++) {
-			const category = categories[i];
-			const categoryName = category.name;
-			const categoryDescription = category.description;
+    // put all results into an html list
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "Categories";
+    document.getElementById("document-title").innerHTML =
+      "kynosocial - categories";
+    for (let i = 0; i < categories.length; i++) {
+      const category = categories[i];
+      const categoryName = category.name;
+      const categoryDescription = category.description;
 
-			const html = `
+      const html = `
 		<div class="post-item">
 			<div class="post-content-wrapper">
 				<div class="post-title">
@@ -856,90 +856,90 @@ async function renderCategoriesPage(section) {
 				</div>
 			</div>
 		</div>`;
-			document.getElementById("list").innerHTML += html;
-		}
-		// render pagination with arrow buttons
-		// only render up to 5 pages, the current page, and the 2 pages before and after it
-		if (resultList.totalPages > 1) {
-			const pagination = document.getElementById("pagination");
-			pagination.innerHTML = "";
-			const page = resultList.page;
-			const pages = resultList.totalPages;
-			let look = 2;
-			if (page <= look) {
-				look = 5 - page;
-			}
-			if (page >= pages - (look - 1)) {
-				look = 5 - (pages - page);
-			}
-			const start = Math.max(1, page - look);
-			const end = Math.min(pages, page + look);
-			if (page > 1) {
-				pagination.innerHTML += `<a href="?page=categories&section=${
-					page - 1
-				}"><i class="fa-solid fa-chevron-left"></i></a>`;
-			}
-			for (let i = start; i <= end; i++) {
-				if (i == page) {
-					pagination.innerHTML += `<a href="?page=categories&section=${i}" class="active">${i}</a>`;
-				} else {
-					pagination.innerHTML += `<a href="?page=categories&section=${i}">${i}</a>`;
-				}
-			}
-			if (page < pages) {
-				pagination.innerHTML += `<a href="?page=categories&section=${
-					page + 1
-				}"><i class="fa-solid fa-chevron-right"></i></a>`;
-			}
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load categories page", "list");
-	}
+      document.getElementById("list").innerHTML += html;
+    }
+    // render pagination with arrow buttons
+    // only render up to 5 pages, the current page, and the 2 pages before and after it
+    if (resultList.totalPages > 1) {
+      const pagination = document.getElementById("pagination");
+      pagination.innerHTML = "";
+      const page = resultList.page;
+      const pages = resultList.totalPages;
+      let look = 2;
+      if (page <= look) {
+        look = 5 - page;
+      }
+      if (page >= pages - (look - 1)) {
+        look = 5 - (pages - page);
+      }
+      const start = Math.max(1, page - look);
+      const end = Math.min(pages, page + look);
+      if (page > 1) {
+        pagination.innerHTML += `<a href="?page=categories&section=${
+          page - 1
+        }"><i class="fa-solid fa-chevron-left"></i></a>`;
+      }
+      for (let i = start; i <= end; i++) {
+        if (i == page) {
+          pagination.innerHTML += `<a href="?page=categories&section=${i}" class="active">${i}</a>`;
+        } else {
+          pagination.innerHTML += `<a href="?page=categories&section=${i}">${i}</a>`;
+        }
+      }
+      if (page < pages) {
+        pagination.innerHTML += `<a href="?page=categories&section=${
+          page + 1
+        }"><i class="fa-solid fa-chevron-right"></i></a>`;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load categories page", "list");
+  }
 }
 
 async function renderCategoryPage(categoryId, section) {
-	try {
-		const category = await client.records.getOne("categories", categoryId);
-		const resultList = await client.records.getList("posts", section, 10, {
-			filter: 'category.id = "' + categoryId + '"',
-			sort: "-views,-created",
-			expand: "author",
-		});
+  try {
+    const category = await client.records.getOne("categories", categoryId);
+    const resultList = await client.records.getList("posts", section, 10, {
+      filter: 'category.id = "' + categoryId + '"',
+      sort: "-views,-created",
+      expand: "author",
+    });
 
-		const posts = resultList.items;
+    const posts = resultList.items;
 
-		// put all results into an html list
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "#" + category.name;
-		document.getElementById("document-title").innerHTML =
-			"kynosocial - #" + category.name;
+    // put all results into an html list
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "#" + category.name;
+    document.getElementById("document-title").innerHTML =
+      "kynosocial - #" + category.name;
 
-		if (resultList.totalItems > 0) {
-			for (let i = 0; i < posts.length; i++) {
-				const post = posts[i];
-				const postUser = post["@expand"].author;
-				let postUserName;
-				if (postUser.name == undefined) {
-					postUserName = "Anonymous";
-				} else {
-					postUserName = postUser.name;
-				}
-				const title = post.title;
-				const content = post.content;
-				const created = post.created;
-				const html = `
+    if (resultList.totalItems > 0) {
+      for (let i = 0; i < posts.length; i++) {
+        const post = posts[i];
+        const postUser = post["@expand"].author;
+        let postUserName;
+        if (postUser.name == undefined) {
+          postUserName = "Anonymous";
+        } else {
+          postUserName = postUser.name;
+        }
+        const title = post.title;
+        const content = post.content;
+        const created = post.created;
+        const html = `
         <div class="post-item">
             <div class="post-image-wrapper">
                 <div class="post-image">
                     <a href="?page=user&user=${postUser.id}">
                         <img loading="lazy" alt="${postUserName}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
-					postUser.id
-				}/${
-					postUser.avatar
-				}?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
-					postUser.id
-				}.svg?colors[]=grey'">
+          postUser.id
+        }/${
+          postUser.avatar
+        }?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+          postUser.id
+        }.svg?colors[]=grey'">
                     </a>
                 </div>
                 <div class="post-username">
@@ -949,60 +949,60 @@ async function renderCategoryPage(categoryId, section) {
             <div class="post-content-wrapper">
                 <div class="post-title">
                     <a href="/?page=post&post=${post.id}">${await truncateText(
-					title,
-					24
-				)}</a>
+          title,
+          24
+        )}</a>
                 </div>
                 <div class="post-content">
                     ${await truncateText(
-											await md.renderInline(await cleanText(content)),
-											56
-										)}
+                      await md.renderInline(await cleanText(content)),
+                      56
+                    )}
                 </div>
                 <div class="post-created">
                     ${created}
                 </div>
             </div>
         </div>`;
-				document.getElementById("list").innerHTML += html;
-			}
+        document.getElementById("list").innerHTML += html;
+      }
 
-			// render pagination with arrow buttons
-			// only render up to 5 pages, the current page, and the 2 pages before and after it
-			if (resultList.totalPages > 1) {
-				const pagination = document.getElementById("pagination");
-				pagination.innerHTML = "";
-				const page = resultList.page;
-				const pages = resultList.totalPages;
-				let look = 2;
-				if (page <= look) {
-					look = 5 - page;
-				}
-				if (page >= pages - (look - 1)) {
-					look = 5 - (pages - page);
-				}
-				const start = Math.max(1, page - look);
-				const end = Math.min(pages, page + look);
-				if (page > 1) {
-					pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${
-						page - 1
-					}"><i class="fa-solid fa-chevron-left"></i></a>`;
-				}
-				for (let i = start; i <= end; i++) {
-					if (i == page) {
-						pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${i}" class="active">${i}</a>`;
-					} else {
-						pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${i}">${i}</a>`;
-					}
-				}
-				if (page < pages) {
-					pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${
-						page + 1
-					}"><i class="fa-solid fa-chevron-right"></i></a>`;
-				}
-			}
-		} else {
-			document.getElementById("list").innerHTML = `
+      // render pagination with arrow buttons
+      // only render up to 5 pages, the current page, and the 2 pages before and after it
+      if (resultList.totalPages > 1) {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+        const page = resultList.page;
+        const pages = resultList.totalPages;
+        let look = 2;
+        if (page <= look) {
+          look = 5 - page;
+        }
+        if (page >= pages - (look - 1)) {
+          look = 5 - (pages - page);
+        }
+        const start = Math.max(1, page - look);
+        const end = Math.min(pages, page + look);
+        if (page > 1) {
+          pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${
+            page - 1
+          }"><i class="fa-solid fa-chevron-left"></i></a>`;
+        }
+        for (let i = start; i <= end; i++) {
+          if (i == page) {
+            pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${i}" class="active">${i}</a>`;
+          } else {
+            pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${i}">${i}</a>`;
+          }
+        }
+        if (page < pages) {
+          pagination.innerHTML += `<a href="?page=category&category=${categoryId}&section=${
+            page + 1
+          }"><i class="fa-solid fa-chevron-right"></i></a>`;
+        }
+      }
+    } else {
+      document.getElementById("list").innerHTML = `
 			<div class="post-item">
 				<div class="post-content-wrapper">
 					<div class="post-content">
@@ -1011,31 +1011,31 @@ async function renderCategoryPage(categoryId, section) {
 				</div>
 			</div>
 			`;
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load category page", "list");
-	}
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load category page", "list");
+  }
 }
 
 async function renderAddPostPage() {
-	try {
-		// get popular categories
-		const categoryResultList = await client.records.getList(
-			"categories",
-			1,
-			100,
-			{
-				sort: "name",
-			}
-		);
+  try {
+    // get popular categories
+    const categoryResultList = await client.records.getList(
+      "categories",
+      1,
+      100,
+      {
+        sort: "name",
+      }
+    );
 
-		// render the add post page
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "Add Post";
-		document.getElementById("document-title").innerHTML =
-			"kynosocial - add post";
-		const html = `
+    // render the add post page
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "Add Post";
+    document.getElementById("document-title").innerHTML =
+      "kynosocial - add post";
+    const html = `
 		<div class="post-item">
 			<div class="post-content-wrapper">
 				<div class="post-content">
@@ -1052,14 +1052,14 @@ async function renderAddPostPage() {
 							<label for="category">Category</label>
 							<select class="form-control" id="postcategory" name="category">
 								${categoryResultList.items
-									.map((category) => {
-										if (category.name == "general") {
-											return `<option value="${category.id}" selected>${category.name}</option>`;
-										} else {
-											return `<option value="${category.id}">${category.name}</option>`;
-										}
-									})
-									.join("")}
+                  .map((category) => {
+                    if (category.name == "general") {
+                      return `<option value="${category.id}" selected>${category.name}</option>`;
+                    } else {
+                      return `<option value="${category.id}">${category.name}</option>`;
+                    }
+                  })
+                  .join("")}
 							</select>
 						</div>
 						<button type="submit" class="btn btn-main">Add Post</button>
@@ -1068,130 +1068,130 @@ async function renderAddPostPage() {
 				</div>
 			</div>
 		</div>`;
-		document.getElementById("list").innerHTML = html;
+    document.getElementById("list").innerHTML = html;
 
-		// add event listener to the form
-		var form = document.getElementById("add-post-form");
-		if (form.attachEvent) {
-			form.attachEvent("submit", addPostFromForm);
-		} else {
-			form.addEventListener("submit", addPostFromForm);
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load post page", "list");
-	}
+    // add event listener to the form
+    var form = document.getElementById("add-post-form");
+    if (form.attachEvent) {
+      form.attachEvent("submit", addPostFromForm);
+    } else {
+      form.addEventListener("submit", addPostFromForm);
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load post page", "list");
+  }
 }
 
 async function addPostFromForm(e) {
-	try {
-		e.preventDefault();
-		await client.users.refresh();
-		const form = e.target;
-		const title = form.posttitle.value;
-		const content = form.postcontent.value;
-		const categoryId = form.postcategory.value;
-		const category = await client.records.getOne("categories", categoryId);
-		const user = await client.records.getOne(
-			"profiles",
-			client.authStore.model.profile.id
-		);
-		// verify the form
-		if (client.authStore.model.verified == false) {
-			renderErrorMessage(
-				"You must verify your email before posting.",
-				"add-post-error"
-			);
-			return;
-		}
-		if (title == "") {
-			renderErrorMessage("Please fill in all fields", "posttitlegroup");
-			return;
-		}
-		if (content == "") {
-			renderErrorMessage("Please fill in all fields", "postcontentgroup");
-			return;
-		}
-		if (category === null) {
-			renderErrorMessage("Please select a category", "postcategorygroup");
-			return;
-		}
+  try {
+    e.preventDefault();
+    await client.users.refresh();
+    const form = e.target;
+    const title = form.posttitle.value;
+    const content = form.postcontent.value;
+    const categoryId = form.postcategory.value;
+    const category = await client.records.getOne("categories", categoryId);
+    const user = await client.records.getOne(
+      "profiles",
+      client.authStore.model.profile.id
+    );
+    // verify the form
+    if (client.authStore.model.verified == false) {
+      renderErrorMessage(
+        "You must verify your email before posting.",
+        "add-post-error"
+      );
+      return;
+    }
+    if (title == "") {
+      renderErrorMessage("Please fill in all fields", "posttitlegroup");
+      return;
+    }
+    if (content == "") {
+      renderErrorMessage("Please fill in all fields", "postcontentgroup");
+      return;
+    }
+    if (category === null) {
+      renderErrorMessage("Please select a category", "postcategorygroup");
+      return;
+    }
 
-		const post = await client.records.create("posts", {
-			title: title,
-			content: content,
-			category: category.id,
-			author: user.id,
-		});
-		window.location.href = "?page=post&post=" + post.id;
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to add post", "list");
-	}
+    const post = await client.records.create("posts", {
+      title: title,
+      content: content,
+      category: category.id,
+      author: user.id,
+    });
+    window.location.href = "?page=post&post=" + post.id;
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to add post", "list");
+  }
 }
 
 async function renderErrorPage(err, div, showgif = true) {
-	if (err === null) {
-		err = "An unknown error has occurred";
-	}
-	if (div === null) {
-		div = "list";
-	}
-	document.getElementById(div).style.display = "flex";
-	document.getElementById(`${div}-fieldset`).style.display = "flex";
-	// document.getElementById(`${div}-legend`).innerHTML = "Error";
-	let img;
-	if (showgif) {
-		img =
-			'<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="100%">';
-	} else {
-		img = "";
-	}
-	document.getElementById(
-		div
-	).innerHTML = `${img}<p><i class="fa-solid fa-bug"></i> An error has occurred.</p><span class="post-created">(${err})</span>`;
+  if (err === null) {
+    err = "An unknown error has occurred";
+  }
+  if (div === null) {
+    div = "list";
+  }
+  document.getElementById(div).style.display = "flex";
+  document.getElementById(`${div}-fieldset`).style.display = "flex";
+  // document.getElementById(`${div}-legend`).innerHTML = "Error";
+  let img;
+  if (showgif) {
+    img =
+      '<img alt="Funny GIF of man smashing computer" src="img/error.gif" width="100%">';
+  } else {
+    img = "";
+  }
+  document.getElementById(
+    div
+  ).innerHTML = `${img}<p><i class="fa-solid fa-bug"></i> An error has occurred.</p><span class="post-created">(${err})</span>`;
 }
 
 async function renderComments(
-	isUserPageComment = false,
-	ID = null,
-	section = 1
+  isUserPageComment = false,
+  ID = null,
+  section = 1
 ) {
-	try {
-		let resultList;
-		if (isUserPageComment == false) {
-			resultList = await client.records.getList("post_comments", section, 10, {
-				filter:
-					'created >= "2022-01-01 00:00:00" && linked_post.id = "' + ID + '"',
-				sort: "-created,id",
-				expand: "author",
-			});
-		} else {
-			resultList = await client.records.getList("user_comments", section, 10, {
-				filter:
-					'created >= "2022-01-01 00:00:00" && linked_profile.id = "' +
-					ID +
-					'"',
-				sort: "-created,id",
-				expand: "author",
-			});
-		}
-		document.getElementById("comments").style.display = "flex";
-		document.getElementById("comments-fieldset").style.display = "flex";
-		document.getElementById("comments").innerHTML = "";
-		document.getElementById("comments-legend").innerHTML = "Comments";
-		const comments = resultList.items;
+  try {
+    let resultList;
+    if (isUserPageComment == false) {
+      resultList = await client.records.getList("post_comments", section, 10, {
+        filter:
+          'created >= "2022-01-01 00:00:00" && linked_post.id = "' + ID + '"',
+        sort: "-created,id",
+        expand: "author",
+      });
+    } else {
+      resultList = await client.records.getList("user_comments", section, 10, {
+        filter:
+          'created >= "2022-01-01 00:00:00" && linked_profile.id = "' +
+          ID +
+          '"',
+        sort: "-created,id",
+        expand: "author",
+      });
+    }
+    document.getElementById("comments").style.display = "flex";
+    document.getElementById("comments-fieldset").style.display = "flex";
+    document.getElementById("comments").innerHTML = "";
+    document.getElementById("comments-legend").innerHTML = "Comments";
+    const comments = resultList.items;
 
-		let hiddenformvalue;
-		if (isUserPageComment) {
-			hiddenformvalue = `<input type='hidden' name='isUserPageComment' value=true>
+    let hiddenformvalue;
+    if (isUserPageComment) {
+      hiddenformvalue = `<input type='hidden' name='isUserPageComment' value=true>
 			<input type='hidden' name='linkedID' value=${ID}>`;
-		} else {
-			hiddenformvalue = `<input type='hidden' name='isUserPageComment' value=false>
+    } else {
+      hiddenformvalue = `<input type='hidden' name='isUserPageComment' value=false>
 			<input type='hidden' name='linkedID' value=${ID}>`;
-		}
+    }
 
-		const addcommentformhtml = `
+    const addcommentformhtml = `
 		<div class="post-item">
 			<div class="post-content-wrapper">
 				<div class="post-content">
@@ -1207,26 +1207,26 @@ async function renderComments(
 		</div>
 		`;
 
-		if (resultList.totalItems > 0) {
-			for (let i = 0; i < comments.length; i++) {
-				const comment = comments[i];
-				const author = comment["@expand"].author;
-				// compute badges
-				const userBadgesIcons = await getBadgeHTML(author);
-				const html = `
+    if (resultList.totalItems > 0) {
+      for (let i = 0; i < comments.length; i++) {
+        const comment = comments[i];
+        const author = comment["@expand"].author;
+        // compute badges
+        const userBadgesIcons = await getBadgeHTML(author);
+        const html = `
 				<div class="post-item">
 					<div class="post-image-wrapper">
 						<div class="post-image">
 							<a href="?page=user&user=${author.id}">
 								<img loading="lazy" alt="${
-									author.name
-								}'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
-					author.id
-				}/${
-					author.avatar
-				}?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
-					author.id
-				}.svg?colors[]=grey'">
+                  author.name
+                }'s profile picture" src="https://backend.kyno.social/api/files/systemprofiles0/${
+          author.id
+        }/${
+          author.avatar
+        }?thumb=128x128" width="64px" height="64px" onerror="this.src='https://avatars.dicebear.com/api/identicon/${
+          author.id
+        }.svg?colors[]=grey'">
 							</a>
 						</div>
 						
@@ -1243,46 +1243,46 @@ async function renderComments(
 						</div>
 					</div>
 				</div>`;
-				document.getElementById("comments").innerHTML += html;
-			}
+        document.getElementById("comments").innerHTML += html;
+      }
 
-			// render pagination with arrow buttons
-			// only render up to 5 pages, the current page, and the 2 pages before and after it
-			if (resultList.totalPages > 1) {
-				const pagination = document.getElementById("comments-pagination");
-				pagination.innerHTML = "";
-				const type = isUserPageComment ? "user" : "post";
-				const page = resultList.page;
-				const pages = resultList.totalPages;
-				let look = 2;
-				if (page <= look) {
-					look = 5 - page;
-				}
-				if (page >= pages - (look - 1)) {
-					look = 5 - (pages - page);
-				}
-				const start = Math.max(1, page - look);
-				const end = Math.min(pages, page + look);
-				if (page > 1) {
-					pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
-						page - 1
-					}"><i class="fa-solid fa-chevron-left"></i></a>`;
-				}
-				for (let i = start; i <= end; i++) {
-					if (i == page) {
-						pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}" class="active">${i}</a>`;
-					} else {
-						pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}">${i}</a>`;
-					}
-				}
-				if (page < pages) {
-					pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
-						page + 1
-					}"><i class="fa-solid fa-chevron-right"></i></a>`;
-				}
-			}
-		} else {
-			document.getElementById("comments").innerHTML += `
+      // render pagination with arrow buttons
+      // only render up to 5 pages, the current page, and the 2 pages before and after it
+      if (resultList.totalPages > 1) {
+        const pagination = document.getElementById("comments-pagination");
+        pagination.innerHTML = "";
+        const type = isUserPageComment ? "user" : "post";
+        const page = resultList.page;
+        const pages = resultList.totalPages;
+        let look = 2;
+        if (page <= look) {
+          look = 5 - page;
+        }
+        if (page >= pages - (look - 1)) {
+          look = 5 - (pages - page);
+        }
+        const start = Math.max(1, page - look);
+        const end = Math.min(pages, page + look);
+        if (page > 1) {
+          pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
+            page - 1
+          }"><i class="fa-solid fa-chevron-left"></i></a>`;
+        }
+        for (let i = start; i <= end; i++) {
+          if (i == page) {
+            pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}" class="active">${i}</a>`;
+          } else {
+            pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}">${i}</a>`;
+          }
+        }
+        if (page < pages) {
+          pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${
+            page + 1
+          }"><i class="fa-solid fa-chevron-right"></i></a>`;
+        }
+      }
+    } else {
+      document.getElementById("comments").innerHTML += `
 			<div class="post-item">
 				<div class="post-content-wrapper">
 					<div class="post-content">
@@ -1291,99 +1291,99 @@ async function renderComments(
 				</div>
 			</div>
 			`;
-		}
-		if (client.authStore.isValid) {
-			document.getElementById("comments").innerHTML =
-				addcommentformhtml + document.getElementById("comments").innerHTML;
-			var form = document.getElementById("comment-form");
-			if (form.attachEvent) {
-				form.attachEvent("submit", commentFromForm);
-			} else {
-				form.addEventListener("submit", commentFromForm);
-			}
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load comments", "comments");
-	}
+    }
+    if (client.authStore.isValid) {
+      document.getElementById("comments").innerHTML =
+        addcommentformhtml + document.getElementById("comments").innerHTML;
+      var form = document.getElementById("comment-form");
+      if (form.attachEvent) {
+        form.attachEvent("submit", commentFromForm);
+      } else {
+        form.addEventListener("submit", commentFromForm);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load comments", "comments");
+  }
 }
 
 async function commentFromForm(e) {
-	try {
-		e.preventDefault();
-		const form = e.target;
-		const comment = form.comment.value;
+  try {
+    e.preventDefault();
+    const form = e.target;
+    const comment = form.comment.value;
 
-		if (comment == "") {
-			return;
-		}
-		const linkedID = form.linkedID.value;
-		const isUserPageComment = form.isUserPageComment.value;
-		if (isUserPageComment == "true") {
-			await client.records.create("user_comments", {
-				content: await cleanText(comment),
-				author: client.authStore.model.profile.id,
-				linked_profile: linkedID,
-			});
-			form.reset();
-			window.location.href = "?page=user&user=" + linkedID;
-			return false;
-		} else {
-			await client.records.create("post_comments", {
-				content: await cleanText(comment),
-				author: client.authStore.model.profile.id,
-				linked_post: linkedID,
-			});
-			form.reset();
-			window.location.href = "?page=post&post=" + linkedID;
-			return false;
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to comment", "comments");
-	}
+    if (comment == "") {
+      return;
+    }
+    const linkedID = form.linkedID.value;
+    const isUserPageComment = form.isUserPageComment.value;
+    if (isUserPageComment == "true") {
+      await client.records.create("user_comments", {
+        content: await cleanText(comment),
+        author: client.authStore.model.profile.id,
+        linked_profile: linkedID,
+      });
+      form.reset();
+      window.location.href = "?page=user&user=" + linkedID;
+      return false;
+    } else {
+      await client.records.create("post_comments", {
+        content: await cleanText(comment),
+        author: client.authStore.model.profile.id,
+        linked_post: linkedID,
+      });
+      form.reset();
+      window.location.href = "?page=post&post=" + linkedID;
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to comment", "comments");
+  }
 }
 
 async function getThemeSelectorHTML() {
-	try {
-		// Theme files are stored in the /css/themes folder
-		const themes = [
-			"modern",
-			"retro",
-			"modern, blue",
-			"modern, green",
-			"modern, yellow",
-			"modern, purple",
-		];
-		let html = "";
-		for (let i = 0; i < themes.length; i++) {
-			const theme = themes[i];
-			html += `<option value="${theme}" ${
-				localStorage.getItem("theme") == theme ? "selected" : ""
-			}>${theme}</option>`;
-		}
+  try {
+    // Theme files are stored in the /css/themes folder
+    const themes = [
+      "modern",
+      "retro",
+      "modern, blue",
+      "modern, green",
+      "modern, yellow",
+      "modern, purple",
+    ];
+    let html = "";
+    for (let i = 0; i < themes.length; i++) {
+      const theme = themes[i];
+      html += `<option value="${theme}" ${
+        localStorage.getItem("theme") == theme ? "selected" : ""
+      }>${theme}</option>`;
+    }
 
-		return html;
-	} catch (error) {
-		console.log(error);
-	}
+    return html;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function renderManageProfile(userID) {
-	try {
-		if (
-			client.authStore.isValid == true &&
-			client.authStore.model.profile.id == userID
-		) {
-			const user = await client.records.getOne(
-				"profiles",
-				client.authStore.model.profile.id
-			);
-			document.getElementById("settings").style.display = "flex";
-			document.getElementById("settings-fieldset").style.display = "flex";
-			document.getElementById("settings").innerHTML = "";
-			document.getElementById("settings-legend").innerHTML = "Settings";
-			const html = `
+  try {
+    if (
+      client.authStore.isValid == true &&
+      client.authStore.model.profile.id == userID
+    ) {
+      const user = await client.records.getOne(
+        "profiles",
+        client.authStore.model.profile.id
+      );
+      document.getElementById("settings").style.display = "flex";
+      document.getElementById("settings-fieldset").style.display = "flex";
+      document.getElementById("settings").innerHTML = "";
+      document.getElementById("settings-legend").innerHTML = "Settings";
+      const html = `
 					<div class="post-item">
 						<div class="post-content-wrapper">
 							<div class="post-content" id="edit-avatar">
@@ -1427,121 +1427,121 @@ async function renderManageProfile(userID) {
 						</div>	
 					</div>
 				`;
-			document.getElementById("settings").innerHTML += html;
-			// add event listener to edit avatar form
-			var form = document.getElementById("editavatar-form");
-			if (form.attachEvent) {
-				form.attachEvent("submit", editAvatarFromForm);
-			} else {
-				form.addEventListener("submit", editAvatarFromForm);
-			}
-			// add event listener to edit bio form
-			var form1 = document.getElementById("editbio-form");
-			if (form1.attachEvent) {
-				form1.attachEvent("submit", editBioFromForm);
-			} else {
-				form1.addEventListener("submit", editBioFromForm);
-			}
-			// add event listener to edit theme form
-			var form2 = document.getElementById("edittheme-form");
-			if (form2.attachEvent) {
-				form2.attachEvent("submit", editThemeFromForm);
-			} else {
-				form2.addEventListener("submit", editThemeFromForm);
-			}
-		}
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load manage profile", "settings");
-	}
+      document.getElementById("settings").innerHTML += html;
+      // add event listener to edit avatar form
+      var form = document.getElementById("editavatar-form");
+      if (form.attachEvent) {
+        form.attachEvent("submit", editAvatarFromForm);
+      } else {
+        form.addEventListener("submit", editAvatarFromForm);
+      }
+      // add event listener to edit bio form
+      var form1 = document.getElementById("editbio-form");
+      if (form1.attachEvent) {
+        form1.attachEvent("submit", editBioFromForm);
+      } else {
+        form1.addEventListener("submit", editBioFromForm);
+      }
+      // add event listener to edit theme form
+      var form2 = document.getElementById("edittheme-form");
+      if (form2.attachEvent) {
+        form2.attachEvent("submit", editThemeFromForm);
+      } else {
+        form2.addEventListener("submit", editThemeFromForm);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load manage profile", "settings");
+  }
 }
 
 async function editAvatarFromForm(e) {
-	try {
-		e.preventDefault();
-		const button = document.getElementById("avatarupload");
-		button.disabled = true;
-		button.value = "Uploading...";
-		const form = e.target;
-		const avatar = form.avatar.files[0];
-		if (avatar == undefined) {
-			window.location.href =
-				"/?page=user&user=" + client.authStore.model.profile.id;
-		}
+  try {
+    e.preventDefault();
+    const button = document.getElementById("avatarupload");
+    button.disabled = true;
+    button.value = "Uploading...";
+    const form = e.target;
+    const avatar = form.avatar.files[0];
+    if (avatar == undefined) {
+      window.location.href =
+        "/?page=user&user=" + client.authStore.model.profile.id;
+    }
 
-		await client.users.refresh();
-		const formData = new FormData();
-		formData.append("avatar", avatar);
-		const result = await client.records.update(
-			"profiles",
-			client.authStore.model.profile.id,
-			formData
-		);
+    await client.users.refresh();
+    const formData = new FormData();
+    formData.append("avatar", avatar);
+    const result = await client.records.update(
+      "profiles",
+      client.authStore.model.profile.id,
+      formData
+    );
 
-		form.reset();
-		window.location.href =
-			"/?page=user&user=" + client.authStore.model.profile.id;
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to upload avatar", "settings");
-	}
+    form.reset();
+    window.location.href =
+      "/?page=user&user=" + client.authStore.model.profile.id;
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to upload avatar", "settings");
+  }
 }
 
 async function editBioFromForm(e) {
-	try {
-		e.preventDefault();
-		const form = e.target;
-		const bio = form.bio.value;
-		if (bio == undefined) {
-			return;
-		}
-		await client.records.update("profiles", client.authStore.model.profile.id, {
-			bio: bio,
-		});
-		form.reset();
-		window.location.href =
-			"/?page=user&user=" + client.authStore.model.profile.id;
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to edit bio", "settings");
-	}
+  try {
+    e.preventDefault();
+    const form = e.target;
+    const bio = form.bio.value;
+    if (bio == undefined) {
+      return;
+    }
+    await client.records.update("profiles", client.authStore.model.profile.id, {
+      bio: bio,
+    });
+    form.reset();
+    window.location.href =
+      "/?page=user&user=" + client.authStore.model.profile.id;
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to edit bio", "settings");
+  }
 }
 
 async function editThemeFromForm(e) {
-	try {
-		e.preventDefault();
-		const form = e.target;
-		const theme = form.theme.value;
-		if (theme == undefined) {
-			return;
-		}
-		localStorage.setItem("theme", theme);
-		form.reset();
-		window.location.href =
-			"/?page=user&user=" + client.authStore.model.profile.id;
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to edit theme", "settings");
-	}
+  try {
+    e.preventDefault();
+    const form = e.target;
+    const theme = form.theme.value;
+    if (theme == undefined) {
+      return;
+    }
+    localStorage.setItem("theme", theme);
+    form.reset();
+    window.location.href =
+      "/?page=user&user=" + client.authStore.model.profile.id;
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to edit theme", "settings");
+  }
 }
 
 async function sendVerificationEmail() {
-	await client.users.refresh();
-	try {
-		// check if user is logged in
-		if (client.authStore.isValid == false) {
-			window.location.href = "/?page=signin";
-			return;
-		}
-		if (client.authStore.model.verified) {
-			window.location.href = `/?page=user&user=${client.authStore.model.profile.id}`;
-			return;
-		}
-		// show success message
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "Email Verification";
-		document.getElementById("document-title").innerHTML = "kynosocial - verify";
-		document.getElementById("list").innerHTML = `
+  await client.users.refresh();
+  try {
+    // check if user is logged in
+    if (client.authStore.isValid == false) {
+      window.location.href = "/?page=signin";
+      return;
+    }
+    if (client.authStore.model.verified) {
+      window.location.href = `/?page=user&user=${client.authStore.model.profile.id}`;
+      return;
+    }
+    // show success message
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "Email Verification";
+    document.getElementById("document-title").innerHTML = "kynosocial - verify";
+    document.getElementById("list").innerHTML = `
 			<div class="post-item">
 				<div class="post-content-wrapper">
 					<div class="post-content">
@@ -1550,20 +1550,20 @@ async function sendVerificationEmail() {
 				</div>
 			</div>
 		`;
-		// send verification email
-		await client.users.requestVerification(client.authStore.model.email);
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to send verification email", "settings");
-	}
+    // send verification email
+    await client.users.requestVerification(client.authStore.model.email);
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to send verification email", "settings");
+  }
 }
 
 function renderEULAPage() {
-	try {
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "EULA";
-		document.getElementById("document-title").innerHTML = "kynosocial - eula";
-		document.getElementById("list").innerHTML = `
+  try {
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "EULA";
+    document.getElementById("document-title").innerHTML = "kynosocial - eula";
+    document.getElementById("list").innerHTML = `
 			<div class="post-item">
 				<div class="post-content-wrapper">
 					<div class="post-content">
@@ -1665,19 +1665,19 @@ function renderEULAPage() {
 				</div>
 			</div>
 					`;
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load EULA", "list");
-	}
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load EULA", "list");
+  }
 }
 
 function renderPrivacyPage() {
-	try {
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "Privacy Policy";
-		document.getElementById("document-title").innerHTML =
-			"kynosocial - privacy policy";
-		document.getElementById("list").innerHTML = `
+  try {
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "Privacy Policy";
+    document.getElementById("document-title").innerHTML =
+      "kynosocial - privacy policy";
+    document.getElementById("list").innerHTML = `
 			<div class="post-item">
 				<div class="post-content-wrapper">
 					<div class="post-content">
@@ -1784,18 +1784,18 @@ function renderPrivacyPage() {
 				</div>
 			</div>
 			`;
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load Privacy Policy", "list");
-	}
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load Privacy Policy", "list");
+  }
 }
 
 function renderAboutPage() {
-	try {
-		document.getElementById("list").innerHTML = "";
-		document.getElementById("list-legend").innerHTML = "About";
-		document.getElementById("document-title").innerHTML = "kynosocial - about";
-		document.getElementById("list").innerHTML = `
+  try {
+    document.getElementById("list").innerHTML = "";
+    document.getElementById("list-legend").innerHTML = "About";
+    document.getElementById("document-title").innerHTML = "kynosocial - about";
+    document.getElementById("list").innerHTML = `
 			<div class="post-item">
 				<div class="post-content-wrapper">
 					<div class="post-content">
@@ -1811,16 +1811,16 @@ function renderAboutPage() {
 				</div>
 			</div>
 			`;
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load About page", "list");
-	}
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load About page", "list");
+  }
 }
 
 function renderAds() {
-	try {
-		// append ads to list
-		document.getElementById("list").innerHTML += `
+  try {
+    // append ads to list
+    document.getElementById("list").innerHTML += `
 		<script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3342817188920263"
      crossorigin="anonymous"></script>
 <ins class="adsbygoogle"
@@ -1831,78 +1831,76 @@ function renderAds() {
      data-ad-slot="6645637811"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
-</script>`; 
-
-	} catch (error) {
-		console.log(error);
-	}
+</script>`;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-
 async function renderPage() {
-	const params = new Proxy(new URLSearchParams(window.location.search), {
-		get: (searchParams, prop) => searchParams.get(prop),
-	});
-	const page = params.page;
-	try {
-		renderNavbar();
-		if (page == "signin") {
-			renderSigninPage();
-		} else if (page == "signup") {
-			renderSignupPage();
-		} else if (page == "signout") {
-			renderSignoutPage();
-		} else if (page == "trending") {
-			renderNotices();
-			renderTrendingPage(params.section);
-		} else if (page == "categories") {
-			renderNotices();
-			renderCategoriesPage(params.section);
-		} else if (page == "category") {
-			renderNotices();
-			renderCategoryPage(params.category, params.section);
-		} else if (page == "error") {
-			renderErrorPage();
-		} else if (page == "post") {
-			await Promise.all([
-				renderNotices(),
-				renderPostPage(),
-				renderComments(false, params.post, params.commentsection),
-			]).then(() => {
-				tippy("[data-tippy-content]");
-			});
-		} else if (page == "user") {
-			await Promise.all([
-				renderNotices(),
-				await renderUserPage(),
-				renderManageProfile(params.user),
-				renderComments(true, params.user, params.commentsection),
-			]).then(() => {
-				tippy("[data-tippy-content]");
-			});
-		} else if (page == "addpost") {
-			renderNotices();
-			renderAddPostPage();
-		} else if (page == "verify") {
-			sendVerificationEmail();
-		} else if (page == "eula") {
-			renderNotices();
-			renderEULAPage();
-		} else if (page == "privacy") {
-			renderNotices();
-			renderPrivacyPage();
-		} else if (page == "about") {
-			renderNotices();
-			renderAboutPage();
-		} else {
-			renderNotices();
-			renderHomePage(params.section);
-		}
-		renderAds();
-	} catch (error) {
-		console.log(error);
-		renderErrorPage("Failed to load literally anything", "list");
-	}
+  const params = new Proxy(new URLSearchParams(window.location.search), {
+    get: (searchParams, prop) => searchParams.get(prop),
+  });
+  const page = params.page;
+  try {
+    renderNavbar();
+    if (page == "signin") {
+      renderSigninPage();
+    } else if (page == "signup") {
+      renderSignupPage();
+    } else if (page == "signout") {
+      renderSignoutPage();
+    } else if (page == "trending") {
+      renderNotices();
+      renderTrendingPage(params.section);
+    } else if (page == "categories") {
+      renderNotices();
+      renderCategoriesPage(params.section);
+    } else if (page == "category") {
+      renderNotices();
+      renderCategoryPage(params.category, params.section);
+    } else if (page == "error") {
+      renderErrorPage();
+    } else if (page == "post") {
+      await Promise.all([
+        renderNotices(),
+        renderPostPage(),
+        renderComments(false, params.post, params.commentsection),
+      ]).then(() => {
+        tippy("[data-tippy-content]");
+      });
+    } else if (page == "user") {
+      await Promise.all([
+        renderNotices(),
+        await renderUserPage(),
+        renderManageProfile(params.user),
+        renderComments(true, params.user, params.commentsection),
+      ]).then(() => {
+        tippy("[data-tippy-content]");
+      });
+    } else if (page == "addpost") {
+      renderNotices();
+      renderAddPostPage();
+    } else if (page == "verify") {
+      sendVerificationEmail();
+    } else if (page == "eula") {
+      renderNotices();
+      renderEULAPage();
+    } else if (page == "privacy") {
+      renderNotices();
+      renderPrivacyPage();
+    } else if (page == "about") {
+      renderNotices();
+      renderAboutPage();
+    } else {
+      renderNotices();
+      renderHomePage(params.section);
+    }
+    renderAds();
+  } catch (error) {
+    console.log(error);
+    renderErrorPage("Failed to load literally anything", "list");
+  }
 }
 
 // render page
@@ -1910,6 +1908,6 @@ await renderPage();
 
 // console log warning to protect user account
 console.log(
-	"%c\r\n\r\n __        ___    ____  _   _ ___ _   _  ____ _ \r\n \\ \\      / / \\  |  _ \\| \\ | |_ _| \\ | |/ ___| |\r\n  \\ \\ /\\ / / _ \\ | |_) |  \\| || ||  \\| | |  _| |\r\n   \\ V  V / ___ \\|  _ <| |\\  || || |\\  | |_| |_|\r\n    \\_/\\_/_/   \\_\\_| \\_\\_| \\_|___|_| \\_|\\____(_)\r\n\r\n\rThis is the browser console.\nIf you do not know what you are doing,\nplease do not enter any commands here or paste any code.\nDoing so may compromise your account.\r\n\r\n",
-	"color: red; "
+  "%c\r\n\r\n __        ___    ____  _   _ ___ _   _  ____ _ \r\n \\ \\      / / \\  |  _ \\| \\ | |_ _| \\ | |/ ___| |\r\n  \\ \\ /\\ / / _ \\ | |_) |  \\| || ||  \\| | |  _| |\r\n   \\ V  V / ___ \\|  _ <| |\\  || || |\\  | |_| |_|\r\n    \\_/\\_/_/   \\_\\_| \\_\\_| \\_|___|_| \\_|\\____(_)\r\n\r\n\rThis is the browser console.\nIf you do not know what you are doing,\nplease do not enter any commands here or paste any code.\nDoing so may compromise your account.\r\n\r\n",
+  "color: red; "
 );
