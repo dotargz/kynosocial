@@ -1884,6 +1884,7 @@ async function renderPage() {
 
 // render page
 await renderPage();
+(adsbygoogle = window.adsbygoogle || []).push({});
 
 // console log warning to protect user account
 console.log(
