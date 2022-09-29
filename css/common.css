@@ -19,7 +19,7 @@ html {
 	flex-direction: row;
 	align-items: flex-start;
 	justify-content: left;
-	width: calc(100% - 1rem);
+	width: min(calc(100% - 1rem), 100%);
 	max-height: max-content;
 	margin: 0.5rem;
 }
