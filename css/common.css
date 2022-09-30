@@ -3,11 +3,13 @@ body,
 html {
 	margin: 0;
 	padding: 0;
-	height: 100%;
+	min-height: 100%;
 	width: 100%;
 	background: var(--root-background);
+	background-size: cover;
+	background-repeat: no-repeat;
 	font-family: var(--font-family);
-	color: var(--secondary-color);
+	color: var(--text-color);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -78,7 +80,7 @@ a > .post-created {
 
 .post-username {
 	font-size: var(--small-font-size);
-	color: var(--secondary-color);
+	color: var(--text-color);
 	word-break: break-word;
 }
 
@@ -119,8 +121,7 @@ a > .post-created {
 	font-size: var(--large-font-size);
 	height: 2em;
 	width: 2em;
-	border: 2px solid var(--secondary-color);
-	background-color: var(--secondary-color);
+	background: var(--secondary-color);
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: var(--border-radius);
 	color: var(--primary-color);
@@ -129,9 +130,8 @@ a > .post-created {
 
 #nav-profile:hover,
 #nav-add-post:hover {
-	background-color: var(--primary-color);
-	border: 2px solid var(--secondary-color);
-	color: var(--secondary-color);
+	background: var(--secondary-alt-color);
+	color: var(--text-color);
 }
 
 #nav-links {
@@ -141,7 +141,7 @@ a > .post-created {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
-	background-color: var(--secondary-color);
+	background: var(--secondary-color);
 	border: 0px solid var(--secondary-color);
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: var(--border-radius);
@@ -157,8 +157,8 @@ a > .post-created {
 }
 
 #nav-links a:hover {
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	background: var(--secondary-alt-color);
+	color: var(--text-color);
 }
 
 /* make first and last nav links round on left and right respetivly when hovered */
@@ -199,7 +199,7 @@ a > .post-created {
 #pagination a:hover,
 #comments-pagination a:hover {
 	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	color: var(--text-color);
 }
 
 /* make first and last pagination links round on left and right respetivly when hovered */
@@ -216,12 +216,12 @@ a > .post-created {
 
 a.active {
 	background-color: var(--tertiary-color);
-	color: var(--secondary-color);
+	color: var(--text-color);
 }
 /* Links */
 a {
 	text-decoration: none;
-	color: var(--secondary-color);
+	color: var(--text-color);
 	transition: 0.2s;
 }
 
@@ -286,11 +286,11 @@ small {
 /* Buttons */
 .btn-main,
 .btn-primary {
-	border: 2px solid var(--secondary-color);
+	border: 2px solid transparent;
 	border-radius: var(--border-radius);
 	height: max-content;
-	background-color: var(--secondary-color);
-	color: var(--primary-color);
+	background-color: var(--input-background);
+	color: var(--text-color);
 	transition: 0.2s;
 	cursor: pointer;
 	font-size: 0.9em;
@@ -300,7 +300,7 @@ small {
 .btn-main:hover,
 .btn-primary:hover {
 	background-color: purple;
-	color: var(--primary-color);
+	color: var(--text-color);
 	border: 2px solid purple;
 }
 
@@ -323,7 +323,7 @@ button:disabled:hover {
 	border-radius: var(--border-radius);
 	height: max-content;
 	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	color: var(--text-color);
 	transition: 0.2s;
 	cursor: pointer;
 	font-size: 0.9em;
@@ -333,13 +333,14 @@ button:disabled:hover {
 .btn-alt:hover {
 	background-color: var(--primary-color);
 	border: 2px solid var(--secondary-color);
-	color: var(--secondary-color);
+	color: var(--text-color);
 }
 
 /* Fieldsets */
 
 fieldset {
-	background-color: var(--part-background);
+	background-color: var(--fieldset-background);
+	backdrop-filter: var(--fieldset-bgfilter);
 	border: var(--fieldset-style);
 	border-radius: var(--border-radius);
 	padding: 0.6rem;
@@ -395,12 +396,12 @@ input {
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
-	border: 2px solid var(--secondary-color);
+	border: none;
 	border-radius: var(--border-radius);
 	height: max-content;
 	width: max-content;
-	background-color: var(--secondary-color);
-	color: var(--primary-color);
+	background-color: var(--input-background);
+	color: var(--text-color);
 	transition: 0.2s;
 	cursor: pointer;
 	font-size: 0.9em;
@@ -413,8 +414,7 @@ input[type="button"]:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover {
 	background-color: purple;
-	color: var(--primary-color);
-	border: 2px solid purple;
+	color: var(--text-color);
 }
 
 input[type="text"],
@@ -425,8 +425,8 @@ input[type="username"] {
 	border-radius: var(--border-radius);
 	height: max-content;
 	width: 100%;
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	background-color: var(--input-background);
+	color: var(--text-color);
 	transition: 0.2s;
 	cursor: text;
 	font-size: 0.9em;
@@ -442,16 +442,16 @@ textarea {
 	resize: none;
 	padding: 0.2rem;
 	font-size: var(--small-font-size);
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	background-color: var(--input-background);
+	color: var(--text-color);
 	transition: 0.2s;
 }
 
 select {
 	border: 2px solid var(--secondary-color);
 	border-radius: var(--border-radius);
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	background-color: var(--input-background);
+	color: var(--text-color);
 	width: 100%;
 	height: 2rem;
 	padding: 0.2rem;
@@ -475,30 +475,29 @@ select:focus,
 textarea:focus,
 button:focus {
 	outline: none;
-	border: purple solid 2px;
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	background-color: var(--input-background);
+	color: var(--text-color);
 }
 
 input[type="file"]:focus {
 	border: none;
 	outline: none;
-	color: var(--secondary-color);
+	color: var(--text-color);
 }
 
 /* Footer */
 #footer {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	width: 100%;
-	color: var(--secondary-color);
+	color: var(--text-color);
 	font-size: var(--small-font-size);
-	padding: 0.8rem;
-	font-size: 0.9em;
+	margin-top: 2rem;
+	padding: 2rem;
+	font-size: 1em;
 	margin-bottom: 4rem;
 }
+#footer .right { text-align: right; }
 
 #footer p {
 	margin: 0.1rem;

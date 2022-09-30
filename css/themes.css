@@ -3,25 +3,51 @@
 
 .modern.blue {
 	--root-background: #b1d6ff;
-	--part-background: rgba(255, 255, 255, 0.75);
+	--fieldset-background: rgba(255, 255, 255, 0.75);
 }
 .modern.green {
 	--root-background: #aaf1ba;
-	--part-background: rgba(255, 255, 255, 0.75);
+	--fieldset-background: rgba(255, 255, 255, 0.75);
 }
 .modern.yellow {
 	--root-background: #fff1b1;
-	--part-background: rgba(255, 255, 255, 0.75);
+	--fieldset-background: rgba(255, 255, 255, 0.75);
 }
 .modern.purple {
 	--root-background: #cfb1ff;
-	--part-background: rgba(255, 255, 255, 0.75);
+	--fieldset-background: rgba(255, 255, 255, 0.75);
 }
 
+.hyper {
+	--primary-color: rgb(255, 255, 255);
+	--primary-alt-color: #c4eeff;
+	--secondary-color: linear-gradient(to right, #6f68d8, #a268d8);
+	--secondary-alt-color: #b486e0;
+	--text-color: #d9d9d9;
+	--input-background: #222;
+	--tertiary-color: purple;
+	--link-color: #0000ff;
+	--link-hover-color: purple;
+	--font-family: "Public Sans", sans-serif;
+	--large-font-size: 1.2rem;
+	--primary-font-size: 1rem;
+	--small-font-size: 0.8rem;
+	--smaller-font-size: 0.7rem;
+	--root-background: linear-gradient(to bottom right, rgb(8, 17, 34), rgb(21, 8, 32));
+	--global-img-filter: none;
+
+	--fieldset-style: 2px solid rgba(255,255,255,0.35);
+	--fieldset-background: rgba(0, 0, 0, 0.15);
+	--fieldset-bgfilter: blur(500px);
+	--border-radius: 5px;
+}
 .modern {
 	--primary-color: #ffffff;
 	--primary-alt-color: #c4eeff;
 	--secondary-color: #0e0e0e;
+	--secondary-alt-color: #ffffff;
+	--text-color: #0e0e0e;
+	--input-background: white;
 	--tertiary-color: purple;
 	--link-color: #0000ff;
 	--link-hover-color: purple;
@@ -31,16 +57,19 @@
 	--small-font-size: 0.8rem;
 	--smaller-font-size: 0.7rem;
 	--root-background: #fff;
-	--part-background: rgba(0, 0, 0, 0.05);
 	--global-img-filter: none;
 
 	--fieldset-style: 4px solid black;
+	--fieldset-background: rgba(0, 0, 0, 0.05);
 	--border-radius: 5px;
 }
 .retro {
 	--primary-color: #f5f5f5f5;
 	--primary-alt-color: #ffe2e2f5;
 	--secondary-color: #0e0e0e;
+	--secondary-alt-color: #ffffff;
+	--text-color: #0e0e0e;
+	--input-background: white;
 	--tertiary-color: purple;
 	--link-color: purple;
 	--link-hover-color: rgb(180, 0, 180);
@@ -50,9 +79,9 @@
 	--small-font-size: 0.8rem;
 	--smaller-font-size: 0.7rem;
 	--root-background: hsl(0, 0%, 90%) url("/img/noise.png");
-	--part-background: rgba(0, 0, 0, 0.1);
 	--global-img-filter: grayscale(100%);
 
 	--fieldset-style: 4px double black;
+	--fieldset-background: rgba(0, 0, 0, 0.1);
 	--border-radius: 0px;
 }

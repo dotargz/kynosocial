@@ -1350,6 +1350,7 @@ async function getThemeSelectorHTML() {
 		const themes = [
 			"modern",
 			"retro",
+			"hyper",
 			"modern, blue",
 			"modern, green",
 			"modern, yellow",
