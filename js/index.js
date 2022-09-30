@@ -40,10 +40,10 @@ async function getBadgeHTML(userObject, all = false) {
 		for (let i = 0; i < userObject.badges.length; i++) {
 			if (userObject.badges[i] == "bot") {
 				badgehtml += `<i class="fa-solid fa-robot" data-tippy-content="Bot"></i> `;
-			} else if (userObject.badges[i] == "admin") {
-				badgehtml += `<i class="fa-solid fa-user-cog" data-tippy-content="Administrator"></i> `;
 			} else if (userObject.badges[i] == "dev") {
 				badgehtml += `<i class="fa-solid fa-code" data-tippy-content="Developer"></i> `;
+			} else if (userObject.badges[i] == "admin") {
+				badgehtml += `<i class="fa-solid fa-user-cog" data-tippy-content="Administrator"></i> `;
 			} else if (userObject.badges[i] == "mod") {
 				badgehtml += `<i class="fa-solid fa-cogs" data-tippy-content="Moderator"></i> `;
 			} else if (userObject.badges[i] == "verified") {
