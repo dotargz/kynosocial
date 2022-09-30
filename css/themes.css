@@ -47,7 +47,7 @@
 	--secondary-color: #0e0e0e;
 	--secondary-alt-color: #ffffff;
 	--text-color: #0e0e0e;
-	--input-background: white;
+	--input-background: rgb(196, 196, 196);
 	--tertiary-color: purple;
 	--link-color: #0000ff;
 	--link-hover-color: purple;
@@ -69,7 +69,7 @@
 	--secondary-color: #0e0e0e;
 	--secondary-alt-color: #ffffff;
 	--text-color: #0e0e0e;
-	--input-background: white;
+	--input-background: rgb(196, 196, 196);
 	--tertiary-color: purple;
 	--link-color: purple;
 	--link-hover-color: rgb(180, 0, 180);
