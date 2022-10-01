@@ -394,11 +394,11 @@ fieldset legend { color: var(--fieldset-label-color); text-shadow: var(--fieldse
 }
 
 textarea,
-input {
+input, select, button {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	font-family: inherit;
+	font-family: var(--font-family);
 }
 
 input[type="button"],
