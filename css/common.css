@@ -191,7 +191,8 @@ a > .post-created {
 
 #pagination a,
 #comments-pagination a {
-	color: var(--primary-color);
+	border: var(--nav-border);
+	color: var(--nav-color);
 	text-decoration: none;
 	padding: 0.4rem;
 	flex: 1;
@@ -201,7 +202,8 @@ a > .post-created {
 
 #pagination a:hover,
 #comments-pagination a:hover {
-	background-color: var(--primary-color);
+	border: var(--nav-alt-border);
+	background: var(--nav-alt-background);
 	color: var(--text-color);
 }
 
@@ -217,10 +219,11 @@ a > .post-created {
 	border-bottom-right-radius: var(--border-radius);
 }
 
-a.active {
-	background-color: var(--tertiary-color);
+/* a.active {
+	background-color: var(--link-alt-color);
 	color: var(--text-color);
-}
+} */
+
 /* Links */
 a {
 	text-decoration: none;
@@ -322,11 +325,11 @@ button:disabled:hover {
 }
 
 .btn-alt {
-	border: 2px solid var(--primary-color);
+	border: var(--button-border);
 	border-radius: var(--border-radius);
 	height: max-content;
-	background-color: var(--primary-color);
-	color: var(--text-color);
+	background: var(--button-color);
+	color: var(--button-background);
 	transition: 0.2s;
 	cursor: pointer;
 	font-size: 0.9em;
@@ -334,9 +337,10 @@ button:disabled:hover {
 }
 
 .btn-alt:hover {
-	background-color: var(--primary-color);
-	border: 2px solid var(--nav-background);
-	color: var(--text-color);
+	border: var(--button-border);
+	border-radius: var(--border-radius);
+	background: var(--button-background);
+	color: var(--button-color);
 }
 
 /* Fieldsets */
@@ -497,10 +501,10 @@ input[type="file"]:focus {
 	width: 100%;
 	color: var(--outer-color);
 	font-size: var(--small-font-size);
-	margin-top: 2rem;
-	padding: 2rem;
+	padding: 1rem;
 	font-size: 1em;
-	margin-bottom: 4rem;
+	/* Allow people to scroll to the bottom of the page, even with anchor ads */
+	margin-bottom: 8rem;
 }
 #footer a { color: var(--outer-color); }
 #footer a:hover { color: var(--outer-alt-color); }

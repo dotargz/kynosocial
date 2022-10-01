@@ -46,7 +46,7 @@
 	--tiny-font-size: 0.7rem;
 
 	--input-background: white;
-	--input-border: none;
+	--input-border: 3px solid black;
 	--input-color: black;
 
 	--button-background: black;
@@ -87,8 +87,8 @@
 	--small-font-size: 0.9rem;
 	--tiny-font-size: 0.7rem;
 
-	--input-background: rgb(224, 224, 224);
-	--input-border: none;
+	--input-background: white;
+	--input-border: 2px solid black;
 	--input-color: black;
 
 	--button-background: black;
@@ -130,7 +130,7 @@
 	--tiny-font-size: 0.7rem;
 
 	--input-background: rgb(224, 224, 224);
-	--input-border: none;
+	--input-border: 2px solid black;
 	--input-color: black;
 
 	--button-background: black;
