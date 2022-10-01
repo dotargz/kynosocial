@@ -65,7 +65,7 @@ html {
 
 .post-created,
 .post-updated {
-	font-size: var(--smaller-font-size);
+	font-size: var(--tiny-font-size);
 	color: #999;
 }
 
@@ -121,17 +121,19 @@ a > .post-created {
 	font-size: var(--large-font-size);
 	height: 2em;
 	width: 2em;
-	background: var(--secondary-color);
+	border: var(--nav-border);
+	background: var(--nav-background);
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: var(--border-radius);
-	color: var(--primary-color);
+	color: var(--nav-color);
 	transition: 0.2s;
 }
 
 #nav-profile:hover,
 #nav-add-post:hover {
-	background: var(--secondary-alt-color);
-	color: var(--text-color);
+	border: var(--nav-alt-border);
+	background: var(--nav-alt-background);
+	color: var(--nav-alt-color);
 }
 
 #nav-links {
@@ -141,14 +143,14 @@ a > .post-created {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
-	background: var(--secondary-color);
-	border: 0px solid var(--secondary-color);
+	background: var(--nav-background);
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: var(--border-radius);
 }
 
 #nav-links a {
-	color: var(--primary-color);
+	border: var(--nav-border);
+	color: var(--nav-color);
 	text-decoration: none;
 	padding: 0.4rem;
 	flex: 1;
@@ -157,8 +159,9 @@ a > .post-created {
 }
 
 #nav-links a:hover {
-	background: var(--secondary-alt-color);
-	color: var(--text-color);
+	border: var(--nav-alt-border);
+	background: var(--nav-alt-background);
+	color: var(--nav-alt-color);
 }
 
 /* make first and last nav links round on left and right respetivly when hovered */
@@ -180,8 +183,8 @@ a > .post-created {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
-	background-color: var(--secondary-color);
-	border: 0px solid var(--secondary-color);
+	background-color: var(--nav-background);
+	border: 0px solid var(--nav-background);
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: var(--border-radius);
 }
@@ -238,7 +241,7 @@ a {
 a:hover,
 .post-content > a:not(#signoutlink):hover,
 #list-notice > p > a:hover {
-	color: var(--link-hover-color);
+	color: var(--link-alt-color);
 }
 
 /* Notifications */
@@ -255,7 +258,7 @@ a:hover,
 
 /* Border */
 .double-border {
-	border: 5px solid var(--secondary-color);
+	border: 5px solid var(--nav-background);
 }
 
 #list,
@@ -272,7 +275,7 @@ a:hover,
 /* Images & Media */
 img {
 	border-radius: var(--border-radius);
-	filter: var(--global-img-filter);
+	filter: var(--global-filter);
 }
 
 /* Misc */
@@ -286,11 +289,11 @@ small {
 /* Buttons */
 .btn-main,
 .btn-primary {
-	border: 2px solid transparent;
+	border: var(--button-border);
 	border-radius: var(--border-radius);
 	height: max-content;
-	background-color: var(--input-background);
-	color: var(--text-color);
+	background: var(--button-background);
+	color: var(--button-color);
 	transition: 0.2s;
 	cursor: pointer;
 	font-size: 0.9em;
@@ -299,9 +302,9 @@ small {
 
 .btn-main:hover,
 .btn-primary:hover {
-	background-color: purple;
-	color: var(--text-color);
-	border: 2px solid purple;
+	background: var(--button-alt-background);
+	color: var(--button-alt-color);
+	border: var(--button-alt-border);
 }
 
 button:disabled {
@@ -332,7 +335,7 @@ button:disabled:hover {
 
 .btn-alt:hover {
 	background-color: var(--primary-color);
-	border: 2px solid var(--secondary-color);
+	border: 2px solid var(--nav-background);
 	color: var(--text-color);
 }
 
@@ -341,13 +344,14 @@ button:disabled:hover {
 fieldset {
 	background-color: var(--fieldset-background);
 	backdrop-filter: var(--fieldset-bgfilter);
-	border: var(--fieldset-style);
+	border: var(--fieldset-border);
 	border-radius: var(--border-radius);
 	padding: 0.6rem;
 	margin-top: 0.4rem;
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	height: max-content;
 }
+fieldset legend { color: var(--fieldset-label-color); text-shadow: var(--fieldset-label-shadow); }
 
 #list-notice-fieldset,
 #settings-fieldset,
@@ -396,12 +400,12 @@ input {
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
-	border: none;
+	border: var(--button-border);
 	border-radius: var(--border-radius);
 	height: max-content;
 	width: max-content;
-	background-color: var(--input-background);
-	color: var(--text-color);
+	background-color: var(--button-background);
+	color: var(--button-color);
 	transition: 0.2s;
 	cursor: pointer;
 	font-size: 0.9em;
@@ -413,20 +417,21 @@ input[type="reset"] {
 input[type="button"]:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover {
-	background-color: purple;
-	color: var(--text-color);
+	background-color: var(--button-alt-background);
+	border: var(--button-alt-border);
+	color: var(--button-alt-color);
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="username"] {
-	border: 2px solid var(--secondary-color);
+	border: var(--input-border);
 	border-radius: var(--border-radius);
 	height: max-content;
 	width: 100%;
-	background-color: var(--input-background);
-	color: var(--text-color);
+	background: var(--input-background);
+	color: var(--input-color);
 	transition: 0.2s;
 	cursor: text;
 	font-size: 0.9em;
@@ -435,25 +440,25 @@ input[type="username"] {
 }
 
 textarea {
-	border: 2px solid var(--secondary-color);
+	border: var(--input-border);
 	border-radius: var(--border-radius);
 	width: 100%;
 	height: 5rem;
 	resize: none;
 	padding: 0.2rem;
 	font-size: var(--small-font-size);
-	background-color: var(--input-background);
-	color: var(--text-color);
+	background: var(--input-background);
+	color: var(--input-color);
 	transition: 0.2s;
 }
 
 select {
-	border: 2px solid var(--secondary-color);
+	border: var(--input-border);
 	border-radius: var(--border-radius);
-	background-color: var(--input-background);
+	background: var(--input-background);
 	color: var(--text-color);
 	width: 100%;
-	height: 2rem;
+	height: 1.75rem;
 	padding: 0.2rem;
 	font-size: var(--small-font-size);
 	transition: 0.2s;
@@ -490,13 +495,15 @@ input[type="file"]:focus {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
-	color: var(--text-color);
+	color: var(--outer-color);
 	font-size: var(--small-font-size);
 	margin-top: 2rem;
 	padding: 2rem;
 	font-size: 1em;
 	margin-bottom: 4rem;
 }
+#footer a { color: var(--outer-color); }
+#footer a:hover { color: var(--outer-alt-color); }
 #footer .right { text-align: right; }
 
 #footer p {
@@ -510,6 +517,7 @@ brandname {
 	align-items: flex-start;
 	justify-content: center;
 	font-weight: 200;
+	color: var(--outer-color);
 }
 
 superscript {
