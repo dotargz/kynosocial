@@ -1,8 +1,12 @@
 /*global tippy, luxon, numeral */
 "use strict";
-var DateTime = luxon.DateTime;
+const DateTime = luxon.DateTime;
 
-var md = window.markdownit();
+import { clip } from "./clip.js";
+
+const truncate = clip;
+
+const md = window.markdownit();
 
 import PocketBase from "./pocketbase.es.mjs";
 
@@ -21,14 +25,33 @@ if (client.authStore.isValid) {
 	console.log(client.authStore.model);
 }
 
+function amountWeShouldTruncateContent() {
+	let amt;
+	if (document.body.clientWidth > 800) {
+		amt = 110;
+	} else if (document.body.clientWidth > 600) {
+		amt = 100;
+	} else {
+		amt = 80;
+	}
+	return amt;
+}
+
 // utility functions
 async function truncateText(text, length) {
-	if (text.length > length) {
-		return text.substring(0, length) + "...";
-	} else {
-		return text;
+	try {
+		return truncate(text, length, { html: true, breakWords: true });
+	} catch (error) {
+		console.log(error);
+		if (text.length > length) {
+			return text.substring(0, length) + "...";
+		} else {
+			return text;
+		}
 	}
 }
+
+
 
 async function cleanText(text) {
 	return text.replace(/(<([^>]+)>)/gi, "").trim();
@@ -102,12 +125,6 @@ async function renderHomePage(section = 1) {
 			const content = post.content;
 			const created = post.created;
 			const updated = post.updated;
-			let amountWeShouldTruncateContent = 69;
-			if (document.body.clientWidth > 800) {
-				amountWeShouldTruncateContent = 170;
-			} else if (document.body.clientWidth > 600) {
-				amountWeShouldTruncateContent = 100;
-			}
 			const html = `
 			<div class="post-item">
 				<div class="post-image-wrapper">
@@ -130,13 +147,13 @@ async function renderHomePage(section = 1) {
 					<div class="post-title">
 						<a href="/?page=post&post=${post.id}">${await truncateText(
 				await cleanText(title),
-				24
+				32
 			)}</a>
 					</div>
 					<div class="post-content">
 						${await truncateText(
 							await md.renderInline(await cleanText(content)),
-							amountWeShouldTruncateContent
+							amountWeShouldTruncateContent()
 						)}
 					</div>
 					<div class="post-created">
@@ -754,13 +771,13 @@ async function renderTrendingPage(section = 1) {
                 <div class="post-title">
                     <a href="/?page=post&post=${post.id}">${await truncateText(
 					await cleanText(title),
-					24
+					32
 				)}</a>
                 </div>
                 <div class="post-content">
                     ${await truncateText(
 											await md.renderInline(await cleanText(content)),
-											56
+											amountWeShouldTruncateContent()
 										)}
                 </div>
                 <div class="post-created">
@@ -950,13 +967,13 @@ async function renderCategoryPage(categoryId, section) {
                 <div class="post-title">
                     <a href="/?page=post&post=${post.id}">${await truncateText(
 					title,
-					24
+					32
 				)}</a>
                 </div>
                 <div class="post-content">
                     ${await truncateText(
 											await md.renderInline(await cleanText(content)),
-											56
+											amountWeShouldTruncateContent()
 										)}
                 </div>
                 <div class="post-created">
@@ -1885,7 +1902,9 @@ async function renderPage() {
 
 // render page
 await renderPage();
-(adsbygoogle = window.adsbygoogle || []).push({});
+try {
+	(adsbygoogle = window.adsbygoogle || []).push({});
+} catch (error) {}
 
 // console log warning to protect user account
 console.log(
