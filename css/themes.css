@@ -81,7 +81,7 @@
 	--link-color: rgb(0, 119, 255);
 	--link-alt-color: rgb(147, 50, 238);
 
-	--font-family: "Public Sans", sans-serif;
+	--font-family: "Soleil", "Public Sans", sans-serif;
 	--large-font-size: 1.2rem;
 	--primary-font-size: 1rem;
 	--small-font-size: 0.9rem;
@@ -123,7 +123,7 @@
 	--link-color: purple;
 	--link-alt-color: rgb(180, 0, 180);
 
-	--font-family: "Fira Code", monospace;
+	--font-family: "Halcom", "Fira Code", monospace;
 	--large-font-size: 1.2rem;
 	--primary-font-size: 1rem;
 	--small-font-size: 0.9rem;
