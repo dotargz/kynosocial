@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 .modern.blue {
 	--root-background: #b1d6ff;
@@ -81,7 +82,7 @@
 	--link-color: rgb(0, 119, 255);
 	--link-alt-color: rgb(147, 50, 238);
 
-	--font-family: "Soleil", "Public Sans", sans-serif;
+	--font-family: "Inter", "Public Sans", sans-serif;
 	--large-font-size: 1.2rem;
 	--primary-font-size: 1rem;
 	--small-font-size: 0.9rem;
