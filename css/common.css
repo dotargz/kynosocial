@@ -518,14 +518,20 @@ input[type="file"]:focus {
 brandname {
 	display: flex;
 	flex-direction: row;
-	align-items: flex-start;
+	align-items: center;
 	justify-content: center;
 	font-weight: 200;
 	color: var(--outer-color);
+	font-family: var(--title-font-family);
 }
 
 superscript {
 	font-size: 0.5em;
+	background-color: var(--nav-background);
+	border-radius: 2rem;
+	padding-inline: 0.5rem;
+	margin-inline: 0.4rem;
+	color: var(--nav-color);
 }
 
 .post-views {

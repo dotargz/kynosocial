@@ -41,6 +41,7 @@
 	--link-alt-color: rgb(147, 50, 238);
 
 	--font-family: "Public Sans", sans-serif;
+	--title-font-family: "Halcom", "Inter", sans-serif;
 	--large-font-size: 1.2rem;
 	--primary-font-size: 1rem;
 	--small-font-size: 0.9rem;
@@ -83,6 +84,7 @@
 	--link-alt-color: rgb(147, 50, 238);
 
 	--font-family: "Inter", "Public Sans", sans-serif;
+	--title-font-family: "Halcom", "Inter", sans-serif;
 	--large-font-size: 1.2rem;
 	--primary-font-size: 1rem;
 	--small-font-size: 0.9rem;
@@ -125,6 +127,7 @@
 	--link-alt-color: rgb(180, 0, 180);
 
 	--font-family: "Halcom", "Fira Code", monospace;
+	--title-font-family: "Halcom", "Fira Code", monospace;
 	--large-font-size: 1.2rem;
 	--primary-font-size: 1rem;
 	--small-font-size: 0.9rem;
