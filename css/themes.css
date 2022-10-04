@@ -104,7 +104,7 @@
 	--border-radius: 5px;
 }
 .retro {
-	--root-background: hsl(0, 0%, 90%) url("/img/noise.png");
+	--root-background: hsl(0, 0%, 90%);
 	--global-filter: grayscale(100%);
 
 	--outer-color: black;
