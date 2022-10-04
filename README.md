@@ -5,7 +5,7 @@
 </div>
 <br>
 
-<h4>Using Kynosocial you can level up from Twitter, Reddit, and even Tinder. To a clean new platform unlike many others.</h4>
+<h4>Using Kynosocial you can level up from Twitter, Reddit, and especially Facebook (🤨). To a clean new platform unlike many others.</h4>
 
 ### Usage
 
