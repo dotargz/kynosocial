@@ -19,6 +19,6 @@ $ cd kynosocial
 You can check out the open issues and discuss with others about them or open your own issue if you spot a problem or a feature that's currently missing, even if you can't fix it yourself.
 
 ### Legal & Other Information  
-[About](https://kyno.social/?page=about)
-[EULA](https://kyno.social/?page=eula)
-[Privacy Policy](https://kyno.social/?page=privacy)
+[About](https://kyno.social/?page=about)  
+[EULA](https://kyno.social/?page=eula)  
+[Privacy Policy](https://kyno.social/?page=privacy)  
