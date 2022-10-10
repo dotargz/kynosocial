@@ -3,11 +3,13 @@ body,
 html {
 	margin: 0;
 	padding: 0;
-	height: 100%;
+	min-height: 100%;
 	width: 100%;
 	background: var(--root-background);
+	background-size: cover;
+	background-repeat: no-repeat;
 	font-family: var(--font-family);
-	color: var(--secondary-color);
+	color: var(--text-color);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -19,7 +21,7 @@ html {
 	flex-direction: row;
 	align-items: flex-start;
 	justify-content: left;
-	width: calc(100% - 1rem);
+	width: min(calc(100% - 1rem), 100%);
 	max-height: max-content;
 	margin: 0.5rem;
 }
@@ -63,7 +65,7 @@ html {
 
 .post-created,
 .post-updated {
-	font-size: var(--smaller-font-size);
+	font-size: var(--tiny-font-size);
 	color: #999;
 }
 
@@ -78,7 +80,7 @@ a > .post-created {
 
 .post-username {
 	font-size: var(--small-font-size);
-	color: var(--secondary-color);
+	color: var(--text-color);
 	word-break: break-word;
 }
 
@@ -119,19 +121,19 @@ a > .post-created {
 	font-size: var(--large-font-size);
 	height: 2em;
 	width: 2em;
-	border: 2px solid var(--secondary-color);
-	background-color: var(--secondary-color);
+	border: var(--nav-border);
+	background: var(--nav-background);
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: var(--border-radius);
-	color: var(--primary-color);
+	color: var(--nav-color);
 	transition: 0.2s;
 }
 
 #nav-profile:hover,
 #nav-add-post:hover {
-	background-color: var(--primary-color);
-	border: 2px solid var(--secondary-color);
-	color: var(--secondary-color);
+	border: var(--nav-alt-border);
+	background: var(--nav-alt-background);
+	color: var(--nav-alt-color);
 }
 
 #nav-links {
@@ -141,14 +143,14 @@ a > .post-created {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
-	background-color: var(--secondary-color);
-	border: 0px solid var(--secondary-color);
+	background: var(--nav-background);
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: var(--border-radius);
 }
 
 #nav-links a {
-	color: var(--primary-color);
+	border: var(--nav-border);
+	color: var(--nav-color);
 	text-decoration: none;
 	padding: 0.4rem;
 	flex: 1;
@@ -157,8 +159,9 @@ a > .post-created {
 }
 
 #nav-links a:hover {
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	border: var(--nav-alt-border);
+	background: var(--nav-alt-background);
+	color: var(--nav-alt-color);
 }
 
 /* make first and last nav links round on left and right respetivly when hovered */
@@ -180,15 +183,16 @@ a > .post-created {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
-	background-color: var(--secondary-color);
-	border: 0px solid var(--secondary-color);
+	background-color: var(--nav-background);
+	border: 0px solid var(--nav-background);
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: var(--border-radius);
 }
 
 #pagination a,
 #comments-pagination a {
-	color: var(--primary-color);
+	border: var(--nav-border);
+	color: var(--nav-color);
 	text-decoration: none;
 	padding: 0.4rem;
 	flex: 1;
@@ -198,8 +202,9 @@ a > .post-created {
 
 #pagination a:hover,
 #comments-pagination a:hover {
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	border: var(--nav-alt-border);
+	background: var(--nav-alt-background);
+	color: var(--text-color);
 }
 
 /* make first and last pagination links round on left and right respetivly when hovered */
@@ -214,14 +219,15 @@ a > .post-created {
 	border-bottom-right-radius: var(--border-radius);
 }
 
-a.active {
-	background-color: var(--tertiary-color);
-	color: var(--secondary-color);
-}
+/* a.active {
+	background-color: var(--link-alt-color);
+	color: var(--text-color);
+} */
+
 /* Links */
 a {
 	text-decoration: none;
-	color: var(--secondary-color);
+	color: var(--text-color);
 	transition: 0.2s;
 }
 
@@ -238,7 +244,7 @@ a {
 a:hover,
 .post-content > a:not(#signoutlink):hover,
 #list-notice > p > a:hover {
-	color: var(--link-hover-color);
+	color: var(--link-alt-color);
 }
 
 /* Notifications */
@@ -255,7 +261,7 @@ a:hover,
 
 /* Border */
 .double-border {
-	border: 5px solid var(--secondary-color);
+	border: 5px solid var(--nav-background);
 }
 
 #list,
@@ -272,7 +278,7 @@ a:hover,
 /* Images & Media */
 img {
 	border-radius: var(--border-radius);
-	filter: var(--global-img-filter);
+	filter: var(--global-filter);
 }
 
 /* Misc */
@@ -286,11 +292,11 @@ small {
 /* Buttons */
 .btn-main,
 .btn-primary {
-	border: 2px solid var(--secondary-color);
+	border: var(--button-border);
 	border-radius: var(--border-radius);
 	height: max-content;
-	background-color: var(--secondary-color);
-	color: var(--primary-color);
+	background: var(--button-background);
+	color: var(--button-color);
 	transition: 0.2s;
 	cursor: pointer;
 	font-size: 0.9em;
@@ -299,31 +305,31 @@ small {
 
 .btn-main:hover,
 .btn-primary:hover {
-	background-color: purple;
-	color: var(--primary-color);
-	border: 2px solid purple;
+	background: var(--button-alt-background);
+	color: var(--button-alt-color);
+	border: var(--button-alt-border);
 }
 
 button:disabled {
-	background-color: var(--primary-color);
+	background-color: var(--button-background);
 	color: #999;
 	border: 2px solid #999;
 	cursor: not-allowed;
 }
 
 button:disabled:hover {
-	background-color: var(--primary-color);
+	background-color: var(--button-background);
 	color: #999;
 	border: 2px solid #999;
 	cursor: not-allowed;
 }
 
 .btn-alt {
-	border: 2px solid var(--primary-color);
+	border: var(--button-border);
 	border-radius: var(--border-radius);
 	height: max-content;
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	background: var(--button-color);
+	color: var(--button-background);
 	transition: 0.2s;
 	cursor: pointer;
 	font-size: 0.9em;
@@ -331,21 +337,25 @@ button:disabled:hover {
 }
 
 .btn-alt:hover {
-	background-color: var(--primary-color);
-	border: 2px solid var(--secondary-color);
-	color: var(--secondary-color);
+	border: var(--button-border);
+	border-radius: var(--border-radius);
+	background: var(--button-background);
+	color: var(--button-color);
 }
 
 /* Fieldsets */
 
 fieldset {
-	background-color: var(--part-background);
-	border: var(--fieldset-style);
+	background-color: var(--fieldset-background);
+	backdrop-filter: var(--fieldset-bgfilter);
+	border: var(--fieldset-border);
 	border-radius: var(--border-radius);
 	padding: 0.6rem;
 	margin-top: 0.4rem;
 	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	height: max-content;
 }
+fieldset legend { color: var(--fieldset-label-color); text-shadow: var(--fieldset-label-shadow); }
 
 #list-notice-fieldset,
 #settings-fieldset,
@@ -384,22 +394,22 @@ fieldset {
 }
 
 textarea,
-input {
+input, select, button {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	font-family: inherit;
+	font-family: var(--font-family);
 }
 
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
-	border: 2px solid var(--secondary-color);
+	border: var(--button-border);
 	border-radius: var(--border-radius);
 	height: max-content;
 	width: max-content;
-	background-color: var(--secondary-color);
-	color: var(--primary-color);
+	background-color: var(--button-background);
+	color: var(--button-color);
 	transition: 0.2s;
 	cursor: pointer;
 	font-size: 0.9em;
@@ -411,21 +421,21 @@ input[type="reset"] {
 input[type="button"]:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover {
-	background-color: purple;
-	color: var(--primary-color);
-	border: 2px solid purple;
+	background-color: var(--button-alt-background);
+	border: var(--button-alt-border);
+	color: var(--button-alt-color);
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="username"] {
-	border: 2px solid var(--secondary-color);
+	border: var(--input-border);
 	border-radius: var(--border-radius);
 	height: max-content;
 	width: 100%;
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	background: var(--input-background);
+	color: var(--input-color);
 	transition: 0.2s;
 	cursor: text;
 	font-size: 0.9em;
@@ -434,25 +444,25 @@ input[type="username"] {
 }
 
 textarea {
-	border: 2px solid var(--secondary-color);
+	border: var(--input-border);
 	border-radius: var(--border-radius);
 	width: 100%;
 	height: 5rem;
 	resize: none;
 	padding: 0.2rem;
 	font-size: var(--small-font-size);
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	background: var(--input-background);
+	color: var(--input-color);
 	transition: 0.2s;
 }
 
 select {
-	border: 2px solid var(--secondary-color);
+	border: var(--input-border);
 	border-radius: var(--border-radius);
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	background: var(--input-background);
+	color: var(--text-color);
 	width: 100%;
-	height: 2rem;
+	height: 1.75rem;
 	padding: 0.2rem;
 	font-size: var(--small-font-size);
 	transition: 0.2s;
@@ -474,29 +484,31 @@ select:focus,
 textarea:focus,
 button:focus {
 	outline: none;
-	border: purple solid 2px;
-	background-color: var(--primary-color);
-	color: var(--secondary-color);
+	background-color: var(--input-background);
+	color: var(--text-color);
 }
 
 input[type="file"]:focus {
 	border: none;
 	outline: none;
-	color: var(--secondary-color);
+	color: var(--text-color);
 }
 
 /* Footer */
 #footer {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
 	width: 100%;
-	color: var(--secondary-color);
+	color: var(--outer-color);
 	font-size: var(--small-font-size);
-	padding: 0.8rem;
-	font-size: 0.9em;
+	padding: 1rem;
+	font-size: 1em;
+	/* Allow people to scroll to the bottom of the page, even with anchor ads */
+	margin-bottom: 8rem;
 }
+#footer a { color: var(--outer-color); }
+#footer a:hover { color: var(--outer-alt-color); }
+#footer .right { text-align: right; }
 
 #footer p {
 	margin: 0.1rem;
@@ -506,13 +518,20 @@ input[type="file"]:focus {
 brandname {
 	display: flex;
 	flex-direction: row;
-	align-items: flex-start;
+	align-items: center;
 	justify-content: center;
 	font-weight: 200;
+	color: var(--outer-color);
+	font-family: var(--title-font-family);
 }
 
 superscript {
 	font-size: 0.5em;
+	background-color: var(--nav-background);
+	border-radius: 2rem;
+	padding-inline: 0.5rem;
+	margin-inline: 0.4rem;
+	color: var(--nav-color);
 }
 
 .post-views {
