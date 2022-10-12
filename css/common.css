@@ -255,7 +255,6 @@ a:hover,
 #list-notice {
 	max-width: 100%;
 	overflow: wrap;
-	display: none;
 	display: flex;
 	flex-direction: column;
 }
