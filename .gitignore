@@ -1,1 +1,4 @@
 .vscode
+.replit
+replit.nix
+.config/
