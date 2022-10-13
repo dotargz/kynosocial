@@ -213,14 +213,14 @@ async function renderNotices() {
 			document.getElementById("list-notice").style.display = "flex";
 			document.getElementById("list-notice-fieldset").style.display = "flex";
 			document.getElementById("list-notice").innerHTML =
-				'<p class="list-notice-text">You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to interact with the site.<br><a href="?page=signup"><button class="btn-main">Sign up</button></a> <a href="?page=signin"><button class="btn-alt">Sign in</button></a></p>';
+				'<p class="list-notice-text">You are currently <b class="purple-text">NOT</b> signed into the website. Please sign in to interact with the site.</p><div class="btns"><a href="?page=signup"><button class="btn-main">Register</button></a> <a href="?page=signin"><button class="btn-alt">Log In</button></a></div>';
 		}
 		// display a notice if the user is not verified using email
 		else if (client.authStore.model.verified == false) {
 			document.getElementById("list-notice").style.display = "flex";
 			document.getElementById("list-notice-fieldset").style.display = "flex";
 			document.getElementById("list-notice").innerHTML =
-				'<p class="list-notice-text">Your email address is currently <b class="purple-text">NOT</b> verified. Please verify your email address to post.<br><a href="?page=verify"><button class="btn-main">Send verification link</button></a></p>';
+				'<p class="list-notice-text">Your email address is currently <b class="purple-text">NOT</b> verified. Please verify your email address to post.</p><div class="btns"><a href="?page=verify"><button class="btn-main">Send verification link</button></a></div>';
 		}
 		// get dynamic notices from the backend
 		else {
