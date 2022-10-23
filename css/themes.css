@@ -76,8 +76,8 @@
 
 	--fieldset-label-color: black;
 	--fieldset-label-shadow: none;
-	--fieldset-border: 4px solid black;
-	--fieldset-background: rgba(0, 0, 0, 0.05);
+	--fieldset-border: 1px solid #d8dee4;
+	--fieldset-background: transparent;
 	--text-color: #0e0e0e;
 
 	--link-color: rgb(0, 119, 255);
