@@ -76,8 +76,8 @@
 
 	--fieldset-label-color: black;
 	--fieldset-label-shadow: 0px 2px 2px rgba(0, 0, 0, 0.35);
-	--fieldset-border: 4px solid black;
-	--fieldset-background: rgba(0, 0, 0, 0.05);
+	--fieldset-border: 1px solid #d8dee4;
+	--fieldset-background: rgba(0, 0, 0, 0);
 	--text-color: #0e0e0e;
 
 	--link-color: rgb(0, 119, 255);
@@ -90,8 +90,8 @@
 	--small-font-size: 0.9rem;
 	--tiny-font-size: 0.7rem;
 
-	--input-background: white;
-	--input-border: 2px solid black;
+	--input-background: #fff;
+	--input-border: 1px solid #d8dee4;
 	--input-color: black;
 
 	--button-background: black;
@@ -119,7 +119,7 @@
 
 	--fieldset-label-color: black;
 	--fieldset-label-shadow: 0px 2px 2px rgba(0, 0, 0, 0.35);
-	--fieldset-border: 4px double black;
+	--fieldset-border: 2px double black;
 	--fieldset-background: rgba(0, 0, 0, 0.1);
 	--text-color: #0e0e0e;
 

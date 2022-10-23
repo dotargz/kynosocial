@@ -17,13 +17,16 @@ html {
 
 /* Posts */
 .post-item {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: left;
-	width: min(calc(100% - 1rem), 100%);
-	max-height: max-content;
-	margin: 0.5rem 0;
+	  display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    width: 100%;
+    max-height: max-content;
+    margin: 0.5rem 0;
+    border: var(--fieldset-border);
+    border-radius: var(--border-radius);
+    padding: 1rem;
 }
 
 .post-content-wrapper {
@@ -223,6 +226,23 @@ a > .post-created {
 	border-bottom-right-radius: var(--border-radius);
 }
 
+#comment-form {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+#comment-form .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+}
+
+#comment {
+  width: 400px;
+}
+
 /* a.active {
 	background-color: var(--link-alt-color);
 	color: var(--text-color);
@@ -295,34 +315,33 @@ small {
 /* Buttons */
 
 button, a, input {
-    border: none;
-    outline: none;
-    text-decoration: none;
+  outline: none;
+  text-decoration: none;
+  transition: 0.2s;
 }
 
 button {
-    padding: 0.5rem 1rem;
+  border: none;
+  padding: 0.4rem 1.25rem;
+}
+
+.btn i {
+  font-weight: 900;
 }
 
 .btn-main,
 .btn-primary {
-	border-radius: var(--border-radius);
-	height: max-content;
-	background: var(--button-background);
-    background-image: linear-gradient(to right, var(--link-color), var(--link-color));
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: 0% 100%;
+  background: var(--button-background);
 	color: var(--button-color);
 	transition: 0.2s;
 	cursor: pointer;
-	font-size: 0.9em;
-	padding-inline: 1em;
+/* 	font-size: 0.9em; */
 }
 
 .btn-main:hover,
-.btn-primary:hover {
-	background-size: 100% 100%;
+.btn-primary:hover,
+.btn-primary:active {
+  background: var(--link-color);
 	color: var(--button-color);
 }
 
@@ -365,11 +384,13 @@ button:disabled:hover {
 fieldset {
 	background-color: var(--fieldset-background);
 	backdrop-filter: var(--fieldset-bgfilter);
-	border: none;
+	border: var(--fieldset-border);
 	border-radius: var(--border-radius);
 	padding: 1rem;
 	margin: 0.4rem 0 0 0;
 	height: max-content;
+  width: 100%;
+  box-sizing: border-box;
 }
 fieldset .legend { 
     font-weight: bold;
@@ -382,27 +403,20 @@ fieldset .legend {
 #comments-fieldset {
 	display: none;
 	flex-direction: column;
-	width: calc(100% - 1.2rem - 8px);
-	max-width: calc(100% - 1.2rem - 8px);
-}
-
-#list-fieldset {
-	width: calc(100% - 1.2rem - 8px);
-	max-width: calc(100% - 1.2rem - 8px);
 }
 
 /* Forms */
 .form-group {
 	position: relative;
-    display: inline-block;
-/*     height: 48px; */
+    display: flex;
+  flex-direction: column;
     border-radius: 4px;
     overflow: hidden;
     align-self: start;
-    margin-bottom: 0.5rem;
+    margin: 0 0 15px 0;
 }
 
-.form-group:after {
+/* .form-group:after {
     content: "";
     position: absolute;
     z-index: 1;
@@ -421,30 +435,17 @@ fieldset .legend {
     left: 0;
     right: auto;
     width: 100%;
-}
+} */
 
 .form-group:focus-within:after {
     width: 100%;
 }
 
 label {
-    position: absolute;
-    top: 14px;
-    left: 16px;
-    font-size: 16px;
     color: var(--input-color);
     opacity: 1;
     user-select: none;
     pointer-events: none;
-    transition-property: top, color, font-size;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-out;
-}
-
-.form-group:focus-within label, input:valid + label {
-  top: 4px;
-  font-size: 12px;
-  color: var(--blurple);
 }
 
 #signin-form,
@@ -459,6 +460,10 @@ label {
 	width: 100%;
 }
 
+.form-generic * {
+  margin: 0.5rem 0 0 0 !important;
+}
+
 textarea,
 input, select, button {
 	-webkit-box-sizing: border-box;
@@ -470,25 +475,17 @@ input, select, button {
 input[type="button"],
 input[type="submit"],
 input[type="reset"] {
-	border: var(--button-border);
-	border-radius: var(--border-radius);
 	height: max-content;
 	width: max-content;
-	background-color: var(--button-background);
-	color: var(--button-color);
 	transition: 0.2s;
 	cursor: pointer;
-	font-size: 0.9em;
 	margin-top: 0.15rem;
-	padding: 3px 10px 3px 10px;
 }
 
 input[type="button"]:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover {
-	background-color: var(--button-alt-background);
-	border: var(--button-alt-border);
-	color: var(--button-alt-color);
+	
 }
 
 input[type="text"],
@@ -496,10 +493,7 @@ input[type="email"],
 input[type="password"],
 input[type="username"] {
     background: var(--input-background);
-    padding: 20px 16px 8px;
-    border-radius: 4px;
     color: var(--input-color);
-    width: 200px;
 }
 
 textarea {
@@ -508,7 +502,7 @@ textarea {
 	width: 100%;
 	height: 5rem;
 	resize: none;
-	padding: 0.2rem;
+	padding: 0.5rem;
 	font-size: var(--small-font-size);
 	background: var(--input-background);
 	color: var(--input-color);
@@ -528,6 +522,7 @@ select {
 }
 
 input[type="file"] {
+  display: none;
 	border: none;
 	width: 100%;
 	max-width: 100%;
@@ -538,13 +533,15 @@ input[type="file"]:focus {
 	background-color: transparent;
 }
 
-input:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
 select:focus,
-textarea:focus,
-button:focus {
+textarea:focus {
 	outline: none;
 	background-color: var(--input-background);
 	color: var(--text-color);
+  border-color: var(--link-color);
 }
 
 .btns {
