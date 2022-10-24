@@ -9,7 +9,7 @@
 
 ## Contributing 
 
-Take a look at the client's [open issues](https://github.com/dotargz/kynosocial/issues)! You can add to the conversations or make your own, pointing out a bug or sharing a feature idea that would make Kynosocial better.
+Take a look at the client's [open issues](https://github.com/dotargz/kynosocial/issues)! You can add to the conversations or make your own to point out a bug or share a feature idea to make Kynosocial better.
 
 ### Usage  
 
