@@ -14,7 +14,11 @@ function nav() {
   const page = params.get('page')
   if (page && page !== 'home') {
     const e = document.querySelector(`a[href="?page=${page}"]`)
-    e.setAttribute('aria-current', page.split('=')[1])
+    try {
+      e.setAttribute('aria-current', page.split('=')[1])
+    } catch (e) {
+      console.log(e)
+    }
   } else {
     const e = document.querySelector(`a[href="/"]`)
     e.setAttribute('aria-current', 'recent')

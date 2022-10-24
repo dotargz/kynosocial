@@ -184,7 +184,7 @@ async function renderHomePage(section = 1) {
       }
       for (let i = start; i <= end; i++) {
         if (i == page) {
-          pagination.innerHTML += `<a href="?page=home&section=${i}" class="active" aria-current="page">${i}</a>`;
+          pagination.innerHTML += `<a href="?page=home&section=${i}" class="active" aria-current="${i}">${i}</a>`;
         } else {
           pagination.innerHTML += `<a href="?page=home&section=${i}">${i}</a>`;
         }
@@ -1229,7 +1229,7 @@ async function renderComments(
       // render pagination with arrow buttons
       // only render up to 5 pages, the current page, and the 2 pages before and after it
       if (resultList.totalPages > 1) {
-        const pagination = document.getElementById("comments-pagination");
+        const pagination = document.querySelector("#comments-pagination");
         pagination.innerHTML = "";
         const type = isUserPageComment ? "user" : "post";
         const page = resultList.page;
@@ -1245,18 +1245,18 @@ async function renderComments(
         const end = Math.min(pages, page + look);
         if (page > 1) {
           pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${page - 1
-            }"><i class="fa-solid fa-chevron-left"></i></a>`;
+            }" class="previous_page">Previous</a>`;
         }
         for (let i = start; i <= end; i++) {
           if (i == page) {
-            pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}" class="active">${i}</a>`;
+            pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}" class="active" aria-current="${i}">${i}</a>`;
           } else {
             pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${i}">${i}</a>`;
           }
         }
         if (page < pages) {
           pagination.innerHTML += `<a href="?page=${type}&${type}=${ID}&commentsection=${page + 1
-            }"><i class="fa-solid fa-chevron-right"></i></a>`;
+            }" class="next_page">Next</a>`;
         }
       }
     } else {
