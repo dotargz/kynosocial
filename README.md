@@ -5,7 +5,7 @@
 </div>
 <br>
 
-<h4>Using Kynosocial, you can level up from Twitter, Instagram and Reddit to a clean new platform unlike any other.</h4>
+<h4>Level up from Twitter, Instagram, or Reddit to Kynosocial, a clean new platform unlike any other.</h4>
 
 ## Contributing 
 
@@ -13,7 +13,7 @@ Take a look at the client's [open issues](https://github.com/dotargz/kynosocial/
 
 ### Usage  
 
-Kynosocial is very **fork-friendly** so you can directly fork the repo and work on the project without much setup. Forks of the client can still interact with the backend easily. 
+Kynosocial is very **fork-friendly** ✨ so you can directly fork the repo and work on the project without much setup. Forks of the client can interact with the backend without changing a thing. 
 
 These are instructions for setting up your own local instance for testing purposes or contribution. Unlike other open source software, Kynosocial works out of the box. You can clone the repositiory with the command below, then open & modify the 'index.html' and 'index.js' files. We recommend the 'Live Server' VSCode extension.
 
