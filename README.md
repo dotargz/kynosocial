@@ -9,7 +9,7 @@
 
 ## Contributing 
 
-You can check out the open issues and discuss with others about them or open your own issue if you spot a problem or a feature that's currently missing, even if you can't fix it yourself.
+Look at [open issues](https://github.com/dotargz/kynosocial/issues) and add to the conversations or make your own to point out a bug or feature that's currently missing, even if you can't fix it yourself.
 
 ### Usage  
 
