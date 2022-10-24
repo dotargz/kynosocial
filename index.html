@@ -70,11 +70,16 @@
         </div>
       </a>
     </div>
-    <div id="nav-links">
+    <!--     <div id="nav-links">
       <a href="/">Recent</a>
       <a href="?page=trending">Trending</a>
       <a href="?page=categories">Categories</a>
-    </div>
+    </div> -->
+    <nav class="subnav-links" aria-label="Repository">
+      <a class="subnav-item" href="/">Recent</a>
+      <a class="subnav-item" href="?page=trending">Trending</a>
+      <a class="subnav-item" href="?page=categories">Categories</a>
+    </nav>
     <fieldset id="list-notice-fieldset">
       <div id="list-notice-legend" class="legend">Notice</div>
       <div id="list-notice">
@@ -92,8 +97,11 @@
           </div>
         </div>
       </div>
-      <div id="pagination">
-      </div>
+      <nav class="paginate-container">
+        <div class="pagination">
+
+        </div>
+      </nav>
     </fieldset>
     <fieldset id="settings-fieldset">
       <div id="settings-legend" class="legend">Manage</div>
@@ -124,7 +132,7 @@
       </div>
     </div>
   </div>
-  <script src="js/files.js"></script>
+  <script src="js/script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
   <script src="https://unpkg.com/@popperjs/core@2"></script>

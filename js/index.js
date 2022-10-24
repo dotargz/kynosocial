@@ -165,7 +165,7 @@ async function renderHomePage(section = 1) {
     // render pagination with arrow buttons
     // only render up to 5 pages at a time, forwards and backwards
     if (resultList.totalPages > 1) {
-      const pagination = document.getElementById("pagination");
+      const pagination = document.querySelector(".pagination");
       pagination.innerHTML = "";
       const page = resultList.page;
       const pages = resultList.totalPages;
@@ -180,18 +180,18 @@ async function renderHomePage(section = 1) {
       const end = Math.min(pages, page + look);
       if (page > 1) {
         pagination.innerHTML += `<a href="?page=home&section=${page - 1
-          }"><i class="fa-solid fa-chevron-left"></i></a>`;
+          }" class="previous_page">Previous</a>`;
       }
       for (let i = start; i <= end; i++) {
         if (i == page) {
-          pagination.innerHTML += `<a href="?page=home&section=${i}" class="active">${i}</a>`;
+          pagination.innerHTML += `<a href="?page=home&section=${i}" class="active" aria-current="page">${i}</a>`;
         } else {
           pagination.innerHTML += `<a href="?page=home&section=${i}">${i}</a>`;
         }
       }
       if (page < pages) {
         pagination.innerHTML += `<a href="?page=home&section=${page + 1
-          }"><i class="fa-solid fa-chevron-right"></i></a>`;
+          }" class="next_page">Next</a>`;
       }
     }
   } catch (error) {

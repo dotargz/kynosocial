@@ -105,6 +105,16 @@ a > .post-created {
 }
 
 /* Navigation */
+
+nav {
+  width: 100%;
+}
+
+a.subnav-item {
+  width: calc(100% * 1/3);
+  text-align: center;
+}
+
 #nav-header {
 	display: flex;
 	flex-direction: row;
@@ -182,6 +192,15 @@ a > .post-created {
 }
 
 /* Pagination */
+
+.paginate-container {
+  width: 100%;
+}
+
+.paginate-container .pagination a {
+  margin: 0 2px;
+}
+
 #pagination,
 #comments-pagination {
 	width: 100%;
@@ -268,7 +287,7 @@ a {
 a:hover,
 .post-content > a:not(#signoutlink):hover,
 #list-notice > p > a:hover {
-	color: var(--link-alt-color);
+	color: var(--link-color);
 }
 
 /* Notifications */
