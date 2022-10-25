@@ -140,7 +140,6 @@ a.subnav-item {
 	height: 2em;
 	width: 2em;
 	background: var(--nav-background);
-	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: var(--border-radius);
 	color: var(--nav-color);
 	transition: 0.2s;
@@ -410,7 +409,6 @@ fieldset .legend {
     transition-duration: 0.2s;
     transition-timing-function: ease-out;
 }
-
 .form-group:hover:after {
     left: 0;
     right: auto;
@@ -566,7 +564,7 @@ brandname {
 
 superscript {
 	font-size: 0.5em;
-	background-color: var(--nav-background);
+	background: var(--nav-background);
 	border-radius: 2rem;
 	padding-inline: 0.5rem;
 	margin-inline: 0.4rem;
