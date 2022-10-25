@@ -68,16 +68,16 @@
 	--outer-alt-color: rgb(0, 119, 255);
 
 	--nav-border: 3px solid black;
-	--nav-background: black;
-	--nav-alt-background: white;
+	--nav-background: white;
+	--nav-alt-background: rgb(0, 119, 255, 0.25);
 	--nav-alt-border: 3px solid black;
-	--nav-color: white;
-	--nav-alt-color: black;
+	--nav-color: rgb(0, 119, 255);
+	--nav-alt-color: rgb(0, 119, 255);
 
 	--fieldset-label-color: black;
 	--fieldset-label-shadow: none;
 	--fieldset-border: 1px solid #d8dee4;
-	--fieldset-background: transparent;
+	--fieldset-background: white;
 	--text-color: #0e0e0e;
 
 	--link-color: rgb(0, 119, 255);

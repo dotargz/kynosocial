@@ -105,6 +105,16 @@ a > .post-created {
 }
 
 /* Navigation */
+
+nav {
+  width: 100%;
+}
+
+a.subnav-item {
+  width: calc(100% * 1/3);
+  text-align: center;
+}
+
 #nav-header {
 	display: flex;
 	flex-direction: row;
@@ -130,7 +140,6 @@ a > .post-created {
 	height: 2em;
 	width: 2em;
 	background: var(--nav-background);
-	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 	border-radius: var(--border-radius);
 	color: var(--nav-color);
 	transition: 0.2s;
@@ -182,48 +191,18 @@ a > .post-created {
 }
 
 /* Pagination */
+
+.paginate-container {
+  width: 100%;
+}
+
+.paginate-container .pagination a {
+  margin: 0 2px;
+}
+
 #pagination,
 #comments-pagination {
-	width: 100%;
-	max-width: 100vw;
-	font-size: 0.9em;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
-	background-color: var(--nav-background);
-	border: none;
-	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-	border-radius: var(--border-radius);
-}
-
-#pagination a,
-#comments-pagination a {
-	border: none;
-	color: var(--nav-color);
-	text-decoration: none;
-	padding: 0.4rem;
-	flex: 1;
-	text-align: center;
-	transition: 0.2s;
-}
-
-#pagination a:hover,
-#comments-pagination a:hover {
-	border: none;
-	background: var(--nav-alt-background);
-	color: var(--text-color);
-}
-
-/* make first and last pagination links round on left and right respetivly when hovered */
-#pagination a:first-child,
-#comments-pagination a:first-child {
-	border-top-left-radius: var(--border-radius);
-	border-bottom-left-radius: var(--border-radius);
-}
-#pagination a:last-child,
-#comments-pagination a:last-child {
-	border-top-right-radius: var(--border-radius);
-	border-bottom-right-radius: var(--border-radius);
+	
 }
 
 #comment-form {
@@ -268,7 +247,7 @@ a {
 a:hover,
 .post-content > a:not(#signoutlink):hover,
 #list-notice > p > a:hover {
-	color: var(--link-alt-color);
+	color: var(--link-color);
 }
 
 /* Notifications */
@@ -586,11 +565,11 @@ brandname {
 
 superscript {
 	font-size: 0.5em;
-	background-color: var(--nav-background);
+	background-color: var(--nav-color);
 	border-radius: 2rem;
 	padding-inline: 0.5rem;
 	margin-inline: 0.4rem;
-	color: var(--nav-color);
+	color: var(--nav-background);
 }
 
 .post-views {
