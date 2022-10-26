@@ -113,6 +113,12 @@ nav {
 a.subnav-item {
   width: calc(100% * 1/3);
   text-align: center;
+  color: var(--nav-color);
+  background: transparent;
+}
+
+.subnav-item[aria-current]:not([aria-current=false]) {
+  background: var(--link-color);
 }
 
 #nav-header {
@@ -409,7 +415,6 @@ fieldset .legend {
     transition-duration: 0.2s;
     transition-timing-function: ease-out;
 }
-
 .form-group:hover:after {
     left: 0;
     right: auto;
@@ -565,7 +570,7 @@ brandname {
 
 superscript {
 	font-size: 0.5em;
-	background-color: var(--nav-color);
+	background: var(--nav-background);
 	border-radius: 2rem;
 	padding-inline: 0.5rem;
 	margin-inline: 0.4rem;

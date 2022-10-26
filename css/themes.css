@@ -31,14 +31,14 @@
 	--nav-color: white;
 	--nav-alt-color: white;
 
-	--fieldset-label-color: white;
+	--fieldset-label-color: #6f68d8;
 	--fieldset-label-shadow: 0px 2px 2px rgba(0, 0, 0, 0.75);
-	--fieldset-border: 2px solid white;
+	--fieldset-border: 1px solid #6f68d8;
 	--fieldset-background: rgba(255,255,255,0.8);
 	--text-color: #0e0e0e;
 
-	--link-color: rgb(0, 119, 255);
-	--link-alt-color: rgb(147, 50, 238);
+	--link-color: #6f68d8;
+	--link-alt-color: #b486e0;
 
 	--font-family: "Public Sans", sans-serif;
 	--title-font-family: "Halcom", "Inter", sans-serif;
@@ -48,14 +48,14 @@
 	--tiny-font-size: 0.7rem;
 
 	--input-background: white;
-	--input-border: 3px solid black;
+	--input-border: 1px solid black;
 	--input-color: black;
 
 	--button-background: black;
-	--button-border: solid 2px black;
+	--button-border: solid 1px black;
 	--button-color: white;
 	--button-alt-background: white;
-	--button-alt-border: solid 2px black;
+	--button-alt-border: solid 1px black;
 	--button-alt-color: black;
 
 	--border-radius: 5px;
@@ -70,7 +70,7 @@
 	--nav-border: 3px solid black;
 	--nav-background: white;
 	--nav-alt-background: rgb(0, 119, 255, 0.25);
-	--nav-alt-border: 3px solid black;
+	--nav-alt-border: 1px solid black;
 	--nav-color: rgb(0, 119, 255);
 	--nav-alt-color: rgb(0, 119, 255);
 
