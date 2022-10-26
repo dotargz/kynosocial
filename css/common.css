@@ -574,7 +574,7 @@ superscript {
 	border-radius: 2rem;
 	padding-inline: 0.5rem;
 	margin-inline: 0.4rem;
-	color: var(--nav-color);
+	color: var(--nav-background);
 }
 
 .post-views {
