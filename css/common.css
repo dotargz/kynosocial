@@ -113,6 +113,12 @@ nav {
 a.subnav-item {
   width: calc(100% * 1/3);
   text-align: center;
+  color: var(--nav-color);
+  background: transparent;
+}
+
+.subnav-item[aria-current]:not([aria-current=false]) {
+  background: var(--link-color);
 }
 
 #nav-header {

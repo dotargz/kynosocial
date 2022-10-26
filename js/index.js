@@ -1,4 +1,3 @@
-/*global tippy, luxon, numeral */
 "use strict";
 const DateTime = luxon.DateTime;
 
@@ -1549,7 +1548,6 @@ function renderEULAPage() {
 				<div class="post-content-wrapper">
 					<div class="post-content">
 						<h2>Kynosocial End User License Agreement</h2>
-
 					<p>This End User License Agreement ("Agreement") is a legal agreement between you and Kynosocial's lead developer BlueSkye ("Kynosocial"). By using the Kynosocial website, mobile application or other services (the "Service"), you agree to be bound by the terms and conditions of this Agreement. If you do not agree to the terms of this Agreement, do not use the Service.</p>
 					
 					<p>Kynosocial reserves the right to modify this Agreement at any time, and such modifications shall be effective immediately upon posting of the modified Agreement. You agree to review this Agreement periodically to be aware of such modifications, and your continued access or use of the Service shall be deemed your conclusive acceptance of the modified Agreement.</p>
@@ -1664,7 +1662,6 @@ function renderPrivacyPage() {
 					<div class="post-content">
 					<h2>Kynosocial Privacy Policy</h2>
 					<p>Kynosocial ("us", "we", or "our") operates the http://www.kyno.social website (the "Service").</p>
-
 					<p>This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p>
 					
 					<p>We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our End User Licence Agreement</p>
@@ -1718,7 +1715,6 @@ function renderPrivacyPage() {
 					<li>To gather analysis or valuable information so that we can improve our Service</li>
 					<li>To detect, prevent and address technical issues</li>
 					</ul>
-
 					<h3>A3. Transfer Of Data</h3>
 					<p>Your information, including Personal Data, may be transferred to — and maintained on — computers located outside of your state, province, country or other governmental jurisdiction; where the data protection laws may differ than those from your jurisdiction.</p>
 					
@@ -1739,7 +1735,6 @@ function renderPrivacyPage() {
 					<li>To protect the personal safety of users of the Service or the public</li>
 					<li>To protect against legal liability</li>
 					</ul>
-
 					<h3>A5. Security Of Data</h3>
 					
 					<p>The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.</p>
