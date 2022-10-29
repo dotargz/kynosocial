@@ -114,7 +114,7 @@ a.subnav-item {
   width: calc(100% * 1/3);
   text-align: center;
   color: var(--nav-color);
-  background: transparent;
+  background: black;
 }
 
 .subnav-item[aria-current]:not([aria-current=false]) {
@@ -570,11 +570,11 @@ brandname {
 
 superscript {
 	font-size: 0.5em;
-	background: var(--nav-background);
+	background: black;
 	border-radius: 2rem;
 	padding-inline: 0.5rem;
 	margin-inline: 0.4rem;
-	color: var(--nav-background);
+	color: var(--nav-color);
 }
 
 .post-views {
