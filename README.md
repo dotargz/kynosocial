@@ -1,24 +1,29 @@
 <div align="center">
   <img src="./meta/favicon.ico"><br>
   <h1 align="center">kynosocial client (alpha)</h1>
-  <h3 align="center">a social media company based around minimalism</h3>
+  <h3 align="center">A social media company based around minimalism</h3>
 </div>
 <br>
 
-<h4>Using Kynosocial you can level up from Twitter, Instagram and Reddit to a clean new platform unlike any other.</h4>
+<h4>Level up from Twitter, Instagram, or Reddit to Kynosocial, a clean new platform unlike any other.</h4>
+
+## Contributing 
+
+Take a look at the client's [open issues](https://github.com/dotargz/kynosocial/issues)! Join in the conversation or make your own, starting with a bug or feature request to improve the platform.
 
 ### Usage  
-These are instructions for setting up your own local instance for testing purposes or contribution. Unlike other open source software, Kynosocial works out of the box. You can clone the repositiory below, and then open & modify to your taste 'index.html' and 'index.js' files. However, we recommend the 'Live Server' VSCode extension.
+
+Kynosocial is very fork-friendly! ✨ Fork the repo and start coding, backend functionality included. 👀
+
+Unlike other open source software, Kynosocial works out of the box. Setting up your own local instance for testing purposes or contribution is simple; just clone the repositiory with the command below, then modify the 'index.html' and 'index.js' files. We recommend using the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension if you use VSCode.
 
 ```bash
 $ git clone https://github.com/dotargz/kynosocial
 $ cd kynosocial
 ```
 
-### Contributing  
-You can check out the open issues and discuss with others about them or open your own issue if you spot a problem or a feature that's currently missing, even if you can't fix it yourself.
-
 ### Legal & Other Information  
+
 [About](https://kyno.social/?page=about)  
 [EULA](https://kyno.social/?page=eula)  
 [Privacy Policy](https://kyno.social/?page=privacy)  
