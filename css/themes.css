@@ -9,14 +9,29 @@
 .modern.green {
 	--root-background: #aaf1ba;
 	--fieldset-background: rgba(255, 255, 255, 0.85);
+	--nav-color: rgb(255, 255, 255);
+	--fieldset-border: 1px solid #000000;
+	--nav-background: black;
+	--link-color: rgb(59, 59, 59);
+	--nav-color: #aaf1ba;
 }
 .modern.yellow {
 	--root-background: #fff1b1;
 	--fieldset-background: rgba(255, 255, 255, 0.85);
+	--nav-color: rgb(255, 255, 255);
+	--fieldset-border: 1px solid #000000;
+	--nav-background: black;
+	--link-color: rgb(59, 59, 59);
+	--nav-color: #fff1b1;
 }
 .modern.purple {
 	--root-background: #cfb1ff;
 	--fieldset-background: rgba(255, 255, 255, 0.85);
+	--nav-color: rgb(255, 255, 255);
+	--fieldset-border: 1px solid #000000;
+	--nav-background: black;
+	--link-color: rgb(59, 59, 59);
+	--nav-color: #cfb1ff;
 }
 
 .hyper {
@@ -34,7 +49,7 @@
 	--fieldset-label-color: #6f68d8;
 	--fieldset-label-shadow: 0px 2px 2px rgba(0, 0, 0, 0.75);
 	--fieldset-border: 1px solid #6f68d8;
-	--fieldset-background: rgba(255,255,255,0.8);
+	--fieldset-background: rgba(255, 255, 255, 0.8);
 	--text-color: #0e0e0e;
 
 	--link-color: #6f68d8;
@@ -61,24 +76,24 @@
 	--border-radius: 5px;
 }
 .modern {
-	--root-background: #fff;
+	--root-background: rgb(255, 255, 255);
 	--global-filter: none;
 
-	--outer-color: black;
+	--outer-color: rgb(0, 0, 0);
 	--outer-alt-color: rgb(0, 119, 255);
 
 	--nav-border: 3px solid black;
 	--nav-background: white;
 	--nav-alt-background: rgb(0, 119, 255, 0.25);
 	--nav-alt-border: 1px solid black;
-	--nav-color: rgb(0, 119, 255);
+	--nav-color: #b1d6ff;
 	--nav-alt-color: rgb(0, 119, 255);
 
 	--fieldset-label-color: black;
 	--fieldset-label-shadow: none;
 	--fieldset-border: 1px solid #d8dee4;
 	--fieldset-background: white;
-	--text-color: #0e0e0e;
+	--text-color: #000000;
 
 	--link-color: rgb(0, 119, 255);
 	--link-alt-color: rgb(147, 50, 238);
