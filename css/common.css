@@ -570,11 +570,11 @@ brandname {
 
 superscript {
 	font-size: 0.5em;
-	background: var(--nav-background);
+	background: var(--nav-color);
 	border-radius: 2rem;
 	padding-inline: 0.5rem;
 	margin-inline: 0.4rem;
-	color: var(--nav-color);
+	color: var(--nav-background);
 }
 
 .post-views {
