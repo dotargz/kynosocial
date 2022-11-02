@@ -7,13 +7,14 @@
 	--fieldset-background: rgba(255, 255, 255, 0.85);
 }
 .modern.green {
-	--root-background: #aaf1ba;
+	--root-background: #ceedd6;
 	--fieldset-background: rgba(255, 255, 255, 0.85);
-	--nav-color: rgb(255, 255, 255);
+	--nav-color: black;
+  --nav-alt-color: black;
 	--fieldset-border: 1px solid #000000;
-	--nav-background: black;
-	--link-color: rgb(59, 59, 59);
-	--nav-color: #aaf1ba;
+	--nav-background: #ceedd6;
+  --nav-alt-background: #35f28a;
+	--link-color: #35f28a;
 }
 .modern.yellow {
 	--root-background: #fff1b1;
@@ -86,7 +87,7 @@
 	--nav-background: white;
 	--nav-alt-background: rgb(0, 119, 255, 0.25);
 	--nav-alt-border: 1px solid black;
-	--nav-color: #b1d6ff;
+	--nav-color: black;
 	--nav-alt-color: rgb(0, 119, 255);
 
 	--fieldset-label-color: black;
