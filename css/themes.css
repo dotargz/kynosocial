@@ -7,13 +7,15 @@
 	--fieldset-background: rgba(255, 255, 255, 0.85);
 }
 .modern.green {
-	--root-background: #aaf1ba;
+	--root-background: #ceedd6;
 	--fieldset-background: rgba(255, 255, 255, 0.85);
 	--nav-color: rgb(255, 255, 255);
+  --nav-alt-color: black;
 	--fieldset-border: 1px solid #000000;
 	--nav-background: black;
-	--link-color: rgb(59, 59, 59);
-	--nav-color: #aaf1ba;
+  --nav-alt-background: #35f28a;
+	--link-color: #35f28a;
+	--nav-color: #ceedd6;
 }
 .modern.yellow {
 	--root-background: #fff1b1;
